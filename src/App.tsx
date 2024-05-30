@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Schedule from './pages/Schedule';
@@ -16,7 +15,7 @@ import Rsvp from './pages/RSVP';
 
 export type Page = {
     path: string;
-    component: React.JSX.Element;
+    component: JSX.Element;
     displayName: string;
 };
 

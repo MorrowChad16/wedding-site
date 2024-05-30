@@ -1,9 +1,8 @@
 import { Container, SxProps, Theme } from '@mui/material';
-import * as React from 'react';
 
 interface PageContainerProps {
     sxOverrides?: SxProps<Theme>;
-    children: React.JSX.Element;
+    children: JSX.Element;
 }
 
 function PageContainer({ sxOverrides, children }: PageContainerProps) {

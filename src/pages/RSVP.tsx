@@ -32,9 +32,9 @@ const Rsvp = () => {
 
     const [foodChoice, setFoodChoice] = useState<FoodChoice>();
     const [foodAllergies, setFoodAllergies] = useState('');
-    // TODO: handle guests choices
-    const [guestFoodChoice, setGuestFoodChoice] = useState<FoodChoice>();
-    const [guestFoodAllergies, setGuestFoodAllergies] = useState('');
+    // // TODO: handle guests choices
+    // const [guestFoodChoice, setGuestFoodChoice] = useState<FoodChoice>();
+    // const [guestFoodAllergies, setGuestFoodAllergies] = useState('');
 
     const [songs, setSongs] = useState<string[]>([]);
     const [newSong, setNewSong] = useState('');
