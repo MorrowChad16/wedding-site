@@ -6,6 +6,6 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
     plugins: [react(), svgr()],
     optimizeDeps: {
-        include: ['@mui', 'react-router-dom', '@emotion/react', 'aws-amplify/storage'],
+        include: ['@mui/material', 'react-router-dom', '@emotion/react', 'aws-amplify/storage'],
     },
 });
