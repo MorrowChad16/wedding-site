@@ -1,27 +1,19 @@
-import React from 'react';
+import * as React from 'react';
 import { QuestionAnswerBox } from '../components/question-box';
 import PageContainer from '../components/PageContainer';
-
-export default function FAQ(): JSX.Element {
-    const [expandedPanels, setExpandedPanels] = React.useState<string[]>([]);
-
-    const handlePanelChange = (panelId: string) => {
+export default function FAQ() {
+    const [expandedPanels, setExpandedPanels] = React.useState([]);
+    const handlePanelChange = (panelId) => {
         setExpandedPanels((prevPanels) => {
             if (prevPanels.includes(panelId)) {
                 return prevPanels.filter((id) => id !== panelId);
-            } else {
+            }
+            else {
                 return [...prevPanels, panelId];
             }
         });
     };
-
-    interface FaqItem {
-        id: string;
-        question: string;
-        answer: string;
-    }
-
-    const faqItems: FaqItem[] = [
+    const faqItems = [
         { id: 'q1', question: 'How should I book my travel and stay?', answer: '...' },
         { id: 'q2', question: 'What is the schedule of events for the wedding?', answer: '...' },
         { id: 'q3', question: 'What is the dress code of the wedding?', answer: '...' },
@@ -42,20 +34,6 @@ export default function FAQ(): JSX.Element {
         { id: 'q14', question: 'Registry', answer: '...' },
         { id: 'q15', question: 'Any additional questions?', answer: '...' },
     ];
-
-    return (
-        <PageContainer>
-            <div>
-                {faqItems.map((item) => (
-                    <QuestionAnswerBox
-                        key={item.id}
-                        question={item.question}
-                        answer={item.answer}
-                        expanded={expandedPanels.includes(item.id)}
-                        handleChange={() => handlePanelChange(item.id)}
-                    />
-                ))}
-            </div>
-        </PageContainer>
-    );
+    return (React.createElement(PageContainer, null,
+        React.createElement("div", null, faqItems.map((item) => (React.createElement(QuestionAnswerBox, { key: item.id, question: item.question, answer: item.answer, expanded: expandedPanels.includes(item.id), handleChange: () => handlePanelChange(item.id) }))))));
 }

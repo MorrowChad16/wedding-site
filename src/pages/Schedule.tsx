@@ -1,4 +1,3 @@
-import * as React from 'react';
 import PageContainer from '../components/PageContainer';
 import ScheduleIcon from '../components/schedule-icon';
 import gathering from '../assets/icons/gathering.png';
