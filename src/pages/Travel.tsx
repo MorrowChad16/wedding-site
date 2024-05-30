@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PageContainer from '../components/PageContainer';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { openInNewWindow } from '../components/utilities';
