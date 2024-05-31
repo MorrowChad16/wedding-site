@@ -1,9 +1,11 @@
+export const isDevelopment = import.meta.env.MODE === 'development';
+
 export function importAllImages(r: Record<string, { default: string }>) {
     return Object.entries(r).reduce(
         (acc, [path]) => {
             const filename: string = path.replace(/^.*[\\\/]/, '');
-            const imageSrc: string = path.replace('../', '/src/');
-            console.log('Image SRC:', imageSrc);
+            const replacementString = isDevelopment ? '/src/' : '/';
+            const imageSrc: string = path.replace('../', replacementString);
             acc[filename] = imageSrc;
             return acc;
         },

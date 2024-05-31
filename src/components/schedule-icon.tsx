@@ -95,7 +95,6 @@ END:VCALENDAR`;
         location: string
     ) => {
         const icsContent = createIcsContent(uid, startDate, endDate, title, description, location);
-        console.log(icsContent);
         const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
