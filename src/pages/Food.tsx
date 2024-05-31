@@ -33,7 +33,6 @@ export const foodChoiceData = {
     },
 };
 
-console.log('Fish:', fish);
 export default function Food() {
     const sideDishes = [
         {
@@ -54,6 +53,7 @@ export default function Food() {
     };
     const [mainChoice, setMainChoice] = React.useState<FoodChoice>(FoodChoice.Meat);
 
+    console.log('Fish:', fish);
     return (
         <PageContainer>
             <div>
