@@ -11,7 +11,7 @@ import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from
 
 export enum FoodChoice {
     Meat = 'Meat',
-    Fish = 'Fishco',
+    Fish = 'Fish',
     Vegetarian = 'Vegetarian',
 }
 
@@ -33,6 +33,7 @@ export const foodChoiceData = {
     },
 };
 
+console.log('Fish:', fish);
 export default function Food() {
     const sideDishes = [
         {
