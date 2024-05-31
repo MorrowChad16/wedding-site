@@ -6,33 +6,50 @@ interface CountdownClockProps {
     targetEpochDate: number;
 }
 
+type Countdown = {
+    years?: number;
+    days?: number;
+    hours?: number;
+    minutes?: number;
+    seconds?: number;
+    milliseconds?: number;
+}
+
 function CountdownClock({ targetEpochDate }: CountdownClockProps) {
     const [isCountdownComplete, setIsCountdownComplete] = useState(false);
-    const [timeRemaining, setTimeRemaining] = useState({
-        years: 0,
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-        milliseconds: 0,
-    });
+    const [timeRemaining, setTimeRemaining] = useState<Countdown>({});
 
     useEffect(() => {
         const targetDate = new Date(targetEpochDate);
 
         const updateCountdown = () => {
             const now = new Date();
+            let timeRemainingObj: Countdown = {};
             const difference = targetDate.getTime() - now.getTime();
-
+            const years = Math.floor(difference / (1000 * 60 * 60 * 24 * 365));
+            if (years > 0) {
+                timeRemainingObj.years = years;
+            }
+            const days = Math.floor((difference / (1000 * 60 * 60 * 24)) % 365);
+            if (days > 0) {
+                timeRemainingObj.days = days;
+            }
+            const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+            if (hours > 0) {
+                timeRemainingObj.hours = hours;
+            }
+            const minutes = Math.floor((difference / (1000 * 60)) % 60);
+            if (minutes > 0) {
+                timeRemainingObj.minutes = minutes;
+            }
+            const seconds = Math.floor((difference / 1000) % 60);
+            if (seconds > 0) {
+                timeRemainingObj.seconds = seconds;
+            }
+            timeRemainingObj.milliseconds = difference % 1000;
+        
             if (difference >= 0) {
-                setTimeRemaining({
-                    years: Math.floor(difference / (1000 * 60 * 60 * 24 * 365)),
-                    days: Math.floor((difference / (1000 * 60 * 60 * 24)) % 365),
-                    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                    minutes: Math.floor((difference / (1000 * 60)) % 60),
-                    seconds: Math.floor((difference / 1000) % 60),
-                    milliseconds: difference % 1000,
-                });
+                setTimeRemaining(timeRemainingObj);
             } else {
                 setIsCountdownComplete(true);
             }

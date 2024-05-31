@@ -8,4 +8,4 @@ export function openInNewWindow(url: string) {
 export function extractFilenameFromImport(importPath: string) {
     const filenameWithHash = importPath.split('/').pop()?.split('?')[0];
     return filenameWithHash?.replace(/-\w+\./, '.') || '';
-  }
+}
