@@ -53,6 +53,7 @@ export default function Food() {
     };
     const [mainChoice, setMainChoice] = React.useState<FoodChoice>(FoodChoice.Meat);
 
+    console.log('Fish:', fish);
     return (
         <PageContainer>
             <div>
