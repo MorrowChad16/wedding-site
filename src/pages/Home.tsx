@@ -4,6 +4,7 @@ import PageContainer from '../components/PageContainer';
 import CountdownClock from '../components/countdown-clock';
 import { importAllImages } from '../components/utilities';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import image from '../assets/images/display/IMG_5772.jpeg';
 
 export default function Home() {
     const weddingDate = new Date(1748217600000);
@@ -29,6 +30,7 @@ export default function Home() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    console.log('Image;', image);
     return (
         <PageContainer>
             <div

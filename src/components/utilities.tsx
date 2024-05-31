@@ -6,7 +6,6 @@ export function importAllImages(r: Record<string, { default: string }>) {
             const filename: string = path.replace(/^.*[\\\/]/, '');
             const replacementString = isDevelopment ? '/src/' : '/';
             const imageSrc: string = path.replace('../', replacementString);
-            console.log('Image SRC:', imageSrc);
             acc[filename] = imageSrc;
             return acc;
         },
