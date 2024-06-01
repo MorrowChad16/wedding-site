@@ -21,9 +21,7 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material';
-import { getAllGuests } from '../api/use-guests';
-
-const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+import { addFakeGuest, isValidEmail } from '../api/use-guests';
 
 function NavigationBar() {
     const { theme } = React.useContext(ThemeContext);
@@ -32,8 +30,8 @@ function NavigationBar() {
     const [currentPage, setCurrentPage] = React.useState(location.pathname);
 
     const [open, setOpen] = React.useState(false);
-    const [email, setEmail] = React.useState(localStorage.getItem('email'));
-    const [openSignIn, setOpenSignIn] = React.useState(email === null);
+    const [email, setEmail] = React.useState(localStorage.getItem('email') || '');
+    const [openSignIn, setOpenSignIn] = React.useState(email === '');
     const [error, setError] = React.useState('');
 
     const toggleDrawer = (newOpen: boolean) => () => {
@@ -69,10 +67,21 @@ function NavigationBar() {
         return currentPage === page.displayName || currentPage === page.path;
     };
 
-    console.log(
-        'guests',
-        getAllGuests().then((data) => console.log(data))
-    );
+    const handleLoginClick = async () => {
+        if (email) {
+            const isValid = await isValidEmail(email);
+            if (isValid) {
+                localStorage.setItem('email', email!);
+                setOpenSignIn(false);
+            } else {
+                setError('Invalid email address');
+            }
+        } else {
+            setError('You must provide an email');
+        }
+    };
+
+    addFakeGuest();
     return (
         <div>
             <AppBar
@@ -153,7 +162,7 @@ function NavigationBar() {
                                 alignItems: 'center',
                             }}
                         >
-                            {email === null ? SignInButton : RsvpButton}
+                            {email === '' ? SignInButton : RsvpButton}
                         </Box>
                         <Box sx={{ display: { sm: '', md: 'none' } }}>
                             <Button
@@ -196,9 +205,7 @@ function NavigationBar() {
                                         </MenuItem>
                                     ))}
                                     <Divider />
-                                    <MenuItem>
-                                        {email === null ? SignInButton : RsvpButton}
-                                    </MenuItem>
+                                    <MenuItem>{email === '' ? SignInButton : RsvpButton}</MenuItem>
                                 </Box>
                             </Drawer>
                         </Box>
@@ -228,22 +235,7 @@ function NavigationBar() {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button
-                        onClick={() => {
-                            if (email) {
-                                if (emailRegex.test(email!)) {
-                                    localStorage.setItem('email', email!);
-                                    setOpenSignIn(false);
-                                } else {
-                                    setError('Invalid email address');
-                                }
-                            } else {
-                                setError('You must provide an email');
-                            }
-                        }}
-                    >
-                        Login
-                    </Button>
+                    <Button onClick={handleLoginClick}>Login</Button>
                 </DialogActions>
             </Dialog>
         </div>
