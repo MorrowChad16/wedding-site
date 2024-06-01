@@ -15,15 +15,15 @@ import image11 from '../assets/images/display/IMG_9238.jpeg';
 import { extractFilenameFromImport } from '../utils/utilities';
 
 const images = [
-    image0,
     image1,
     image2,
-    image3,
     image4,
-    image5,
+    image0,
+    image3,
     image6,
-    image7,
     image8,
+    image5,
+    image7,
     image9,
     image10,
     image11,

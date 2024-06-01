@@ -1,5 +1,7 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
+import { FoodChoice } from '../pages/Food';
+import { Status } from '../pages/RSVP';
 
 const getClient = () => generateClient<Schema>();
 
@@ -16,7 +18,7 @@ export const addFakeGuest = async () =>
     });
 
 // TODO: migrate to React Query
-const getGuest = async (email: string) =>
+export const getGuest = async (email: string) =>
     getClient().models.Guest.get(
         {
             email,
@@ -53,4 +55,20 @@ export const getFoodChoice = async (email: string) => {
         }
     );
     return response.data?.foodChoice;
+};
+
+export const updateGuest = async (
+    email: string,
+    foodAllergies: string,
+    songRequests: string,
+    status?: Status,
+    foodChoice?: FoodChoice
+) => {
+    return await getClient().models.Guest.update({
+        email: email,
+        status: status,
+        foodChoice: foodChoice,
+        foodAllergies: foodAllergies,
+        songRequests: songRequests,
+    });
 };
