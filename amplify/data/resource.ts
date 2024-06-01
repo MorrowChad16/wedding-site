@@ -14,6 +14,7 @@ const schema = a.schema({
     Guest: a
         .model({
             email: a.email().required(), // partys share the same email address (acts as a partyId)
+            party: a.belongsTo('Party', 'email'),
             id: a.id(),
             relationship: a.ref('Relationship'),
             phoneNumber: a.phone(),
@@ -22,7 +23,7 @@ const schema = a.schema({
             status: a.ref('Status'),
             foodChoice: a.ref('Food'),
             foodAllergies: a.string(), // free form text
-            songRequests: a.string(), // comma-separated requests
+            songRequests: a.string(), // comma-separated requests,
         })
         .identifier(['email'])
         .authorization((allow) => [allow.guest()]),
