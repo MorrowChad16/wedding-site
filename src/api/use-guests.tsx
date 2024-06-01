@@ -4,5 +4,5 @@ import type { Schema } from '../../amplify/data/resource';
 export const getAllGuests = async () => {
     const client = generateClient<Schema>();
 
-    return client.models.Guests.list();
+    return client.models.Guest.list();
 };
