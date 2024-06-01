@@ -7,18 +7,29 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-    Guests: a
+    Relationship: a.enum(['PRIMARY_GUEST', 'SECONDARY_GUEST', 'PLUS_ONE', 'CHILD']),
+    Status: a.enum(['NOT_ATTENDING', 'ATTENDING', 'COMING']),
+    Food: a.enum(['MEAT', 'FISH', 'VEGETARIAN']),
+
+    Guest: a
         .model({
-            email: a.string(), // partys share the same email address (acts as a partyId)
-            id: a.string(), // uniqueId for each guest
-            relationship: a.string(), // primaryGuest, secondaryGuest, plusOne, child
-            phoneNumber: a.string(), // hyphen stripped phone number
+            email: a.email().required(), // partys share the same email address (acts as a partyId)
+            id: a.id(),
+            relationship: a.ref('Relationship'),
+            phoneNumber: a.phone(),
             firstName: a.string(),
             lastName: a.string(),
-            status: a.string(), // notAttending, attending, rsvpd
-            foodChoice: a.string(), // meat, fish, vegetarian
+            status: a.ref('Status'),
+            foodChoice: a.ref('Food'),
             foodAllergies: a.string(), // free form text
             songRequests: a.string(), // comma-separated requests
+        })
+        .identifier(['email'])
+        .authorization((allow) => [allow.guest()]),
+
+    Party: a
+        .model({
+            members: a.hasMany('Guest', 'email'),
         })
         .authorization((allow) => [allow.guest()]),
 });

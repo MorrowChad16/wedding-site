@@ -21,6 +21,7 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material';
+import { getAllGuests } from '../api/use-guests';
 
 const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
@@ -68,6 +69,10 @@ function NavigationBar() {
         return currentPage === page.displayName || currentPage === page.path;
     };
 
+    console.log(
+        'guests',
+        getAllGuests().then((data) => console.log(data))
+    );
     return (
         <div>
             <AppBar

@@ -5,7 +5,7 @@ import CountdownClock from '../components/countdown-clock';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import image0 from '../assets/images/display/IMG_5772.jpeg';
 import image10 from '../assets/images/display/IMG_9220.jpeg';
-import { extractFilenameFromImport } from '../components/utilities';
+import { extractFilenameFromImport } from '../utils/utilities';
 
 export default function Home() {
     const weddingDate = new Date(1748217600000);
@@ -15,10 +15,7 @@ export default function Home() {
         day: 'numeric',
     }).format(weddingDate);
     const [activeStep, setActiveStep] = React.useState(0);
-    const images = [
-        image0,
-        image10,
-    ];
+    const images = [image0, image10];
     const maxSteps = images ? Object.entries(images).length : 0;
 
     const handleNext = () => {

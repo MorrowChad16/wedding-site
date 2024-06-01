@@ -13,7 +13,7 @@ type Countdown = {
     minutes?: number;
     seconds?: number;
     milliseconds?: number;
-}
+};
 
 function CountdownClock({ targetEpochDate }: CountdownClockProps) {
     const [isCountdownComplete, setIsCountdownComplete] = useState(false);
@@ -47,7 +47,7 @@ function CountdownClock({ targetEpochDate }: CountdownClockProps) {
                 timeRemainingObj.seconds = seconds;
             }
             timeRemainingObj.milliseconds = difference % 1000;
-        
+
             if (difference >= 0) {
                 setTimeRemaining(timeRemainingObj);
             } else {

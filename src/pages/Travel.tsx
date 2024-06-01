@@ -1,7 +1,7 @@
 import React from 'react';
 import PageContainer from '../components/PageContainer';
 import { Box, Button, Paper, Typography } from '@mui/material';
-import { openInNewWindow } from '../components/utilities';
+import { openInNewWindow } from '../utils/utilities';
 import hotel from '../assets/images/hotel.jpeg';
 import lyft from '../assets/images/lyft.jpeg';
 import uber from '../assets/images/uber.webp';

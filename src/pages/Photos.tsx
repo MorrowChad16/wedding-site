@@ -12,7 +12,7 @@ import image8 from '../assets/images/display/IMG_9055.jpeg';
 import image9 from '../assets/images/display/IMG_9191.jpeg';
 import image10 from '../assets/images/display/IMG_9220.jpeg';
 import image11 from '../assets/images/display/IMG_9238.jpeg';
-import { extractFilenameFromImport } from '../components/utilities';
+import { extractFilenameFromImport } from '../utils/utilities';
 
 const images = [
     image0,
