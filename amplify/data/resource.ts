@@ -13,24 +13,24 @@ const schema = a.schema({
 
     Guest: a
         .model({
-            email: a.email().required(), // partys share the same email address (acts as a partyId)
-            party: a.belongsTo('Party', 'email'),
-            id: a.id(),
+            email: a.email().required(),
+            partyId: a.id(),
+            party: a.belongsTo('Party', 'partyId'),
             relationship: a.ref('Relationship'),
             phoneNumber: a.phone(),
             firstName: a.string(),
             lastName: a.string(),
             status: a.ref('Status'),
             foodChoice: a.ref('Food'),
-            foodAllergies: a.string(), // free form text
-            songRequests: a.string(), // comma-separated requests,
+            foodAllergies: a.string(),
+            songRequests: a.string(),
         })
         .identifier(['email'])
         .authorization((allow) => [allow.guest()]),
 
     Party: a
         .model({
-            members: a.hasMany('Guest', 'email'),
+            guests: a.hasMany('Guest', 'partyId'),
         })
         .authorization((allow) => [allow.guest()]),
 });
