@@ -5,18 +5,18 @@ const getClient = () => generateClient<Schema>();
 
 export const addFakeGuest = async () =>
     getClient().models.Guest.create({
-        email: 'morrowchad1@pm.me',
+        email: 'morrowchad1@protonmail.com',
         relationship: 'CHILD',
         phoneNumber: '8157084489',
         firstName: 'Chad',
         lastName: 'Morrow',
         status: 'ATTENDING',
-        foodChoice: 'FISH',
         foodAllergies: '',
         songRequests: 'song1, song2',
     });
 
-export const getGuest = async (email: string) =>
+// TODO: migrate to React Query
+const getGuest = async (email: string) =>
     getClient().models.Guest.get(
         {
             email,
@@ -35,4 +35,22 @@ export const getGuest = async (email: string) =>
 export const isValidEmail = async (email: string) => {
     const response = await getGuest(email);
     return response.data !== null;
+};
+
+/**
+ * gets the guest's food choice
+ * @param email is the guest's email
+ * @returns the guest's food choice
+ */
+export const getFoodChoice = async (email: string) => {
+    const response = await getClient().models.Guest.get(
+        {
+            email,
+        },
+        {
+            selectionSet: ['foodChoice'],
+            authMode: 'identityPool',
+        }
+    );
+    return response.data?.foodChoice;
 };

@@ -30,6 +30,7 @@ function NavigationBar() {
     const [currentPage, setCurrentPage] = React.useState(location.pathname);
 
     const [open, setOpen] = React.useState(false);
+    // TODO: store the email at a global context
     const [email, setEmail] = React.useState(localStorage.getItem('email') || '');
     const [openSignIn, setOpenSignIn] = React.useState(email === '');
     const [error, setError] = React.useState('');

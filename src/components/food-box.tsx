@@ -27,7 +27,7 @@ export default function FoodBox({ image, imageAlt, description, sxOverride }: Fo
                     component="img"
                     image={image}
                     alt={imageAlt}
-                    sx={{ width: '500px !important', objectFit: 'contain' }}
+                    sx={{ width: '500px !important', objectFit: 'contain', borderRadius: '10px' }}
                 />
             </Box>
             <Typography align="center">{description}</Typography>
