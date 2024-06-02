@@ -39,10 +39,10 @@ type DisplayFoodChoice = {
 const Rsvp = () => {
     const { email } = useContext(SharedVariableContext);
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true);
     const [activeStep, setActiveStep] = useState(0);
     const [isToastOpen, setIsToastOpen] = useState(false);
 
+    const { isLoading, error, guests } = getGuests(email);
     const [attending, setAttending] = useState(false);
     const [foodChoices, setFoodChoices] = useState<DisplayFoodChoice[]>([]);
     const [songs, setSongs] = useState<string[]>([]);
@@ -71,8 +71,6 @@ const Rsvp = () => {
     };
 
     const handleSubmit = () => {
-        setIsLoading(true);
-
         foodChoices.forEach(async (item) => {
             await updateGuest(
                 email,
@@ -84,20 +82,17 @@ const Rsvp = () => {
             );
         });
 
-        setIsLoading(false);
         setIsToastOpen(true);
     };
 
     useEffect(() => {
-        const loadChoices = async () => {
-            const party = await getGuests(email);
-
-            const attendingStatus = party.find(
+        if (!isLoading && guests) {
+            const attendingStatus = guests.find(
                 (guest) => guest.relationship === Relationship.PRIMARY_GUEST
             )!.status;
             setAttending(attendingStatus === Status.COMING ? true : false);
 
-            const displayFoodItems = party.map<DisplayFoodChoice>((guest) => ({
+            const displayFoodItems = guests.map<DisplayFoodChoice>((guest) => ({
                 name: `${guest.firstName} ${guest.lastName}`,
                 guestId: guest.guestId,
                 choice: guest.foodChoice as FoodChoice,
@@ -105,18 +100,14 @@ const Rsvp = () => {
             }));
             setFoodChoices(displayFoodItems);
 
-            const songs = party
+            const songs = guests
                 .find((guest) => guest.relationship === Relationship.PRIMARY_GUEST)
                 ?.songRequests?.split(',');
             if (songs) {
                 setSongs(songs);
             }
-
-            setIsLoading(false);
-        };
-
-        loadChoices();
-    }, []);
+        }
+    }, [guests]);
 
     return (
         <PageContainer>
@@ -231,7 +222,7 @@ const Rsvp = () => {
                         {activeStep === 1 && (
                             <div>
                                 {foodChoices.map((item, index) => (
-                                    <div>
+                                    <div key={item.guestId}>
                                         <Typography align="center" variant="h4">
                                             {item.name}
                                         </Typography>
@@ -360,6 +351,7 @@ const Rsvp = () => {
                                 </Button>
                             )}
                         </Box>
+
                         <Snackbar
                             open={isToastOpen}
                             autoHideDuration={2000}
@@ -370,6 +362,13 @@ const Rsvp = () => {
                         >
                             <Alert severity="success" variant="outlined" sx={{ width: '100%' }}>
                                 Updates submitted!
+                            </Alert>
+                        </Snackbar>
+
+                        <Snackbar open={error instanceof Error}>
+                            <Alert severity="error" variant="filled" sx={{ width: '100%' }}>
+                                Failed to get guest information. Please refresh the page. If the
+                                issue continues, reach out to us.
                             </Alert>
                         </Snackbar>
                     </Box>

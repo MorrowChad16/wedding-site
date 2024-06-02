@@ -99,9 +99,7 @@ export default function Travel() {
     return (
         <PageContainer>
             <div>
-                <Typography variant="h3" mb={4}>
-                    Hotels
-                </Typography>
+                <Typography variant="h3">Hotels</Typography>
                 <HorizontalScroll>
                     {hotels.map((hotel, index) => (
                         <Paper
@@ -174,7 +172,7 @@ export default function Travel() {
                     ))}
                 </HorizontalScroll>
 
-                <Typography variant="h3" mb={4}>
+                <Typography variant="h3" mt={5}>
                     Airports
                 </Typography>
                 <HorizontalScroll>
@@ -214,7 +212,7 @@ export default function Travel() {
                     ))}
                 </HorizontalScroll>
 
-                <Typography variant="h3" my={4}>
+                <Typography variant="h3" mt={5}>
                     Transportation
                 </Typography>
                 <HorizontalScroll>

@@ -1,6 +1,7 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
-import { FoodChoice, Status } from '../utils/types';
+import { FoodChoice, Guest, Relationship, Status } from '../utils/types';
+import { useQuery } from '@tanstack/react-query';
 
 const getClient = () => generateClient<Schema>();
 
@@ -87,37 +88,43 @@ export const isValidEmail = async (email: string) => {
 };
 
 /**
- * Get all guests under the party's email id
- * @param email is the party's email
- * @returns all guests under the party's email
- */
-export const getGuests = async (email: string) => {
-    const response = await getClient().models.Guest.list({
-        filter: {
-            email: {
-                eq: email,
-            },
-        },
-    });
-    return response.data;
-};
-
-/**
  * Checks if the user has submitted RSVP details
  * @param email is the party's email
  * @returns true if the guest has submitted they are coming or not. false if in the default state.
  */
-export const hasSubmittedRsvp = async (email: string) => {
-    const response = await getClient().models.Guest.list({
-        filter: {
-            email: {
-                eq: email,
-            },
+export const hasSubmittedRsvp = (email: string) => {
+    const { data: hasSubmitted } = useQuery<boolean>({
+        queryKey: ['getRsvpStatus'],
+        queryFn: async () => {
+            const response = await getClient().models.Guest.list({
+                filter: {
+                    email: {
+                        eq: email,
+                    },
+                },
+            });
+
+            return response.data.some((guest) => guest.status !== Status.ATTENDING);
         },
+        retry: 3,
+        retryDelay: 200,
     });
-    return response.data.some((guest) => guest.status !== Status.ATTENDING);
+
+    return {
+        hasSubmitted,
+    };
 };
 
+/**
+ * updates a guests RSVP info
+ * @param email guest email
+ * @param guestId guest id
+ * @param foodAllergies guest food allergies
+ * @param status guest attendance status
+ * @param foodChoice guest food choice
+ * @param songRequests guest song requests
+ * @returns
+ */
 export const updateGuest = async (
     email: string,
     guestId: string,
@@ -134,4 +141,51 @@ export const updateGuest = async (
         foodAllergies: foodAllergies,
         songRequests: songRequests,
     });
+};
+
+/**
+ * Get all guests under the party's email id
+ * @param email is the party's email
+ * @returns all guests under the party's email
+ */
+export const getGuests = (email: string) => {
+    const {
+        isLoading,
+        error,
+        data: guests,
+    } = useQuery<Guest[]>({
+        queryKey: ['getGuests'],
+        queryFn: async () => {
+            const response = await getClient().models.Guest.list({
+                filter: {
+                    email: {
+                        eq: email,
+                    },
+                },
+            });
+
+            return response.data.map<Guest>((guest) => {
+                return {
+                    email: guest.email,
+                    guestId: guest.guestId,
+                    relationship: guest.relationship as Relationship,
+                    phoneNumber: guest.phoneNumber,
+                    firstName: guest.firstName,
+                    lastName: guest.lastName,
+                    status: guest.status as Status,
+                    foodChoice: guest.foodChoice as FoodChoice,
+                    foodAllergies: guest.foodAllergies,
+                    songRequests: guest.songRequests,
+                };
+            });
+        },
+        retry: 3,
+        retryDelay: 200,
+    });
+
+    return {
+        isLoading,
+        error,
+        guests,
+    };
 };

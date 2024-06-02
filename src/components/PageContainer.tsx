@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { Alert, Container } from '@mui/material';
 import { WEDDING_DATE } from '../utils/constants';
 import { hasSubmittedRsvp } from '../api/use-guests';
@@ -15,27 +15,18 @@ function PageContainer({ children }: PageContainerProps) {
         const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
         return daysDiff > 0 && daysDiff <= 30;
     };
-    const [open, setIsOpen] = useState(false);
-
-    useEffect(() => {
-        const getStatus = async () => {
-            const isSubmitted = await hasSubmittedRsvp(email);
-            setIsOpen(isWithin30Days() && !isSubmitted);
-        };
-
-        getStatus();
-    }, []);
+    const { hasSubmitted } = hasSubmittedRsvp(email);
 
     return (
         <Container
             maxWidth="lg"
             sx={{
-                pt: open ? '80px' : '100px',
+                pt: isWithin30Days() && !hasSubmitted ? '80px' : '100px',
                 alignItems: 'center',
                 justifyContent: 'center',
             }}
         >
-            {open && (
+            {isWithin30Days() && !hasSubmitted && (
                 <Alert
                     severity="warning"
                     variant="filled"

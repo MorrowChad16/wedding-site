@@ -8,9 +8,8 @@ export default function HorizontalScroll({ children }: HorizontalScrollProps) {
     return (
         <Box
             display={'flex'}
-            mb={4}
             whiteSpace={'nowrap'}
-            p={8}
+            p={2}
             sx={{
                 overflowX: 'auto',
                 overflowY: 'hidden',
