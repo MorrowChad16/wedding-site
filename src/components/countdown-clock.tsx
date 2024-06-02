@@ -57,7 +57,7 @@ function CountdownClock() {
     }, []);
 
     return (
-        <Grid container spacing={5} justifyContent="center">
+        <Grid container spacing={{ xs: 2, sm: 3, md: 5, lg: 5 }} justifyContent="center">
             {isCountdownComplete ? (
                 <Grid item>
                     <Typography variant="h5" align="center" gutterBottom>
