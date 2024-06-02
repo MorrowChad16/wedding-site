@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PageContainer from '../components/PageContainer';
 import FoodBox from '../components/food-box';
 import potatoes from '../assets/images/potatoes.jpeg';
@@ -18,7 +18,6 @@ import {
     CircularProgress,
     Alert,
 } from '@mui/material';
-import { getFoodChoice } from '../api/use-guests';
 import { FoodChoice } from '../utils/types';
 
 export const foodChoiceData = {
@@ -58,17 +57,17 @@ export default function Food() {
         description: 'holy cow key lime pie',
     };
     const [mainChoice, setMainChoice] = React.useState<FoodChoice>();
-    const [isLoadingMainChoice, setIsLoadingMainChoice] = React.useState(true);
+    const [isLoadingMainChoice] = React.useState(false);
 
-    React.useEffect(() => {
-        const run = async () => {
-            const foodChoice = await getFoodChoice(localStorage.getItem('email')!);
-            setMainChoice(foodChoice as FoodChoice);
-            setIsLoadingMainChoice(false);
-        };
+    // React.useEffect(() => {
+    //     const run = async () => {
+    //         const foodChoice = await getFoodChoice(localStorage.getItem('email')!);
+    //         setMainChoice(foodChoice as FoodChoice);
+    //         setIsLoadingMainChoice(false);
+    //     };
 
-        run();
-    }, []);
+    //     run();
+    // }, []);
 
     return (
         <PageContainer>
@@ -127,7 +126,7 @@ export default function Food() {
                         <Typography variant="h3" sx={{ textAlign: 'center', marginBottom: 2 }}>
                             Side Dishes
                         </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Box display="flex" flexDirection="row">
                             {sideDishes.map((dish, index) => (
                                 <FoodBox
                                     key={dish.description}

@@ -306,7 +306,7 @@ const Rsvp = () => {
                                 navigate('/');
                             }}
                         >
-                            <Alert severity="success" sx={{ width: '100%' }}>
+                            <Alert severity="success" variant="outlined" sx={{ width: '100%' }}>
                                 Updates submitted!
                             </Alert>
                         </Snackbar>

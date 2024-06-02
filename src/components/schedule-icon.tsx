@@ -185,7 +185,7 @@ END:VCALENDAR`;
                 >
                     {formality}
                 </Typography>
-                <Box sx={{ textAlign: 'center' }}>
+                <Box textAlign={'center'}>
                     <Button
                         variant="contained"
                         color="primary"

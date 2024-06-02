@@ -1,6 +1,5 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
-import { v4 as uuidv4 } from 'uuid';
 import { FoodChoice, Status } from '../utils/types';
 
 const getClient = () => generateClient<Schema>();
@@ -87,6 +86,11 @@ export const isValidEmail = async (email: string) => {
     return response.data.length > 0;
 };
 
+/**
+ * Get all guests under the party's email id
+ * @param email is the party's email
+ * @returns all guests under the party's email
+ */
 export const getGuests = async (email: string) => {
     const response = await getClient().models.Guest.list({
         filter: {
@@ -99,21 +103,19 @@ export const getGuests = async (email: string) => {
 };
 
 /**
- * gets the guest's food choice
- * @param email is the guest's email
- * @returns the guest's food choice
+ * Checks if the user has submitted RSVP details
+ * @param email is the party's email
+ * @returns true if the guest has submitted they are coming or not. false if in the default state.
  */
-export const getFoodChoice = async (email: string) => {
-    const response = await getClient().models.Guest.get(
-        {
-            email,
-            guestId: uuidv4(),
+export const hasSubmittedRsvp = async (email: string) => {
+    const response = await getClient().models.Guest.list({
+        filter: {
+            email: {
+                eq: email,
+            },
         },
-        {
-            selectionSet: ['foodChoice'],
-        }
-    );
-    return response.data?.foodChoice;
+    });
+    return response.data.some((guest) => guest.status !== Status.ATTENDING);
 };
 
 export const updateGuest = async (

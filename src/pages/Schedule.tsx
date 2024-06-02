@@ -4,7 +4,7 @@ import PageContainer from '../components/PageContainer';
 import ScheduleIcon from '../components/schedule-icon';
 import gathering from '../assets/icons/gathering.png';
 import weddingCeremony from '../assets/icons/wedding-ceremony.png';
-import { Grid } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 
 interface ScheduleItem {
     uid: string;
@@ -42,32 +42,31 @@ export default function Schedule() {
     ];
 
     return (
-        <PageContainer
-            sxOverrides={{
-                width: 'fit-content',
-            }}
-        >
-            <Grid
-                container
-                direction="column"
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-            >
-                {scheduleItems.map((item) => (
-                    <ScheduleIcon
-                        key={item.uid}
-                        uid={item.uid}
-                        startTime={item.startTime}
-                        endTime={item.endTime}
-                        title={item.title}
-                        description={item.description}
-                        location={item.location}
-                        iconAsset={item.iconAsset}
-                        formality={item.formality}
-                    />
-                ))}
-            </Grid>
+        <PageContainer>
+            <Box display="flex" alignItems="center" flexDirection="column">
+                <Grid
+                    container
+                    direction="column"
+                    spacing={2}
+                    justifyContent="center"
+                    alignItems="center"
+                    width={'fit-content'}
+                >
+                    {scheduleItems.map((item) => (
+                        <ScheduleIcon
+                            key={item.uid}
+                            uid={item.uid}
+                            startTime={item.startTime}
+                            endTime={item.endTime}
+                            title={item.title}
+                            description={item.description}
+                            location={item.location}
+                            iconAsset={item.iconAsset}
+                            formality={item.formality}
+                        />
+                    ))}
+                </Grid>
+            </Box>
         </PageContainer>
     );
 }
