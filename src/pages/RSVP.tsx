@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
     Box,
     Button,
@@ -23,7 +23,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PageContainer from '../components/PageContainer';
 import { FoodChoice } from './Food';
 import { useNavigate } from 'react-router-dom';
-import { addFakeGuests, updateGuest } from '../api/use-guests';
+import { updateGuest } from '../api/use-guests';
 
 export enum Status {
     NOT_ATTENDING = 'NOT_ATTENDING',
