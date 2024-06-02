@@ -30,7 +30,6 @@ const images = [
 ];
 
 export default function Gallery() {
-    // Add 3 x N grid of images
     return (
         <PageContainer>
             <ImageList variant="masonry" cols={3} gap={8}>
@@ -40,7 +39,7 @@ export default function Gallery() {
                             srcSet={`${image}?w=248&fit=crop&auto=format&dpr=2 2x`}
                             src={`${image}?w=248&fit=crop&auto=format`}
                             alt={extractFilenameFromImport(image)}
-                            loading="lazy"
+                            loading="eager"
                         />
                     </ImageListItem>
                 ))}

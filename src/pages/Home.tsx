@@ -17,6 +17,7 @@ export default function Home() {
     const [activeStep, setActiveStep] = useState(0);
     const images = [image0, image10];
     const maxSteps = images ? Object.entries(images).length : 0;
+    const [imageLoading, setImageLoading] = useState(true);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -36,13 +37,30 @@ export default function Home() {
                     alignItems: 'center',
                 }}
             >
-                <Box sx={{ maxWidth: 600, flexGrow: 1, position: 'relative' }}>
+                <Box sx={{ width: 600, flexGrow: 1, position: 'relative' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '450px',
+                                backgroundColor: 'lightgray',
+                                borderRadius: '10px',
+                                display: imageLoading ? 'block' : 'none',
+                            }}
+                        />
                         <img
                             key={extractFilenameFromImport(images[activeStep])}
                             src={images[activeStep]}
                             alt={extractFilenameFromImport(images[activeStep])}
-                            style={{ maxWidth: '100%', height: 'auto', borderRadius: '10px' }}
+                            style={{
+                                width: '100%',
+                                height: '450px',
+                                borderRadius: '10px',
+                                display: imageLoading ? 'none' : 'block',
+                            }}
+                            loading="eager"
+                            onLoadStart={() => setImageLoading(true)}
+                            onLoad={() => setImageLoading(false)}
                         />
                     </Box>
                     <MobileStepper
@@ -65,7 +83,7 @@ export default function Home() {
 
                 <Box sx={{ textAlign: 'center' }}>
                     <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-                        Chad and Ciara
+                        Ciara and Chad
                     </Typography>
 
                     <Box paddingTop={'20px'}>
