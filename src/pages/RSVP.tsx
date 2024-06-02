@@ -40,7 +40,7 @@ export enum Relationship {
 
 const Rsvp = () => {
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true);
+    // const [isLoading, setIsLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [complete, setComplete] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
