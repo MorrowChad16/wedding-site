@@ -2,31 +2,52 @@ import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
 import { FoodChoice } from '../pages/Food';
 import { Status } from '../pages/RSVP';
+import { v4 as uuidv4 } from 'uuid';
 
 const getClient = () => generateClient<Schema>();
 
-export const addFakeGuest = async () =>
+export const addFakeGuests = async () => {
     getClient().models.Guest.create({
-        email: 'morrowchad1@protonmail.com',
-        relationship: 'CHILD',
+        email: 'morrowchad1@proton.me',
+        guestId: '1',
+        relationship: 'PRIMARY_GUEST',
         phoneNumber: '8157084489',
         firstName: 'Chad',
         lastName: 'Morrow',
         status: 'ATTENDING',
-        foodAllergies: '',
         songRequests: 'song1, song2',
     });
 
-// TODO: migrate to React Query
-export const getGuest = async (email: string) =>
-    getClient().models.Guest.get(
-        {
-            email,
-        },
-        {
-            authMode: 'identityPool',
-        }
-    );
+    getClient().models.Guest.create({
+        email: 'morrowchad1@proton.me',
+        guestId: '2',
+        relationship: 'PLUS_ONE',
+        phoneNumber: '8157084489',
+        firstName: 'Ciara',
+        lastName: 'McNeley',
+        status: 'ATTENDING',
+    });
+
+    getClient().models.Guest.create({
+        email: 'morrowchad1@proton.me',
+        guestId: '3',
+        relationship: 'CHILD',
+        phoneNumber: '8157084489',
+        firstName: 'Ciara',
+        lastName: 'Morrow',
+        status: 'ATTENDING',
+    });
+
+    getClient().models.Guest.create({
+        email: 'morrowchad1@proton.me',
+        guestId: '4',
+        relationship: 'CHILD',
+        phoneNumber: '8157084489',
+        firstName: 'Yohan',
+        lastName: 'Morrow',
+        status: 'ATTENDING',
+    });
+};
 
 /**
  * If we get a non-null value back from the email submitted on login, then we know it's a valid guest.
@@ -35,8 +56,14 @@ export const getGuest = async (email: string) =>
  * @returns true if email is in database, false otherwise
  */
 export const isValidEmail = async (email: string) => {
-    const response = await getGuest(email);
-    return response.data !== null;
+    const response = await getClient().models.Guest.list({
+        filter: {
+            email: {
+                eq: email,
+            },
+        },
+    });
+    return response.data.length > 0;
 };
 
 /**
@@ -48,10 +75,10 @@ export const getFoodChoice = async (email: string) => {
     const response = await getClient().models.Guest.get(
         {
             email,
+            guestId: uuidv4(),
         },
         {
             selectionSet: ['foodChoice'],
-            authMode: 'identityPool',
         }
     );
     return response.data?.foodChoice;
@@ -66,6 +93,7 @@ export const updateGuest = async (
 ) => {
     return await getClient().models.Guest.update({
         email: email,
+        guestId: uuidv4(),
         status: status,
         foodChoice: foodChoice,
         foodAllergies: foodAllergies,

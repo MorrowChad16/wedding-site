@@ -21,7 +21,7 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material';
-import { addFakeGuest, isValidEmail } from '../api/use-guests';
+import { isValidEmail } from '../api/use-guests';
 
 function NavigationBar() {
     const { theme } = React.useContext(ThemeContext);
@@ -82,7 +82,6 @@ function NavigationBar() {
         }
     };
 
-    addFakeGuest();
     return (
         <div>
             <AppBar

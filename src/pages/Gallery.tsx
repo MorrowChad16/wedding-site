@@ -29,7 +29,7 @@ const images = [
     image11,
 ];
 
-export default function Photos() {
+export default function Gallery() {
     // Add 3 x N grid of images
     return (
         <PageContainer>

@@ -68,7 +68,6 @@ export default function Food() {
     React.useEffect(() => {
         const run = async () => {
             const foodChoice = await getFoodChoice(localStorage.getItem('email')!);
-            console.log(foodChoice);
             setMainChoice(foodChoice as FoodChoice);
             setIsLoadingMainChoice(false);
         };

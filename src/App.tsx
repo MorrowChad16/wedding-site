@@ -10,7 +10,7 @@ import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import ThemeContext from './components/use-theme-context';
 import OurStory from './pages/OurStory';
-import Photos from './pages/Photos';
+import Gallery from './pages/Gallery';
 import Rsvp from './pages/RSVP';
 
 export type Page = {
@@ -22,7 +22,7 @@ export type Page = {
 export const pages: Page[] = [
     { path: '/', component: <Home />, displayName: 'Home' },
     { path: '/our-story', component: <OurStory />, displayName: 'Our Story' },
-    { path: '/photos', component: <Photos />, displayName: 'Photos' },
+    { path: '/gallery', component: <Gallery />, displayName: 'Gallery' },
     { path: '/schedule', component: <Schedule />, displayName: 'Schedule' },
     { path: '/travel', component: <Travel />, displayName: 'Travel' },
     { path: '/food', component: <Food />, displayName: 'Food' },

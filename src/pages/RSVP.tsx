@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Box,
     Button,
@@ -23,7 +23,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PageContainer from '../components/PageContainer';
 import { FoodChoice } from './Food';
 import { useNavigate } from 'react-router-dom';
-import { getGuest, updateGuest } from '../api/use-guests';
+import { addFakeGuests, updateGuest } from '../api/use-guests';
 
 export enum Status {
     NOT_ATTENDING = 'NOT_ATTENDING',
@@ -31,8 +31,16 @@ export enum Status {
     COMING = 'COMING',
 }
 
+export enum Relationship {
+    PRIMARY_GUEST = 'PRIMARY_GUEST',
+    SECONDARY_GUEST = 'SECONDARY_GUEST',
+    PLUS_ONE = 'PLUS_ONE',
+    CHILD = 'CHILD',
+}
+
 const Rsvp = () => {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [complete, setComplete] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
@@ -78,18 +86,24 @@ const Rsvp = () => {
             foodChoice
         );
         // TOOD: add toast if update fails
-        console.log('guest', getGuest('morrowchad1@protonmail.com'));
+        // console.log('guest', getGuest('morrowchad1@protonmail.com'));
         setComplete(true);
     };
+
+    useEffect(() => {
+        addFakeGuests();
+        const loadChoices = async () => {
+            const results = await getAllGuests();
+            console.log(results);
+        };
+
+        loadChoices();
+    }, []);
 
     return (
         <PageContainer>
             {submitting && !complete ? (
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                >
+                <Box display="flex" justifyContent="center" alignItems="center">
                     <CircularProgress />
                 </Box>
             ) : (
