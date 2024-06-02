@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import PageContainer from '../components/PageContainer';
 import FoodBox from '../components/food-box';
 import potatoes from '../assets/images/potatoes.jpeg';
@@ -56,10 +56,10 @@ export default function Food() {
         imageAlt: 'Dessert',
         description: 'holy cow key lime pie',
     };
-    const [mainChoice, setMainChoice] = React.useState<FoodChoice>();
-    const [isLoadingMainChoice] = React.useState(false);
+    const [mainChoice, setMainChoice] = useState<FoodChoice>();
+    const [isLoadingMainChoice] = useState(false);
 
-    // React.useEffect(() => {
+    // useEffect(() => {
     //     const run = async () => {
     //         const foodChoice = await getFoodChoice(localStorage.getItem('email')!);
     //         setMainChoice(foodChoice as FoodChoice);

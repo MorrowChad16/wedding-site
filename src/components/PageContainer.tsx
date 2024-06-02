@@ -1,23 +1,25 @@
-import React from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Alert, Container } from '@mui/material';
 import { WEDDING_DATE } from '../utils/constants';
 import { hasSubmittedRsvp } from '../api/use-guests';
+import { SharedVariableContext } from '../utils/shared-context';
 
 interface PageContainerProps {
     children: JSX.Element;
 }
 
 function PageContainer({ children }: PageContainerProps) {
+    const { email } = useContext(SharedVariableContext);
     const isWithin30Days = (): boolean => {
         const timeDiff = Math.abs(WEDDING_DATE.getTime() - new Date().getTime());
         const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
         return daysDiff > 0 && daysDiff <= 30;
     };
-    const [open, setIsOpen] = React.useState(false);
+    const [open, setIsOpen] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const getStatus = async () => {
-            const isSubmitted = await hasSubmittedRsvp(localStorage.getItem('email')!);
+            const isSubmitted = await hasSubmittedRsvp(email);
             setIsOpen(isWithin30Days() && !isSubmitted);
         };
 

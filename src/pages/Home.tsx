@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { Box, Divider, Grid, IconButton, MobileStepper, Typography } from '@mui/material';
 import PageContainer from '../components/PageContainer';
 import CountdownClock from '../components/countdown-clock';
@@ -14,7 +14,7 @@ export default function Home() {
         month: 'long',
         day: 'numeric',
     }).format(WEDDING_DATE);
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0);
     const images = [image0, image10];
     const maxSteps = images ? Object.entries(images).length : 0;
 

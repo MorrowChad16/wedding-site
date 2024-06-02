@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 import ThemeContext from './use-theme-context';
 
@@ -29,7 +29,7 @@ function ScheduleIcon({
         day: 'numeric',
         year: 'numeric',
     }).format(startTime);
-    const { theme } = React.useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
 
     const generateIcsDate = (date: Date) => {
         const year = date.getFullYear();

@@ -1,9 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import { QuestionAnswerBox } from '../components/question-box';
 import PageContainer from '../components/PageContainer';
 
 export default function FAQ(): JSX.Element {
-    const [expandedPanels, setExpandedPanels] = React.useState<string[]>([]);
+    const [expandedPanels, setExpandedPanels] = useState<string[]>([]);
 
     const handlePanelChange = (panelId: string) => {
         setExpandedPanels((prevPanels) => {

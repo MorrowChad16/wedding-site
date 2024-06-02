@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { useRef, useEffect } from 'react';
 import PageContainer from '../components/PageContainer';
 
 export default function Registry() {
-    const iframeRef = React.useRef<HTMLIFrameElement>(null);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const iframeElement = iframeRef.current;
 
         if (iframeElement) {

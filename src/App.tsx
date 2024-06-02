@@ -12,6 +12,7 @@ import ThemeContext from './components/use-theme-context';
 import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
 import Rsvp from './pages/RSVP';
+import { SharedVariableProvider } from './utils/shared-context';
 
 export type Page = {
     path: string;
@@ -53,18 +54,24 @@ export default function App() {
     });
 
     return (
-        <ThemeProvider theme={myTheme}>
-            <ThemeContext.Provider value={{ theme: myTheme }}>
-                <BrowserRouter>
-                    <NavigationBar />
-                    <Routes>
-                        {pages.map((route) => (
-                            <Route key={route.path} path={route.path} element={route.component} />
-                        ))}
-                        <Route key={'/rsvp'} path={'/rsvp'} element={<Rsvp />} />
-                    </Routes>
-                </BrowserRouter>
-            </ThemeContext.Provider>
-        </ThemeProvider>
+        <SharedVariableProvider>
+            <ThemeProvider theme={myTheme}>
+                <ThemeContext.Provider value={{ theme: myTheme }}>
+                    <BrowserRouter>
+                        <NavigationBar />
+                        <Routes>
+                            {pages.map((route) => (
+                                <Route
+                                    key={route.path}
+                                    path={route.path}
+                                    element={route.component}
+                                />
+                            ))}
+                            <Route key={'/rsvp'} path={'/rsvp'} element={<Rsvp />} />
+                        </Routes>
+                    </BrowserRouter>
+                </ThemeContext.Provider>
+            </ThemeProvider>
+        </SharedVariableProvider>
     );
 }

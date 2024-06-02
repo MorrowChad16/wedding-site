@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -22,18 +22,18 @@ import {
     TextField,
 } from '@mui/material';
 import { isValidEmail } from '../api/use-guests';
+import { SharedVariableContext } from '../utils/shared-context';
 
 function NavigationBar() {
-    const { theme } = React.useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
+    const { email, setEmail } = useContext(SharedVariableContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const [currentPage, setCurrentPage] = React.useState(location.pathname);
+    const [currentPage, setCurrentPage] = useState(location.pathname);
 
-    const [open, setOpen] = React.useState(false);
-    // TODO: store the email at a global context
-    const [email, setEmail] = React.useState(localStorage.getItem('email') || '');
-    const [openSignIn, setOpenSignIn] = React.useState(email === '');
-    const [error, setError] = React.useState('');
+    const [open, setOpen] = useState(false);
+    const [openSignIn, setOpenSignIn] = useState(email === '');
+    const [error, setError] = useState('');
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -53,17 +53,6 @@ function NavigationBar() {
         </Button>
     );
 
-    const SignInButton = (
-        <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => setOpenSignIn(true)}
-            sx={{ width: '100%' }}
-        >
-            Sign in
-        </Button>
-    );
-
     const isOnPage = (page: Page) => {
         return currentPage === page.displayName || currentPage === page.path;
     };
@@ -73,6 +62,7 @@ function NavigationBar() {
             const isValid = await isValidEmail(email);
             if (isValid) {
                 localStorage.setItem('email', email!);
+                setEmail(email);
                 setOpenSignIn(false);
             } else {
                 setError('Invalid email address');
@@ -162,7 +152,7 @@ function NavigationBar() {
                                 alignItems: 'center',
                             }}
                         >
-                            {email === '' ? SignInButton : RsvpButton}
+                            {RsvpButton}
                         </Box>
                         <Box sx={{ display: { sm: '', md: 'none' } }}>
                             <Button
@@ -205,7 +195,7 @@ function NavigationBar() {
                                         </MenuItem>
                                     ))}
                                     <Divider />
-                                    <MenuItem>{email === '' ? SignInButton : RsvpButton}</MenuItem>
+                                    <MenuItem>{RsvpButton}</MenuItem>
                                 </Box>
                             </Drawer>
                         </Box>
@@ -213,11 +203,19 @@ function NavigationBar() {
                 </Container>
             </AppBar>
 
-            <Dialog open={openSignIn} onClose={() => setOpenSignIn(false)}>
+            <Dialog
+                open={openSignIn}
+                onClose={(_, reason: string) => {
+                    if (reason !== 'backdropClick') {
+                        setOpenSignIn(false);
+                    }
+                }}
+            >
                 <DialogTitle>Login</DialogTitle>
                 <DialogContent>
                     <DialogContentText sx={{ marginBottom: 2 }}>
-                        Enter your email to view your selections.
+                        Enter your email to view your selections. Each 'party' will share the same
+                        email across all guests.
                     </DialogContentText>
                     <TextField
                         autoFocus

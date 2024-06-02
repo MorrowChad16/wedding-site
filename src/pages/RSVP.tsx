@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     Alert,
     Box,
@@ -22,6 +22,7 @@ import PageContainer from '../components/PageContainer';
 import { useNavigate } from 'react-router-dom';
 import { getGuests, updateGuest } from '../api/use-guests';
 import { FoodChoice, Relationship, Status } from '../utils/types';
+import { SharedVariableContext } from '../utils/shared-context';
 
 type DisplayFoodChoice = {
     name: string;
@@ -31,6 +32,7 @@ type DisplayFoodChoice = {
 };
 
 const Rsvp = () => {
+    const { email } = useContext(SharedVariableContext);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [activeStep, setActiveStep] = useState(0);
@@ -69,7 +71,7 @@ const Rsvp = () => {
 
         foodChoices.forEach(async (item) => {
             await updateGuest(
-                localStorage.getItem('email')!,
+                email,
                 item.guestId,
                 item.allergies,
                 attending ? Status.COMING : Status.NOT_ATTENDING,
@@ -84,7 +86,7 @@ const Rsvp = () => {
 
     useEffect(() => {
         const loadChoices = async () => {
-            const party = await getGuests(localStorage.getItem('email')!);
+            const party = await getGuests(email);
 
             const attendingStatus = party.find(
                 (guest) => guest.relationship === Relationship.PRIMARY_GUEST

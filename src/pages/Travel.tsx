@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext } from 'react';
 import PageContainer from '../components/PageContainer';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { openInNewWindow } from '../utils/utilities';
@@ -32,7 +32,7 @@ interface TransportationInfo {
 }
 
 export default function Travel() {
-    const { theme } = React.useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
 
     const hotels: HotelInfo[] = [
         {
