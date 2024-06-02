@@ -1,5 +1,5 @@
 import PageContainer from '../components/PageContainer';
-import { Box, Grid } from '@mui/material';
+import { ImageList, ImageListItem } from '@mui/material';
 import image0 from '../assets/images/display/IMG_5772.jpeg';
 import image1 from '../assets/images/display/IMG_5841.jpeg';
 import image2 from '../assets/images/display/IMG_6574.jpeg';
@@ -33,22 +33,18 @@ export default function Gallery() {
     // Add 3 x N grid of images
     return (
         <PageContainer>
-            <Grid container spacing={2}>
-                {' '}
-                {/* Spacing between images */}
-                {Object.values(images).map((image, index) => (
-                    <Grid item xs={12} sm={4} key={index}>
-                        <Box>
-                            <img
-                                key={extractFilenameFromImport(image)}
-                                src={image}
-                                alt={extractFilenameFromImport(image)}
-                                style={{ width: '100%', height: 'auto' }}
-                            />
-                        </Box>
-                    </Grid>
+            <ImageList variant="masonry" cols={3} gap={8}>
+                {Object.values(images).map((image) => (
+                    <ImageListItem key={extractFilenameFromImport(image)}>
+                        <img
+                            srcSet={`${image}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                            src={`${image}?w=248&fit=crop&auto=format`}
+                            alt={extractFilenameFromImport(image)}
+                            loading="lazy"
+                        />
+                    </ImageListItem>
                 ))}
-            </Grid>
+            </ImageList>
         </PageContainer>
     );
 }
