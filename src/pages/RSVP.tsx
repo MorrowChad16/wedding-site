@@ -90,15 +90,15 @@ const Rsvp = () => {
         setComplete(true);
     };
 
-    useEffect(() => {
-        addFakeGuests();
-        const loadChoices = async () => {
-            const results = await getAllGuests();
-            console.log(results);
-        };
+    // useEffect(() => {
+    //     addFakeGuests();
+    //     const loadChoices = async () => {
+    //         const results = await getAllGuests();
+    //         console.log(results);
+    //     };
 
-        loadChoices();
-    }, []);
+    //     loadChoices();
+    // }, []);
 
     return (
         <PageContainer>
