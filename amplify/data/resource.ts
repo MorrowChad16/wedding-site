@@ -9,11 +9,11 @@ const schema = a.schema({
         .model({
             email: a.email().required(),
             guestId: a.id().required(),
-            relationship: a.ref('Relationship'),
+            relationship: a.ref('Relationship').required(),
             phoneNumber: a.phone().required(),
             firstName: a.string().required(),
             lastName: a.string().required(),
-            status: a.ref('Status'),
+            status: a.ref('Status').required(),
             foodChoice: a.ref('Food'),
             foodAllergies: a.string(),
             songRequests: a.string(),

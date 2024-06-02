@@ -19,12 +19,7 @@ import {
     Alert,
 } from '@mui/material';
 import { getFoodChoice } from '../api/use-guests';
-
-export enum FoodChoice {
-    Meat = 'MEAT',
-    Fish = 'FISH',
-    Vegetarian = 'VEGETARIAN',
-}
+import { FoodChoice } from '../utils/types';
 
 export const foodChoiceData = {
     [FoodChoice.Meat]: {

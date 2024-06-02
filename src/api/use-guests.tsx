@@ -1,8 +1,7 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
-import { FoodChoice } from '../pages/Food';
-import { Status } from '../pages/RSVP';
 import { v4 as uuidv4 } from 'uuid';
+import { FoodChoice, Status } from '../utils/types';
 
 const getClient = () => generateClient<Schema>();
 
@@ -49,8 +48,30 @@ export const addFakeGuests = async () => {
     });
 };
 
+export const resetTable = () => {
+    getClient().models.Guest.delete({
+        email: 'morrowchad1@proton.me',
+        guestId: '1',
+    });
+
+    getClient().models.Guest.delete({
+        email: 'morrowchad1@proton.me',
+        guestId: '2',
+    });
+
+    getClient().models.Guest.delete({
+        email: 'morrowchad1@proton.me',
+        guestId: '3',
+    });
+
+    getClient().models.Guest.delete({
+        email: 'morrowchad1@proton.me',
+        guestId: '4',
+    });
+};
+
 /**
- * If we get a non-null value back from the email submitted on login, then we know it's a valid guest.
+ * If we get a non-empty value back from the email submitted on login, then we know it's a valid guest.
  * Otherwise, it's an inalid guest, so we shouldn't permit them.
  * @param email is the user-submitted login email
  * @returns true if email is in database, false otherwise
@@ -64,6 +85,17 @@ export const isValidEmail = async (email: string) => {
         },
     });
     return response.data.length > 0;
+};
+
+export const getGuests = async (email: string) => {
+    const response = await getClient().models.Guest.list({
+        filter: {
+            email: {
+                eq: email,
+            },
+        },
+    });
+    return response.data;
 };
 
 /**
@@ -86,14 +118,15 @@ export const getFoodChoice = async (email: string) => {
 
 export const updateGuest = async (
     email: string,
+    guestId: string,
     foodAllergies: string,
-    songRequests: string,
-    status?: Status,
-    foodChoice?: FoodChoice
+    status: Status,
+    foodChoice: FoodChoice,
+    songRequests?: string
 ) => {
     return await getClient().models.Guest.update({
         email: email,
-        guestId: uuidv4(),
+        guestId: guestId,
         status: status,
         foodChoice: foodChoice,
         foodAllergies: foodAllergies,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Box,
     Button,
@@ -21,35 +21,25 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import PageContainer from '../components/PageContainer';
-import { FoodChoice } from './Food';
 import { useNavigate } from 'react-router-dom';
-import { updateGuest } from '../api/use-guests';
+import { getGuests, updateGuest } from '../api/use-guests';
+import { FoodChoice, Relationship, Status } from '../utils/types';
 
-export enum Status {
-    NOT_ATTENDING = 'NOT_ATTENDING',
-    ATTENDING = 'ATTENDING',
-    COMING = 'COMING',
-}
-
-export enum Relationship {
-    PRIMARY_GUEST = 'PRIMARY_GUEST',
-    SECONDARY_GUEST = 'SECONDARY_GUEST',
-    PLUS_ONE = 'PLUS_ONE',
-    CHILD = 'CHILD',
-}
+type DisplayFoodChoice = {
+    name: string;
+    guestId: string;
+    choice: FoodChoice;
+    allergies: string;
+};
 
 const Rsvp = () => {
     const navigate = useNavigate();
-    // const [isLoading, setIsLoading] = useState(true);
-    const [submitting, setSubmitting] = useState(false);
-    const [complete, setComplete] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [submitted, setSubmitted] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
+
     const [attending, setAttending] = useState(false);
-
-    // TODO: update to handle choice for all members of party
-    const [foodChoice, setFoodChoice] = useState<FoodChoice>();
-    const [foodAllergies, setFoodAllergies] = useState('');
-
+    const [foodChoices, setFoodChoices] = useState<DisplayFoodChoice[]>([]);
     const [songs, setSongs] = useState<string[]>([]);
     const [newSong, setNewSong] = useState('');
 
@@ -76,33 +66,57 @@ const Rsvp = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleSubmit = async () => {
-        setSubmitting(true);
-        await updateGuest(
-            localStorage.getItem('email')!,
-            foodAllergies,
-            songs.join(','),
-            attending ? Status.COMING : Status.NOT_ATTENDING,
-            foodChoice
-        );
+    const handleSubmit = () => {
+        setIsLoading(true);
+
+        foodChoices.forEach(async (item) => {
+            await updateGuest(
+                localStorage.getItem('email')!,
+                item.guestId,
+                item.allergies,
+                attending ? Status.COMING : Status.NOT_ATTENDING,
+                item.choice,
+                songs.join(',')
+            );
+        });
+
         // TOOD: add toast if update fails
-        // console.log('guest', getGuest('morrowchad1@protonmail.com'));
-        setComplete(true);
+        setSubmitted(true);
     };
 
-    // useEffect(() => {
-    //     addFakeGuests();
-    //     const loadChoices = async () => {
-    //         const results = await getAllGuests();
-    //         console.log(results);
-    //     };
+    useEffect(() => {
+        const loadChoices = async () => {
+            const party = await getGuests(localStorage.getItem('email')!);
 
-    //     loadChoices();
-    // }, []);
+            const attendingStatus = party.find(
+                (guest) => guest.relationship === Relationship.PRIMARY_GUEST
+            )!.status;
+            setAttending(attendingStatus === Status.COMING ? true : false);
+
+            const displayFoodItems = party.map<DisplayFoodChoice>((guest) => ({
+                name: `${guest.firstName} ${guest.lastName}`,
+                guestId: guest.guestId,
+                choice: guest.foodChoice as FoodChoice,
+                allergies: guest.foodAllergies || '',
+            }));
+            setFoodChoices(displayFoodItems);
+
+            const songs = party
+                .find((guest) => guest.relationship === Relationship.PRIMARY_GUEST)
+                ?.songRequests?.split(',');
+            if (songs) {
+                setSongs(songs);
+            }
+
+            setIsLoading(false);
+        };
+
+        loadChoices();
+    }, []);
 
     return (
         <PageContainer>
-            {submitting && !complete ? (
+            {isLoading ? (
                 <Box display="flex" justifyContent="center" alignItems="center">
                     <CircularProgress />
                 </Box>
@@ -151,46 +165,70 @@ const Rsvp = () => {
                         )}
                         {activeStep === 1 && (
                             <div>
-                                <Box
-                                    display="flex"
-                                    justifyContent="center"
-                                    mt={2}
-                                    sx={{ marginBottom: 2 }}
-                                >
-                                    <FormControl sx={{ width: '40%' }}>
-                                        <InputLabel>Main Course</InputLabel>
-                                        <Select
-                                            label="Main Course"
-                                            variant="outlined"
-                                            value={foodChoice}
-                                            onChange={(event) => {
-                                                setFoodChoice(event.target.value as FoodChoice);
-                                            }}
+                                {foodChoices.map((item, index) => (
+                                    <div>
+                                        <Typography align="center" variant="h4">
+                                            {item.name}
+                                        </Typography>
+                                        <Box
+                                            display="flex"
+                                            justifyContent="center"
+                                            mt={2}
+                                            sx={{ marginBottom: 2 }}
                                         >
-                                            {Object.values(FoodChoice).map((choice) => (
-                                                <MenuItem key={choice} value={choice}>
-                                                    {choice}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                                <Box display="flex" justifyContent="center" alignItems="center">
-                                    <Box maxWidth={600} width="100%">
-                                        <TextField
-                                            label="Food Allergies/Preferences"
-                                            variant="outlined"
-                                            value={foodAllergies}
-                                            onChange={(e) => {
-                                                setFoodAllergies(e.target.value);
-                                            }}
-                                            fullWidth
-                                            multiline
-                                            minRows={3}
-                                            maxRows={5}
-                                        />
-                                    </Box>
-                                </Box>
+                                            <FormControl sx={{ width: '40%' }}>
+                                                <InputLabel>Main Course</InputLabel>
+                                                <Select
+                                                    label="Main Course"
+                                                    variant="outlined"
+                                                    value={item.choice}
+                                                    onChange={(e) => {
+                                                        const choice = e.target.value as FoodChoice;
+                                                        const updatedItems = [...foodChoices];
+                                                        updatedItems[index] = {
+                                                            ...updatedItems[index],
+                                                            choice: choice,
+                                                        };
+                                                        setFoodChoices(updatedItems);
+                                                    }}
+                                                >
+                                                    {Object.values(FoodChoice).map((choice) => (
+                                                        <MenuItem key={choice} value={choice}>
+                                                            {choice}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                        <Box
+                                            display="flex"
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            marginBottom={'10px'}
+                                        >
+                                            <Box maxWidth={600} width="100%">
+                                                <TextField
+                                                    label="Food Allergies/Preferences"
+                                                    variant="outlined"
+                                                    value={item.allergies}
+                                                    onChange={(e) => {
+                                                        const allergies = e.target.value;
+                                                        const updatedItems = [...foodChoices];
+                                                        updatedItems[index] = {
+                                                            ...updatedItems[index],
+                                                            allergies: allergies,
+                                                        };
+                                                        setFoodChoices(updatedItems);
+                                                    }}
+                                                    fullWidth
+                                                    multiline
+                                                    minRows={3}
+                                                    maxRows={5}
+                                                />
+                                            </Box>
+                                        </Box>
+                                    </div>
+                                ))}
                             </div>
                         )}
                         {activeStep === 2 && (
@@ -249,13 +287,16 @@ const Rsvp = () => {
                                 <Button
                                     variant="contained"
                                     onClick={handleNext}
-                                    disabled={activeStep === 1 && foodChoice === undefined}
+                                    disabled={
+                                        activeStep === 1 &&
+                                        foodChoices.some((item) => item.choice === null)
+                                    }
                                 >
                                     Next
                                 </Button>
                             )}
                         </Box>
-                        {complete && !attending && (
+                        {!attending && submitted && (
                             <Dialog open={true}>
                                 <DialogTitle>Important Message</DialogTitle>
                                 <DialogContent>
