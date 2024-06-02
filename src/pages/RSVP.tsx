@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
 import {
+    Alert,
     Box,
     Button,
     CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
     Divider,
     FormControl,
     IconButton,
     InputLabel,
     MenuItem,
     Select,
+    Snackbar,
     Step,
     StepLabel,
     Stepper,
@@ -35,8 +33,8 @@ type DisplayFoodChoice = {
 const Rsvp = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
-    const [submitted, setSubmitted] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
+    const [isToastOpen, setIsToastOpen] = useState(false);
 
     const [attending, setAttending] = useState(false);
     const [foodChoices, setFoodChoices] = useState<DisplayFoodChoice[]>([]);
@@ -80,8 +78,8 @@ const Rsvp = () => {
             );
         });
 
-        // TOOD: add toast if update fails
-        setSubmitted(true);
+        setIsLoading(false);
+        setIsToastOpen(true);
     };
 
     useEffect(() => {
@@ -276,11 +274,15 @@ const Rsvp = () => {
                         )}
                         <Divider sx={{ my: 2 }} />
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Button disabled={activeStep === 0} onClick={handleBack}>
+                            <Button disabled={activeStep === 0 || isToastOpen} onClick={handleBack}>
                                 Back
                             </Button>
                             {activeStep === steps.length - 1 || !attending ? (
-                                <Button variant="contained" onClick={handleSubmit}>
+                                <Button
+                                    variant="contained"
+                                    onClick={handleSubmit}
+                                    disabled={isToastOpen}
+                                >
                                     Submit
                                 </Button>
                             ) : (
@@ -296,20 +298,18 @@ const Rsvp = () => {
                                 </Button>
                             )}
                         </Box>
-                        {!attending && submitted && (
-                            <Dialog open={true}>
-                                <DialogTitle>Important Message</DialogTitle>
-                                <DialogContent>
-                                    We understand you're incredibly busy and we're always happy to
-                                    have you if you change your mind.
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={() => navigate('/')} color="primary">
-                                        OK
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
-                        )}
+                        <Snackbar
+                            open={isToastOpen}
+                            autoHideDuration={2000}
+                            onClose={() => {
+                                setIsToastOpen(false);
+                                navigate('/');
+                            }}
+                        >
+                            <Alert severity="success" sx={{ width: '100%' }}>
+                                Updates submitted!
+                            </Alert>
+                        </Snackbar>
                     </Box>
                 </Box>
             )}

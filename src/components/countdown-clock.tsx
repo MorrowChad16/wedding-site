@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-
-interface CountdownClockProps {
-    targetEpochDate: number;
-}
+import { WEDDING_DATE } from '../utils/constants';
 
 type Countdown = {
     years?: number;
@@ -15,17 +12,15 @@ type Countdown = {
     milliseconds?: number;
 };
 
-function CountdownClock({ targetEpochDate }: CountdownClockProps) {
+function CountdownClock() {
     const [isCountdownComplete, setIsCountdownComplete] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState<Countdown>({});
 
     useEffect(() => {
-        const targetDate = new Date(targetEpochDate);
-
         const updateCountdown = () => {
             const now = new Date();
             let timeRemainingObj: Countdown = {};
-            const difference = targetDate.getTime() - now.getTime();
+            const difference = WEDDING_DATE.getTime() - now.getTime();
             const years = Math.floor(difference / (1000 * 60 * 60 * 24 * 365));
             if (years > 0) {
                 timeRemainingObj.years = years;
@@ -59,7 +54,7 @@ function CountdownClock({ targetEpochDate }: CountdownClockProps) {
         const intervalId = setInterval(updateCountdown, 10);
 
         return () => clearInterval(intervalId);
-    }, [targetEpochDate]);
+    }, []);
 
     return (
         <Grid container spacing={5} justifyContent="center">

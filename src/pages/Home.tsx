@@ -6,14 +6,14 @@ import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import image0 from '../assets/images/display/IMG_5772.jpeg';
 import image10 from '../assets/images/display/IMG_9220.jpeg';
 import { extractFilenameFromImport } from '../utils/utilities';
+import { WEDDING_DATE } from '../utils/constants';
 
 export default function Home() {
-    const weddingDate = new Date(1748217600000);
     const formattedDate = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-    }).format(weddingDate);
+    }).format(WEDDING_DATE);
     const [activeStep, setActiveStep] = React.useState(0);
     const images = [image0, image10];
     const maxSteps = images ? Object.entries(images).length : 0;
@@ -104,7 +104,7 @@ export default function Home() {
                 </Grid>
 
                 <Box marginBottom={'40px'}>
-                    <CountdownClock targetEpochDate={weddingDate.getTime()} />
+                    <CountdownClock />
                 </Box>
             </div>
         </PageContainer>
