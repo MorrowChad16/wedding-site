@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Box, Divider, Grid, IconButton, MobileStepper, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {
+    Box,
+    Divider,
+    Grid,
+    IconButton,
+    MobileStepper,
+    Typography,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material';
 import PageContainer from '../components/PageContainer';
 import CountdownClock from '../components/countdown-clock';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
@@ -21,7 +30,7 @@ export default function Home() {
     const images = [image0, image10];
     const maxSteps = images ? Object.entries(images).length : 0;
     const [imageLoading, setImageLoading] = useState(true);
-    
+
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -40,7 +49,11 @@ export default function Home() {
                     alignItems: 'center',
                 }}
             >
-                <Box width={{ xs: '100%', sm: '100%', md: '600px', lg: '600px' }} flexGrow={1} position={'relative'}>
+                <Box
+                    width={{ xs: '100%', sm: '100%', md: '600px', lg: '600px' }}
+                    flexGrow={1}
+                    position={'relative'}
+                >
                     <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
                         <div
                             style={{
@@ -85,7 +98,11 @@ export default function Home() {
                 </Box>
 
                 <Box textAlign={'center'}>
-                    <Typography variant="h2" fontWeight={'bold'} fontSize={isSmallScreen ? '3rem' : '4rem'}>
+                    <Typography
+                        variant="h2"
+                        fontWeight={'bold'}
+                        fontSize={isSmallScreen ? '3rem' : '4rem'}
+                    >
                         Ciara and Chad
                     </Typography>
 
