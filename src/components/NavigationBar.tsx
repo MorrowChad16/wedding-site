@@ -23,6 +23,7 @@ import {
 } from '@mui/material';
 import { isValidEmail } from '../api/use-guests';
 import { SharedVariableContext } from '../utils/shared-context';
+import { PAST_DUE_DATE } from '../utils/constants';
 
 function NavigationBar() {
     const { theme } = useContext(ThemeContext);
@@ -49,7 +50,7 @@ function NavigationBar() {
             }}
             sx={{ width: '100%' }}
         >
-            RSVP
+            {PAST_DUE_DATE ? 'See Details' : 'RSVP'}
         </Button>
     );
 
