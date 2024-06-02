@@ -30,7 +30,7 @@ function PageContainer({ children }: PageContainerProps) {
         <Container
             maxWidth="lg"
             sx={{
-                paddingTop: open ? '80px' : '100px',
+                pt: open ? '80px' : '100px',
                 alignItems: 'center',
                 justifyContent: 'center',
             }}
@@ -39,7 +39,7 @@ function PageContainer({ children }: PageContainerProps) {
                 <Alert
                     severity="warning"
                     variant="filled"
-                    sx={{ borderRadius: '10px', marginBottom: '20px' }}
+                    sx={{ borderRadius: '10px', mb: '20px' }}
                 >
                     The RSVP window is closing soon! You have until August 10th to submit your
                     details.

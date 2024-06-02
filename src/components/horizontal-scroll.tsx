@@ -7,22 +7,22 @@ interface HorizontalScrollProps {
 export default function HorizontalScroll({ children }: HorizontalScrollProps) {
     return (
         <Box
+            display={'flex'}
+            mb={4}
+            whiteSpace={'nowrap'}
+            p={8}
             sx={{
-                display: 'flex',
                 overflowX: 'auto',
                 overflowY: 'hidden',
-                whiteSpace: 'nowrap',
-                padding: '8px',
                 // Scroll bar
                 '&::-webkit-scrollbar': {
                     height: '8px',
                 },
                 // Scroll bar
                 '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: 'grey',
+                    bgcolor: 'grey',
                     borderRadius: '4px',
                 },
-                marginBottom: 4,
             }}
         >
             {children}

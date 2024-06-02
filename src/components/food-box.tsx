@@ -18,11 +18,11 @@ export default function FoodBox({ image, imageAlt, description, sxOverride }: Fo
             sx={{
                 border: `1px solid ${theme.palette.primary.main}`,
                 borderRadius: '10px',
-                padding: 4,
+                p: 4,
                 ...sxOverride,
             }}
         >
-            <Box display="flex" justifyContent="center" marginBottom={4}>
+            <Box display="flex" justifyContent="center" mb={4}>
                 <CardMedia
                     component="img"
                     image={image}

@@ -72,14 +72,14 @@ export default function Food() {
     return (
         <PageContainer>
             {isLoadingMainChoice ? (
-                <Box display="flex" justifyContent="center" alignItems="center" margin={'50px'}>
+                <Box display="flex" justifyContent="center" alignItems="center" m={'50px'}>
                     <CircularProgress />
                 </Box>
             ) : (
                 <Grid container spacing={2} justifyContent="center">
                     {mainChoice ? (
                         <div>
-                            <Grid container justifyContent="center" marginTop={5} marginBottom={5}>
+                            <Grid container justifyContent="center" my={5}>
                                 <Grid item xs={12} sm={8} md={6}>
                                     <FormControl fullWidth>
                                         <InputLabel id="food-choice-label">Main Dish</InputLabel>
@@ -102,10 +102,7 @@ export default function Food() {
                                 </Grid>
                             </Grid>
                             <Grid item>
-                                <Typography
-                                    variant="h3"
-                                    sx={{ textAlign: 'center', marginBottom: 2 }}
-                                >
+                                <Typography variant="h3" textAlign={'center'} mb={2}>
                                     Main Dish
                                 </Typography>
                                 <FoodBox
@@ -123,7 +120,7 @@ export default function Food() {
                     )}
 
                     <Grid item>
-                        <Typography variant="h3" sx={{ textAlign: 'center', marginBottom: 2 }}>
+                        <Typography variant="h3" textAlign={'center'} mb={2}>
                             Side Dishes
                         </Typography>
                         <Box display="flex" flexDirection="row">
@@ -133,14 +130,14 @@ export default function Food() {
                                     image={dish.image}
                                     imageAlt={dish.imageAlt}
                                     description={dish.description}
-                                    sxOverride={{ marginRight: index === 0 ? 4 : 0 }}
+                                    sxOverride={{ mr: index === 0 ? 4 : 0 }}
                                 />
                             ))}
                         </Box>
                     </Grid>
 
                     <Grid item>
-                        <Typography variant="h3" sx={{ textAlign: 'center', marginBottom: 2 }}>
+                        <Typography variant="h3" textAlign={'center'} mb={2}>
                             Dessert
                         </Typography>
                         <FoodBox

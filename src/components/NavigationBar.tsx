@@ -48,7 +48,7 @@ function NavigationBar() {
                 setCurrentPage('RSVP');
                 navigate('/rsvp');
             }}
-            sx={{ width: '100%' }}
+            fullWidth
         >
             {PAST_DUE_DATE ? 'See Details' : 'RSVP'}
         </Button>
@@ -102,15 +102,13 @@ function NavigationBar() {
                         }}
                     >
                         <Box
-                            sx={{
-                                flexGrow: 1,
-                                display: 'flex',
-                                alignItems: 'center',
-                                ml: '-18px',
-                                px: 0,
-                            }}
+                            flexGrow={1}
+                            display={'flex'}
+                            alignItems={'center'}
+                            ml={'-18px'}
+                            px={0}
                         >
-                            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <Box display={{ xs: 'none', md: 'flex' }}>
                                 {pages.map((page) => (
                                     <MenuItem
                                         key={page.displayName}
@@ -146,16 +144,10 @@ function NavigationBar() {
                                 ))}
                             </Box>
                         </Box>
-                        <Box
-                            sx={{
-                                display: { xs: 'none', md: 'flex' },
-                                gap: 0.5,
-                                alignItems: 'center',
-                            }}
-                        >
+                        <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
                             {RsvpButton}
                         </Box>
-                        <Box sx={{ display: { sm: '', md: 'none' } }}>
+                        <Box display={{ sm: '', md: 'none' }}>
                             <Button
                                 variant="text"
                                 color="primary"
@@ -167,12 +159,10 @@ function NavigationBar() {
                             </Button>
                             <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
                                 <Box
-                                    sx={{
-                                        minWidth: '60dvw',
-                                        p: 2,
-                                        backgroundColor: 'background.paper',
-                                        flexGrow: 1,
-                                    }}
+                                    minWidth={'60dvw'}
+                                    p={2}
+                                    bgcolor={'background.paper'}
+                                    flexGrow={1}
                                 >
                                     {pages.map((page) => (
                                         <MenuItem
@@ -214,7 +204,7 @@ function NavigationBar() {
             >
                 <DialogTitle>Login</DialogTitle>
                 <DialogContent>
-                    <DialogContentText sx={{ marginBottom: 2 }}>
+                    <DialogContentText mb={2}>
                         Enter your email to view your selections. Each 'party' will share the same
                         email across all guests.
                     </DialogContentText>

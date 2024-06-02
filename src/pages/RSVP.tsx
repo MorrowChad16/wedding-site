@@ -150,7 +150,7 @@ const Rsvp = () => {
 
                     <div>
                         {foodChoices.map((guest) => (
-                            <Box sx={{ mb: 5 }}>
+                            <Box mb={5}>
                                 <Typography variant="h6">{guest.name}</Typography>
                                 <FormControl component="fieldset" sx={{ mb: 2 }}>
                                     <FormLabel component="legend">Food Choice</FormLabel>
@@ -202,23 +202,15 @@ const Rsvp = () => {
                             </Step>
                         ))}
                     </Stepper>
-                    <Box sx={{ p: 2 }}>
+                    <Box p={2}>
                         {activeStep === 0 && (
                             <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    width: '100%',
-                                }}
+                                display={'flex'}
+                                flexDirection={'column'}
+                                alignItems={'center'}
+                                width={'100%'}
                             >
-                                <Typography
-                                    sx={{
-                                        marginBottom: 2,
-                                    }}
-                                >
-                                    Are you attending the wedding?
-                                </Typography>
+                                <Typography mb={2}>Are you attending the wedding?</Typography>
                                 <Box>
                                     <Button
                                         variant={attending ? 'contained' : 'outlined'}
@@ -243,12 +235,7 @@ const Rsvp = () => {
                                         <Typography align="center" variant="h4">
                                             {item.name}
                                         </Typography>
-                                        <Box
-                                            display="flex"
-                                            justifyContent="center"
-                                            mt={2}
-                                            sx={{ marginBottom: 2 }}
-                                        >
+                                        <Box display="flex" justifyContent="center" my={2}>
                                             <FormControl sx={{ width: '40%' }}>
                                                 <InputLabel>Main Course</InputLabel>
                                                 <Select
@@ -277,7 +264,7 @@ const Rsvp = () => {
                                             display="flex"
                                             justifyContent="center"
                                             alignItems="center"
-                                            marginBottom={'10px'}
+                                            mb={10}
                                         >
                                             <Box maxWidth={600} width="100%">
                                                 <TextField
@@ -306,7 +293,7 @@ const Rsvp = () => {
                         )}
                         {activeStep === 2 && (
                             <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-                                <Box mb={2} sx={{ width: '40%' }}>
+                                <Box mb={2} width={'40%'}>
                                     <TextField
                                         label="Enter a song"
                                         value={newSong}
@@ -348,7 +335,7 @@ const Rsvp = () => {
                             </Box>
                         )}
                         <Divider sx={{ my: 2 }} />
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Box display={'flex'} justifyContent={'space-between'}>
                             <Button disabled={activeStep === 0 || isToastOpen} onClick={handleBack}>
                                 Back
                             </Button>

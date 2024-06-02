@@ -127,61 +127,46 @@ END:VCALENDAR`;
                 sx={{
                     border: `1px solid ${theme.palette.primary.main}`,
                     borderRadius: '10px',
-                    padding: 4,
+                    p: 4,
                     width: '540px',
                 }}
             >
                 <Typography
                     variant="h3"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: 1,
-                    }}
+                    display={'flex'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    mb={1}
                 >
                     {formattedDate}
                 </Typography>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: 1,
-                    }}
-                >
+                <Box display={'flex'} alignItems={'center'} justifyContent={'center'} mb={1}>
                     {<img src={iconAsset} width={60} height={60} alt="Image Description" />}
                 </Box>
                 <Typography
                     variant="h6"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: 1,
-                    }}
+                    display={'flex'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    mb={1}
                 >
                     {title}
                 </Typography>
                 <Typography
                     variant="body1"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: 1,
-                    }}
+                    display={'flex'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    mb={1}
                 >
                     {formatTimeRange(startTime, endTime)}
                 </Typography>
                 <Typography
                     variant="body1"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: 1,
-                    }}
+                    display={'flex'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    mb={1}
                 >
                     {formality}
                 </Typography>

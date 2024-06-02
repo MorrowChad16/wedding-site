@@ -99,7 +99,7 @@ export default function Travel() {
     return (
         <PageContainer>
             <div>
-                <Typography variant="h3" sx={{ marginBottom: 4 }}>
+                <Typography variant="h3" mb={4}>
                     Hotels
                 </Typography>
                 <HorizontalScroll>
@@ -108,30 +108,21 @@ export default function Travel() {
                             key={hotel.name}
                             elevation={4}
                             sx={{
-                                border: `1px solid ${theme.palette.primary.main}`,
+                                bborder: `1px solid ${theme.palette.primary.main}`,
                                 borderRadius: '10px',
-                                marginRight: '24px',
+                                mr: '24px',
                                 width: '400px',
                             }}
                         >
-                            <Box sx={{ padding: 2 }}>
-                                <Typography
-                                    variant="h5"
-                                    gutterBottom
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                    }}
-                                >
+                            <Box p={2}>
+                                <Typography variant="h5" gutterBottom mb={2} textAlign={'center'}>
                                     {hotel.name}
                                 </Typography>
                                 <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        marginBottom: 2,
-                                    }}
+                                    display={'flex'}
+                                    alignItems={'center'}
+                                    justifyContent={'center'}
+                                    mb={2}
                                 >
                                     <img
                                         src={hotel.image}
@@ -145,30 +136,24 @@ export default function Travel() {
                                 <Typography
                                     variant="body1"
                                     gutterBottom
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                    }}
+                                    textAlign={'center'}
+                                    mb={2}
                                 >
                                     {hotel.address}
                                 </Typography>
                                 <Typography
                                     variant="body1"
                                     gutterBottom
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                    }}
+                                    textAlign={'center'}
+                                    mb={2}
                                 >
                                     {hotel.phone}
                                 </Typography>
                                 <Typography
                                     variant="body2"
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                        whiteSpace: 'normal',
-                                    }}
+                                    textAlign={'center'}
+                                    mb={2}
+                                    whiteSpace={'normal'}
                                 >
                                     {hotel.description}
                                 </Typography>
@@ -179,7 +164,7 @@ export default function Travel() {
                                     onClick={() => openInNewWindow(hotel.websiteUrl)}
                                     sx={{
                                         display: 'block',
-                                        margin: '0 auto',
+                                        m: '0 auto',
                                     }}
                                 >
                                     Website
@@ -189,7 +174,7 @@ export default function Travel() {
                     ))}
                 </HorizontalScroll>
 
-                <Typography variant="h3" sx={{ marginBottom: 4 }}>
+                <Typography variant="h3" mb={4}>
                     Airports
                 </Typography>
                 <HorizontalScroll>
@@ -200,38 +185,27 @@ export default function Travel() {
                             sx={{
                                 border: `1px solid ${theme.palette.primary.main}`,
                                 borderRadius: '10px',
-                                marginRight: '24px',
+                                mr: '24px',
                                 width: '400px',
                             }}
                         >
-                            <Box sx={{ padding: 2 }}>
-                                <Typography
-                                    variant="h5"
-                                    gutterBottom
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                    }}
-                                >
+                            <Box p={2}>
+                                <Typography variant="h5" gutterBottom textAlign={'center'} mb={2}>
                                     {airport.name}
                                 </Typography>
                                 <Typography
                                     variant="body1"
                                     gutterBottom
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                    }}
+                                    textAlign={'center'}
+                                    mb={2}
                                 >
                                     {airport.address}
                                 </Typography>
                                 <Typography
                                     variant="body2"
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                        whiteSpace: 'normal',
-                                    }}
+                                    textAlign={'center'}
+                                    mb={2}
+                                    whiteSpace={'normal'}
                                 >
                                     {airport.description}
                                 </Typography>
@@ -240,7 +214,7 @@ export default function Travel() {
                     ))}
                 </HorizontalScroll>
 
-                <Typography variant="h3" sx={{ marginTop: 4, marginBottom: 4 }}>
+                <Typography variant="h3" my={4}>
                     Transportation
                 </Typography>
                 <HorizontalScroll>
@@ -251,28 +225,19 @@ export default function Travel() {
                             sx={{
                                 border: `1px solid ${theme.palette.primary.main}`,
                                 borderRadius: '10px',
-                                marginRight: '24px',
+                                mr: '24px',
                                 width: '400px',
                             }}
                         >
-                            <Box sx={{ padding: 2 }}>
-                                <Typography
-                                    variant="h5"
-                                    gutterBottom
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                    }}
-                                >
+                            <Box p={2}>
+                                <Typography variant="h5" gutterBottom textAlign={'center'} mb={2}>
                                     {service.name}
                                 </Typography>
                                 <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        marginBottom: 2,
-                                    }}
+                                    display={'flex'}
+                                    alignItems={'center'}
+                                    justifyContent={'center'}
+                                    mb={2}
                                 >
                                     <img
                                         src={service.image}
@@ -285,11 +250,10 @@ export default function Travel() {
                                 </Box>
                                 <Typography
                                     variant="body2"
-                                    sx={{
-                                        textAlign: 'center',
-                                        marginBottom: 2,
-                                        whiteSpace: 'normal',
-                                    }}
+                                    display={'flex'}
+                                    textAlign={'center'}
+                                    whiteSpace={'normal'}
+                                    mb={2}
                                 >
                                     {service.description}
                                 </Typography>
@@ -300,7 +264,7 @@ export default function Travel() {
                                     onClick={() => openInNewWindow(service.websiteUrl)}
                                     sx={{
                                         display: 'block',
-                                        margin: '0 auto',
+                                        m: '0 auto',
                                     }}
                                 >
                                     Website

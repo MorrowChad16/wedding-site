@@ -37,8 +37,8 @@ export default function Home() {
                     alignItems: 'center',
                 }}
             >
-                <Box sx={{ width: 600, flexGrow: 1, position: 'relative' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Box width={600} flexGrow={1} position={'relative'}>
+                    <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
                         <div
                             style={{
                                 width: '100%',
@@ -81,12 +81,12 @@ export default function Home() {
                     />
                 </Box>
 
-                <Box sx={{ textAlign: 'center' }}>
-                    <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+                <Box textAlign={'center'}>
+                    <Typography variant="h2" fontWeight={'bold'}>
                         Ciara and Chad
                     </Typography>
 
-                    <Box paddingTop={'20px'}>
+                    <Box pt={'20px'}>
                         <Grid container spacing={2} alignItems="center" justifyContent="center">
                             <Grid item>
                                 <Typography variant="body2">Mallorca, Spain</Typography>
@@ -109,19 +109,13 @@ export default function Home() {
                     </Box>
                 </Box>
 
-                <Grid
-                    container
-                    spacing={2}
-                    alignItems="center"
-                    justifyContent="center"
-                    padding={'10px'}
-                >
+                <Grid container spacing={2} alignItems="center" justifyContent="center" p={'10px'}>
                     <Grid item>
                         <Divider sx={{ width: '500px', borderRightWidth: '1px' }} />
                     </Grid>
                 </Grid>
 
-                <Box marginBottom={'40px'}>
+                <Box mb="40">
                     <CountdownClock />
                 </Box>
             </div>

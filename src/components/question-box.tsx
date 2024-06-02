@@ -24,7 +24,7 @@ export function QuestionAnswerBox({
         <Container
             maxWidth="lg"
             sx={{
-                marginBottom: 2,
+                mb: 2,
                 width: '80%',
             }}
         >
