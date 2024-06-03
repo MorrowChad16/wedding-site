@@ -1,11 +1,4 @@
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Box,
-    Container,
-    Typography,
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface QuestionAnswerBoxProps {
@@ -32,7 +25,7 @@ export function QuestionAnswerBox({
                     <Typography variant="h6">{question}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography variant='body1'>{answer}</Typography>
+                    <Typography variant="body1">{answer}</Typography>
                 </AccordionDetails>
             </Accordion>
         </Box>

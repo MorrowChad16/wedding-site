@@ -46,7 +46,7 @@ export default function FAQ(): JSX.Element {
 
     return (
         <PageContainer>
-            <Box margin="0 auto" width={{ xs: '100%', sm: '100%', md: '80%', lg: '80%'}}>
+            <Box margin="0 auto" width={{ xs: '100%', sm: '100%', md: '80%', lg: '80%' }}>
                 {faqItems.map((item) => (
                     <QuestionAnswerBox
                         key={item.id}
