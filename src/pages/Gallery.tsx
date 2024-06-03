@@ -33,7 +33,7 @@ export default function Gallery() {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+    const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
     const cols = isSmallScreen ? 1 : isMediumScreen ? 2 : isLargeScreen ? 3 : 4;
 
     return (

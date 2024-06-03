@@ -19,7 +19,7 @@ function PageContainer({ children }: PageContainerProps) {
 
     return (
         <Container
-            maxWidth="lg"
+            maxWidth="xl"
             sx={{
                 pt: isWithin30Days() && !hasSubmitted ? '80px' : '100px',
                 alignItems: 'center',

@@ -84,7 +84,7 @@ function NavigationBar() {
                     mt: 2,
                 }}
             >
-                <Container maxWidth="lg">
+                <Container maxWidth="xl">
                     <Toolbar
                         variant="regular"
                         sx={{
