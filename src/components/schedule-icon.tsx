@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import { Box, Button, Grid, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
 import ThemeContext from './use-theme-context';
 
 interface ScheduleIconProps {
@@ -23,6 +23,9 @@ function ScheduleIcon({
     formality,
     location,
 }: ScheduleIconProps) {
+    const muiTheme = useTheme();
+    const isSmallScreen = useMediaQuery(muiTheme.breakpoints.down('md'));
+
     const formattedDate = new Intl.DateTimeFormat('en-US', {
         weekday: 'long',
         month: 'long',
@@ -121,53 +124,41 @@ END:VCALENDAR`;
     };
 
     return (
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={12}>
             <Paper
                 elevation={4}
                 sx={{
                     border: `1px solid ${theme.palette.primary.main}`,
                     borderRadius: '10px',
                     p: 4,
-                    width: '540px',
+                    width: { sm: '100%', md: '100%', lg: '540px' },
                 }}
             >
                 <Typography
                     variant="h3"
-                    display={'flex'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
+                    fontSize={isSmallScreen ? '2rem' : '3rem'}
+                    textAlign="center"
                     mb={1}
                 >
                     {formattedDate}
                 </Typography>
                 <Box display={'flex'} alignItems={'center'} justifyContent={'center'} mb={1}>
-                    {<img src={iconAsset} width={60} height={60} alt="Image Description" />}
+                    {
+                        <img
+                            src={iconAsset}
+                            width={isSmallScreen ? 40 : 60}
+                            height={isSmallScreen ? 40 : 60}
+                            alt="Image Description"
+                        />
+                    }
                 </Box>
-                <Typography
-                    variant="h6"
-                    display={'flex'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    mb={1}
-                >
+                <Typography variant="h6" textAlign="center" mb={1}>
                     {title}
                 </Typography>
-                <Typography
-                    variant="body1"
-                    display={'flex'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    mb={1}
-                >
+                <Typography variant="body1" textAlign="center" mb={1}>
                     {formatTimeRange(startTime, endTime)}
                 </Typography>
-                <Typography
-                    variant="body1"
-                    display={'flex'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    mb={1}
-                >
+                <Typography variant="body1" textAlign="center" mb={1}>
                     {formality}
                 </Typography>
                 <Box textAlign={'center'}>
