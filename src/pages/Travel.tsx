@@ -116,18 +116,14 @@ export default function Travel() {
                                 <Typography variant="h5" gutterBottom mb={2} textAlign={'center'}>
                                     {hotel.name}
                                 </Typography>
-                                <Box
-                                    display={'flex'}
-                                    alignItems={'center'}
-                                    justifyContent={'center'}
-                                    mb={2}
-                                >
+                                <Box display="flex" justifyContent="center" mb={2}>
                                     <img
                                         src={hotel.image}
                                         alt={`hotel-${index}`}
                                         style={{
                                             width: '100%',
                                             height: 'auto',
+                                            borderRadius: '10px',
                                         }}
                                     />
                                 </Box>
@@ -225,6 +221,7 @@ export default function Travel() {
                                 borderRadius: '10px',
                                 mr: '24px',
                                 width: '400px',
+                                minWidth: '250px',
                             }}
                         >
                             <Box p={2}>
@@ -243,14 +240,16 @@ export default function Travel() {
                                         style={{
                                             width: '100%',
                                             height: 'auto',
+                                            borderRadius: '10px',
                                         }}
                                     />
                                 </Box>
                                 <Typography
                                     variant="body2"
                                     display={'flex'}
-                                    textAlign={'center'}
+                                    justifyContent={'center'}
                                     whiteSpace={'normal'}
+                                    textAlign="center"
                                     mb={2}
                                 >
                                     {service.description}

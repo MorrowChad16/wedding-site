@@ -131,7 +131,6 @@ END:VCALENDAR`;
                     border: `1px solid ${theme.palette.primary.main}`,
                     borderRadius: '10px',
                     p: 4,
-                    width: { sm: '100%', md: '100%', lg: '540px' },
                 }}
             >
                 <Typography
@@ -142,7 +141,7 @@ END:VCALENDAR`;
                 >
                     {formattedDate}
                 </Typography>
-                <Box display={'flex'} alignItems={'center'} justifyContent={'center'} mb={1}>
+                <Box display="flex" justifyContent="center" mb={1}>
                     {
                         <img
                             src={iconAsset}

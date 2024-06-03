@@ -1,5 +1,3 @@
-// @ts-ignore
-import React from 'react';
 import PageContainer from '../components/PageContainer';
 import ScheduleIcon from '../components/schedule-icon';
 import gathering from '../assets/icons/gathering.png';
@@ -43,7 +41,12 @@ export default function Schedule() {
 
     return (
         <PageContainer>
-            <Grid container direction="column" spacing={2} alignItems="center" width="100%">
+            <Grid
+                container
+                spacing={2}
+                margin="0 auto"
+                width={{ xs: '100%', sm: '540px', md: '540px', lg: '540px' }}
+            >
                 {scheduleItems.map((item) => (
                     <ScheduleIcon
                         key={item.uid}
