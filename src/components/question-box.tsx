@@ -2,6 +2,7 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
+    Box,
     Container,
     Typography,
 } from '@mui/material';
@@ -21,25 +22,19 @@ export function QuestionAnswerBox({
     handleChange,
 }: QuestionAnswerBoxProps) {
     return (
-        <Container
-            maxWidth="lg"
-            sx={{
-                mb: 2,
-                width: '80%',
-            }}
-        >
+        <Box mb={2}>
             <Accordion expanded={expanded} onChange={handleChange}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel-content"
                     id="panel-header"
                 >
-                    <Typography variant="h5">{question}</Typography>
+                    <Typography variant="h6">{question}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>{answer}</Typography>
+                    <Typography variant='body1'>{answer}</Typography>
                 </AccordionDetails>
             </Accordion>
-        </Container>
+        </Box>
     );
 }

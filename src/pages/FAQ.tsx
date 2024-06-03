@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { QuestionAnswerBox } from '../components/question-box';
 import PageContainer from '../components/PageContainer';
+import { Box } from '@mui/material';
 
 export default function FAQ(): JSX.Element {
     const [expandedPanels, setExpandedPanels] = useState<string[]>([]);
@@ -45,7 +46,7 @@ export default function FAQ(): JSX.Element {
 
     return (
         <PageContainer>
-            <div>
+            <Box margin="0 auto" width={{ xs: '100%', sm: '100%', md: '80%', lg: '80%'}}>
                 {faqItems.map((item) => (
                     <QuestionAnswerBox
                         key={item.id}
@@ -55,7 +56,7 @@ export default function FAQ(): JSX.Element {
                         handleChange={() => handlePanelChange(item.id)}
                     />
                 ))}
-            </div>
+            </Box>
         </PageContainer>
     );
 }

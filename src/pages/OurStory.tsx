@@ -34,7 +34,7 @@ export default function OurStory() {
 
     return (
         <PageContainer>
-            <Box width={'fit-content'} m={'0 auto'} maxWidth={'60%'}>
+            <Box m={'0 auto'} width={{ xs: '100%', sm: '100%', md: '60%', lg: '60%' }}>
                 <Timeline position="alternate">
                     {timelineData.map((event, index) => (
                         <TimelineItem key={index}>

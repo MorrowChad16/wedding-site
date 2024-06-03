@@ -1,5 +1,5 @@
 import PageContainer from '../components/PageContainer';
-import { ImageList, ImageListItem } from '@mui/material';
+import { ImageList, ImageListItem, useMediaQuery, useTheme } from '@mui/material';
 import image0 from '../assets/images/display/IMG_5772.jpeg';
 import image1 from '../assets/images/display/IMG_5841.jpeg';
 import image2 from '../assets/images/display/IMG_6574.jpeg';
@@ -30,9 +30,15 @@ const images = [
 ];
 
 export default function Gallery() {
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+    const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+    const cols = isSmallScreen ? 1 : isMediumScreen ? 2 : isLargeScreen ? 3 : 4;
+
     return (
         <PageContainer>
-            <ImageList variant="masonry" cols={3} gap={8}>
+            <ImageList variant="masonry" cols={cols} gap={8}>
                 {Object.values(images).map((image) => (
                     <ImageListItem key={extractFilenameFromImport(image)}>
                         <img
