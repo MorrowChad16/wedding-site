@@ -1,33 +1,46 @@
 import PageContainer from '../components/PageContainer';
-import { ImageList, ImageListItem, useMediaQuery, useTheme } from '@mui/material';
-import image0 from '../assets/images/display/IMG_5772.jpeg';
-import image1 from '../assets/images/display/IMG_5841.jpeg';
-import image2 from '../assets/images/display/IMG_6574.jpeg';
-import image3 from '../assets/images/display/IMG_6622.jpeg';
-import image4 from '../assets/images/display/IMG_7415.jpeg';
-import image5 from '../assets/images/display/IMG_7556.jpeg';
-import image6 from '../assets/images/display/IMG_8086.jpeg';
-import image7 from '../assets/images/display/IMG_8636.jpeg';
-import image8 from '../assets/images/display/IMG_9055.jpeg';
-import image9 from '../assets/images/display/IMG_9191.jpeg';
-import image10 from '../assets/images/display/IMG_9220.jpeg';
-import image11 from '../assets/images/display/IMG_9238.jpeg';
-import { extractFilenameFromImport } from '../utils/utilities';
+import { ImageList, ImageListItem, styled, useMediaQuery, useTheme } from '@mui/material';
+import { useState } from 'react';
 
-const images = [
-    image1,
-    image2,
-    image4,
-    image0,
-    image3,
-    image6,
-    image8,
-    image5,
-    image7,
-    image9,
-    image10,
-    image11,
-];
+// Define the type for our image module
+interface ImageModule {
+    default: string;
+  }
+  
+// Use import.meta.glob to import all images
+const imageModules = import.meta.glob<ImageModule>('../assets/images/display/*.(png|jpg|jpeg|svg)', { eager: true });
+
+// Convert the modules object into an array of image objects
+const images = Object.entries(imageModules).map(([path, module]) => ({
+    src: module.default,
+    title: path.split('/').pop()?.replace(/\.(png|jpe?g|svg)$/, '') || '',
+}));
+
+const StyledImageListItem = styled(ImageListItem)({
+    overflow: 'hidden',
+    borderRadius: '10px',
+    '& img': {
+        width: '100%',
+        height: 'auto',
+        display: 'block',
+        // aspectRatio: '1 / 1',
+        objectFit: 'cover',
+        transition: 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out',
+    },
+  });
+
+// Styled component for the image
+const AnimatedImg = styled('img')({
+    transition: 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out',
+    '&.loading': {
+      opacity: 0,
+      transform: 'scale(0.8)',
+    },
+    '&.loaded': {
+      opacity: 1,
+      transform: 'scale(1)',
+    },
+  });
 
 export default function Gallery() {
     const theme = useTheme();
@@ -35,19 +48,26 @@ export default function Gallery() {
     const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
     const cols = isSmallScreen ? 1 : isMediumScreen ? 2 : isLargeScreen ? 3 : 4;
+    const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+
+    const handleImageLoad = (src: string) => {
+        setLoadedImages(prev => new Set(prev).add(src));
+    };
 
     return (
         <PageContainer>
             <ImageList variant="masonry" cols={cols} gap={8}>
-                {Object.values(images).map((image) => (
-                    <ImageListItem key={extractFilenameFromImport(image)}>
-                        <img
-                            srcSet={`${image}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                            src={`${image}?w=248&fit=crop&auto=format`}
-                            alt={extractFilenameFromImport(image)}
-                            loading="eager"
+                {Object.values(images).map((item) => (
+                    <StyledImageListItem key={item.src}>
+                        <AnimatedImg
+                            srcSet={`${item.src}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                            src={`${item.src}?w=248&fit=crop&auto=format`}
+                            alt={item.title}
+                            loading="lazy"
+                            className={loadedImages.has(item.src) ? 'loaded' : 'loading'}
+                            onLoad={() => handleImageLoad(item.src)}
                         />
-                    </ImageListItem>
+                    </StyledImageListItem>
                 ))}
             </ImageList>
         </PageContainer>

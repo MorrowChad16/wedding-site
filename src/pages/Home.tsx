@@ -12,8 +12,8 @@ import {
 import PageContainer from '../components/PageContainer';
 import CountdownClock from '../components/countdown-clock';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import image0 from '../assets/images/display/IMG_5772.jpeg';
-import image10 from '../assets/images/display/IMG_9220.jpeg';
+import image0 from '../assets/images/home/IMG_5772.jpeg';
+import image1 from '../assets/images/home/IMG_9220.jpeg';
 import { extractFilenameFromImport } from '../utils/utilities';
 import { WEDDING_DATE } from '../utils/constants';
 
@@ -27,7 +27,7 @@ export default function Home() {
         day: 'numeric',
     }).format(WEDDING_DATE);
     const [activeStep, setActiveStep] = useState(0);
-    const images = [image0, image10];
+    const images = [image0, image1];
     const maxSteps = images ? Object.entries(images).length : 0;
     const [imageLoading, setImageLoading] = useState(true);
 
