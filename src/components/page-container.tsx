@@ -1,8 +1,7 @@
-import { useContext } from 'react';
 import { Alert, Container, Grid, useMediaQuery, useTheme } from '@mui/material';
 import { WEDDING_DATE } from '../utils/constants';
 import { hasSubmittedRsvp } from '../api/use-guests';
-import { SharedVariableContext } from '../utils/shared-context';
+import { useStore } from '../api/use-store';
 
 interface PageContainerProps {
     children: JSX.Element;
@@ -18,7 +17,7 @@ function PageContainer({
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { email } = useContext(SharedVariableContext);
+    const { email } = useStore();
     const isWithin30Days = (): boolean => {
         const timeDiff = Math.abs(WEDDING_DATE.getTime() - new Date().getTime());
         const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));

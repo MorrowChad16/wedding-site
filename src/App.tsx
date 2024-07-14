@@ -4,15 +4,11 @@ import Schedule from './pages/Schedule';
 import Food from './pages/Food';
 import Travel from './pages/Travel';
 import FAQ from './pages/FAQ';
-import Registry from './pages/Registry';
 import NavigationBar from './components/navigation-bar';
-import { ThemeProvider } from '@emotion/react';
-import { createTheme } from '@mui/material';
-import ThemeContext from './components/use-theme-context';
+import { ThemeProvider, createTheme } from '@mui/material';
 import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
 import Rsvp from './pages/RSVP';
-import { SharedVariableProvider } from './utils/shared-context';
 
 export type Page = {
     path: string;
@@ -54,24 +50,16 @@ export default function App() {
     });
 
     return (
-        <SharedVariableProvider>
-            <ThemeProvider theme={myTheme}>
-                <ThemeContext.Provider value={{ theme: myTheme }}>
-                    <BrowserRouter>
-                        <NavigationBar />
-                        <Routes>
-                            {pages.map((route) => (
-                                <Route
-                                    key={route.path}
-                                    path={route.path}
-                                    element={route.component}
-                                />
-                            ))}
-                            <Route key={'/rsvp'} path={'/rsvp'} element={<Rsvp />} />
-                        </Routes>
-                    </BrowserRouter>
-                </ThemeContext.Provider>
-            </ThemeProvider>
-        </SharedVariableProvider>
+        <ThemeProvider theme={myTheme}>
+            <BrowserRouter>
+                <NavigationBar />
+                <Routes>
+                    {pages.map((route) => (
+                        <Route key={route.path} path={route.path} element={route.component} />
+                    ))}
+                    <Route key={'/rsvp'} path={'/rsvp'} element={<Rsvp />} />
+                </Routes>
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }

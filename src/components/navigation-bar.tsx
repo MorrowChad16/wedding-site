@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,7 +11,6 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Page, pages } from '../App';
-import ThemeContext from './use-theme-context';
 import homeIconUrl from '../assets/icons/home-icon.svg';
 import {
     Dialog,
@@ -21,14 +20,15 @@ import {
     DialogTitle,
     TextField,
     useMediaQuery,
+    useTheme,
 } from '@mui/material';
 import { isValidEmail } from '../api/use-guests';
-import { SharedVariableContext } from '../utils/shared-context';
 import { PAST_DUE_DATE } from '../utils/constants';
+import { useStore } from '../api/use-store';
 
 function NavigationBar() {
-    const { theme } = useContext(ThemeContext);
-    const { email, setEmail } = useContext(SharedVariableContext);
+    const theme = useTheme();
+    const { email, setEmail } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(location.pathname);

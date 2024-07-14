@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Alert,
     Box,
@@ -26,8 +26,8 @@ import PageContainer from '../components/page-container';
 import { useNavigate } from 'react-router-dom';
 import { getGuests, updateGuest } from '../api/use-guests';
 import { FoodChoice, Relationship, Status } from '../utils/types';
-import { SharedVariableContext } from '../utils/shared-context';
 import { PAST_DUE_DATE } from '../utils/constants';
+import { useStore } from '../api/use-store';
 
 type DisplayFoodChoice = {
     name: string;
@@ -37,7 +37,7 @@ type DisplayFoodChoice = {
 };
 
 const Rsvp = () => {
-    const { email } = useContext(SharedVariableContext);
+    const { email } = useStore();
     const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
     const [isToastOpen, setIsToastOpen] = useState(false);

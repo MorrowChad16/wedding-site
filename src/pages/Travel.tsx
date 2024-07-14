@@ -1,11 +1,9 @@
-import { useContext } from 'react';
 import PageContainer from '../components/page-container';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography, useTheme } from '@mui/material';
 import { openInNewWindow } from '../utils/utilities';
 import hotel from '../assets/images/hotel.jpeg';
 import lyft from '../assets/images/lyft.jpeg';
 import uber from '../assets/images/uber.webp';
-import ThemeContext from '../components/use-theme-context';
 import HorizontalScroll from '../components/horizontal-scroll';
 
 // TODO: add distance to venue
@@ -32,7 +30,7 @@ interface TransportationInfo {
 }
 
 export default function Travel() {
-    const { theme } = useContext(ThemeContext);
+    const theme = useTheme();
 
     const hotels: HotelInfo[] = [
         {

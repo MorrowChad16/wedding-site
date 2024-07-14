@@ -1,6 +1,4 @@
-import { useContext } from 'react';
 import { Box, Button, Grid, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
-import ThemeContext from './use-theme-context';
 
 interface ScheduleIconProps {
     uid: string;
@@ -23,8 +21,8 @@ function ScheduleIcon({
     formality,
     location,
 }: ScheduleIconProps) {
-    const muiTheme = useTheme();
-    const isSmallScreen = useMediaQuery(muiTheme.breakpoints.down('md'));
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     const formattedDate = new Intl.DateTimeFormat('en-US', {
         weekday: 'long',
@@ -32,7 +30,6 @@ function ScheduleIcon({
         day: 'numeric',
         year: 'numeric',
     }).format(startTime);
-    const { theme } = useContext(ThemeContext);
 
     const generateIcsDate = (date: Date) => {
         const year = date.getFullYear();

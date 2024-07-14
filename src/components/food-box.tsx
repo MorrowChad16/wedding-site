@@ -1,6 +1,4 @@
-import { useContext } from 'react';
-import { Box, CardMedia, Paper, SxProps, Theme, Typography } from '@mui/material';
-import ThemeContext from './use-theme-context';
+import { Box, CardMedia, Paper, SxProps, Theme, Typography, useTheme } from '@mui/material';
 
 export interface FoodBoxProps {
     image: string;
@@ -10,7 +8,7 @@ export interface FoodBoxProps {
 }
 
 export default function FoodBox({ image, imageAlt, description, sxOverride }: FoodBoxProps) {
-    const { theme } = useContext(ThemeContext);
+    const theme = useTheme();
 
     return (
         <Paper
