@@ -5,7 +5,7 @@ import Food from './pages/Food';
 import Travel from './pages/Travel';
 import FAQ from './pages/FAQ';
 import Registry from './pages/Registry';
-import NavigationBar from './components/NavigationBar';
+import NavigationBar from './components/navigation-bar';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import ThemeContext from './components/use-theme-context';
@@ -27,7 +27,7 @@ export const pages: Page[] = [
     { path: '/schedule', component: <Schedule />, displayName: 'Schedule' },
     { path: '/travel', component: <Travel />, displayName: 'Travel' },
     { path: '/food', component: <Food />, displayName: 'Food' },
-    { path: '/registry', component: <Registry />, displayName: 'Registry' },
+    // { path: '/registry', component: <Registry />, displayName: 'Registry' },
     { path: '/faq', component: <FAQ />, displayName: 'FAQs' },
 ];
 

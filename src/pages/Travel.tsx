@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/page-container';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { openInNewWindow } from '../utils/utilities';
 import hotel from '../assets/images/hotel.jpeg';
@@ -97,7 +97,7 @@ export default function Travel() {
     ];
 
     return (
-        <PageContainer>
+        <PageContainer display="block" justifyContent="flex-start">
             <div>
                 <Typography variant="h3">Hotels</Typography>
                 <HorizontalScroll>
@@ -106,7 +106,7 @@ export default function Travel() {
                             key={hotel.name}
                             elevation={4}
                             sx={{
-                                bborder: `1px solid ${theme.palette.primary.main}`,
+                                border: `1px solid ${theme.palette.primary.main}`,
                                 borderRadius: '10px',
                                 mr: '24px',
                                 width: '400px',

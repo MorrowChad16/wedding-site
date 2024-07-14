@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Box,
     Divider,
@@ -9,7 +9,7 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/page-container';
 import CountdownClock from '../components/countdown-clock';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import image0 from '../assets/images/home/IMG_5772.jpeg';
@@ -30,6 +30,13 @@ export default function Home() {
     const images = [image0, image1];
     const maxSteps = images ? Object.entries(images).length : 0;
     const [imageLoading, setImageLoading] = useState(true);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize); // Cleanup on unmount
+    }, []);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -58,7 +65,7 @@ export default function Home() {
                         <div
                             style={{
                                 width: '100%',
-                                height: isSmallScreen ? 'auto' : '450px',
+                                height: windowWidth < 450 ? windowWidth : '450px',
                                 backgroundColor: 'lightgray',
                                 borderRadius: '10px',
                                 display: imageLoading ? 'block' : 'none',

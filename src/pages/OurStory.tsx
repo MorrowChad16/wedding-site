@@ -1,4 +1,4 @@
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/page-container';
 import {
     Timeline,
     TimelineItem,
@@ -17,17 +17,18 @@ import boise from '../assets/images/story/boise.jpeg';
 import mallorca from '../assets/images/story/mallorca.jpeg';
 import engagement from '../assets/images/story/engagement.jpeg';
 
-
 export default function OurStory() {
     const timelineData = [
         {
             title: 'Taco Tuesday',
-            description: 'Our story began at Iowa State during the onset of COVID. Chad\'s taco night for friends unexpectedly became the recipe for romance. For Ciara, it was love at first bite.',
+            description:
+                "Our story began at Iowa State during the onset of COVID. Chad's taco night for friends unexpectedly became the recipe for romance. For Ciara, it was love at first bite.",
             image: taco_tuesday,
         },
         {
             title: 'Road Trip! w/Mom',
-            description: 'In a bold move, Chad introduced Ciara to his mom right before whisking her away on a three-week cross-country adventure. Surprisingly, this whirlwind start didn\'t end in disaster—it was just the beginning of their journey together.',
+            description:
+                "In a bold move, Chad introduced Ciara to his mom right before whisking her away on a three-week cross-country adventure. Surprisingly, this whirlwind start didn't end in disaster—it was just the beginning of their journey together.",
             image: roadtrip,
         },
         {
@@ -37,22 +38,26 @@ export default function OurStory() {
         },
         {
             title: 'Russian Cosmonauts',
-            description: 'After COVID restrictions eased, we made our first trip to see Ciara\'s family in Russia. Vodka was plentiful.',
+            description:
+                "After COVID restrictions eased, we made our first trip to see Ciara's family in Russia. Vodka was plentiful.",
             image: russia,
         },
         {
             title: 'Boise Bound',
-            description: 'Idaho? no you da hoe. Ciara\'s job brought us out to Boise and we haven\'t looked back since.',
+            description:
+                "Idaho? no you da hoe. Ciara's job brought us out to Boise and we haven't looked back since.",
             image: boise,
         },
         {
             title: 'Fuimos a España',
-            description: 'Following our recent move from Russia, we made our first trip to visit Ciara\'s family in Mallorca.',
+            description:
+                "Following our recent move from Russia, we made our first trip to visit Ciara's family in Mallorca.",
             image: mallorca,
         },
         {
             title: 'Engagement',
-            description: 'Oceanside dinner in an old Spanish fort, her family waiting on a boat? It was the perfect ending to our dating lives.',
+            description:
+                'Oceanside dinner in an old Spanish fort, her family waiting on a boat? It was the perfect ending to our dating lives.',
             image: engagement,
         },
     ];
@@ -77,7 +82,7 @@ export default function OurStory() {
                                 <TimelineDot />
                                 <TimelineConnector />
                             </TimelineSeparator>
-                            <TimelineContent>
+                            <TimelineContent fontSize={{ xs: 12, md: 16 }}>
                                 <h4>{event.title}</h4>
                                 <p>{event.description}</p>
                             </TimelineContent>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { QuestionAnswerBox } from '../components/question-box';
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/page-container';
 import { Box } from '@mui/material';
 
 export default function FAQ(): JSX.Element {

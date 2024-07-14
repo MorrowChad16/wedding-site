@@ -1,8 +1,8 @@
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/page-container';
 import ScheduleIcon from '../components/schedule-icon';
 import gathering from '../assets/icons/gathering.png';
 import weddingCeremony from '../assets/icons/wedding-ceremony.png';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 interface ScheduleItem {
     uid: string;
@@ -41,12 +41,7 @@ export default function Schedule() {
 
     return (
         <PageContainer>
-            <Grid
-                container
-                spacing={2}
-                margin="0 auto"
-                width={{ xs: '100%', sm: '540px', md: '540px', lg: '540px' }}
-            >
+            <Grid container spacing={2} justifyContent="center">
                 {scheduleItems.map((item) => (
                     <ScheduleIcon
                         key={item.uid}

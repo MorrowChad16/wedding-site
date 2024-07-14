@@ -20,6 +20,7 @@ import {
     DialogContentText,
     DialogTitle,
     TextField,
+    useMediaQuery,
 } from '@mui/material';
 import { isValidEmail } from '../api/use-guests';
 import { SharedVariableContext } from '../utils/shared-context';
@@ -31,6 +32,7 @@ function NavigationBar() {
     const navigate = useNavigate();
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(location.pathname);
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const [open, setOpen] = useState(false);
     const [openSignIn, setOpenSignIn] = useState(email === '');
@@ -73,6 +75,22 @@ function NavigationBar() {
         }
     };
 
+    const toolbarStyle = isMobile
+        ? {}
+        : {
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexShrink: 0,
+              borderRadius: '10px',
+              bgcolor: 'rgba(255, 255, 255, 0.4)',
+              backdropFilter: 'blur(24px)',
+              maxHeight: 40,
+              border: '1px solid',
+              borderColor: 'divider',
+              boxShadow: `0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)`,
+          };
+
     return (
         <div>
             <AppBar
@@ -85,29 +103,9 @@ function NavigationBar() {
                 }}
             >
                 <Container maxWidth="xl">
-                    <Toolbar
-                        variant="regular"
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            flexShrink: 0,
-                            borderRadius: '10px',
-                            bgcolor: 'rgba(255, 255, 255, 0.4)',
-                            backdropFilter: 'blur(24px)',
-                            maxHeight: 40,
-                            border: '1px solid',
-                            borderColor: 'divider',
-                            boxShadow: `0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)`,
-                        }}
-                    >
-                        <Box
-                            flexGrow={1}
-                            display={'flex'}
-                            alignItems={'center'}
-                            ml={'-18px'}
-                            px={0}
-                        >
+                    <Toolbar variant="regular" sx={toolbarStyle}>
+                        {/* Only displays for computers */}
+                        <Box flexGrow={1} display={'flex'} ml={'-18px'}>
                             <Box display={{ xs: 'none', md: 'flex' }}>
                                 {pages.map((page) => (
                                     <MenuItem
@@ -147,6 +145,8 @@ function NavigationBar() {
                         <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
                             {RsvpButton}
                         </Box>
+
+                        {/* Only displays for mobile */}
                         <Box display={{ sm: '', md: 'none' }}>
                             <Button
                                 variant="text"

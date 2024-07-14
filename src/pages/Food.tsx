@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/page-container';
 import FoodBox from '../components/food-box';
 import potatoes from '../assets/images/potatoes.jpeg';
 import veggie from '../assets/images/veggie.jpeg';

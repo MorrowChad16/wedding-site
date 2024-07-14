@@ -22,7 +22,7 @@ import {
     Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/page-container';
 import { useNavigate } from 'react-router-dom';
 import { getGuests, updateGuest } from '../api/use-guests';
 import { FoodChoice, Relationship, Status } from '../utils/types';
