@@ -30,6 +30,9 @@ export const pages: Page[] = [
 export default function App() {
     const myTheme = createTheme({
         palette: {
+            background: {
+                // default: '#f5f5f5',
+            },
             primary: {
                 main: '#B5651D',
                 contrastText: '#fff',

@@ -7,32 +7,24 @@ import uber from '../assets/images/uber.webp';
 import HorizontalScroll from '../components/horizontal-scroll';
 
 // TODO: add distance to venue
-interface HotelInfo {
+interface TravelInfo {
     name: string;
-    image: string;
-    address: string;
-    phone: string;
+    image?: string;
+    address?: string;
+    phone?: string;
     description: string;
-    websiteUrl: string;
+    websiteUrl?: string;
 }
 
-interface AiportInfo {
-    name: string;
-    address: string;
-    description: string;
-}
-
-interface TransportationInfo {
-    name: string;
-    image: string;
-    description: string;
-    websiteUrl: string;
+interface TravelSection {
+    title: string;
+    info: TravelInfo[];
 }
 
 export default function Travel() {
     const theme = useTheme();
 
-    const hotels: HotelInfo[] = [
+    const hotels: TravelInfo[] = [
         {
             name: 'EAGLE RIDGE RESORT',
             image: hotel,
@@ -65,20 +57,15 @@ export default function Travel() {
         },
     ];
 
-    const airports: AiportInfo[] = [
+    const airports: TravelInfo[] = [
         {
             name: "O'hare Airport",
             address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
             description: 'Cream of the crop',
         },
-        {
-            name: 'Midway Airport',
-            address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
-            description: "A worse alternative to O'hare",
-        },
     ];
 
-    const transportation: TransportationInfo[] = [
+    const transportation: TravelInfo[] = [
         {
             name: 'Uber',
             image: uber,
@@ -94,180 +81,357 @@ export default function Travel() {
         },
     ];
 
+    const food: TravelInfo[] = [
+        {
+            name: 'Payette Brewery',
+            image: hotel,
+            address: '733 S Pioneer St, Boise, ID 83702',
+            phone: '(208) 344-0011',
+            description: 'Outdoor Patio Brewery',
+            websiteUrl: 'https://www.payettebrewing.com/',
+        },
+        {
+            name: 'The Atlas Bar',
+            image: hotel,
+            address: '108 S 11th St, Boise, ID 83702',
+            phone: '(208) 385-0189',
+            description: 'Tiny Rotating Menu Cocktail Bar',
+            websiteUrl: '',
+        },
+        {
+            name: 'Amano',
+            image: hotel,
+            address: '702 Main St, Caldwell, ID 83605',
+            phone: '(208) 453-6410',
+            description: 'Fantastic Authentic Mexican Restaurant',
+            websiteUrl: 'https://www.amanorestaurante.com/',
+        },
+        {
+            name: 'Barbacoa',
+            image: hotel,
+            address: '276 Bobwhite Ct, Boise, ID 83706',
+            phone: '(208) 338-5000',
+            description: 'Spanish-Mexican Steak House',
+            websiteUrl: 'https://barbacoa-boise.com/',
+        },
+        {
+            name: 'Coa de Jima',
+            image: hotel,
+            address: '615 W Main St, Boise, ID 83702',
+            phone: '(208) 519-1213',
+            description: 'Downtown Mexican Restaurant',
+            websiteUrl: 'https://coadejimaboise.com/',
+        },
+        {
+            name: 'Mother Earth Brewery',
+            image: hotel,
+            address: '406 S 3rd St, Boise, ID 83702',
+            phone: '(986) 200-4594',
+            description: 'Smaller Outdoor Patio Brewery',
+            websiteUrl: 'https://www.motherearthbrewco.com/boise',
+        },
+        {
+            name: 'Les Bois Wines',
+            image: hotel,
+            address: '813 W Bannock St, Boise, ID 83702',
+            phone: '',
+            description: 'Tiny Great Wine Tasting Shop',
+            websiteUrl: '',
+        },
+        {
+            name: 'Wyld Child',
+            image: hotel,
+            address: '13 S Latah St Suite 103, Boise, ID 83705',
+            phone: '(208) 789-4639',
+            description: 'Great Simple Burgers',
+            websiteUrl: 'https://www.wyldchildboise.com/',
+        },
+        {
+            name: 'Tarbush Kitchen',
+            image: hotel,
+            address: '2757 S Broadway Ave, Boise, ID 83706',
+            phone: '(208) 608-5601',
+            description: 'Mediterranean Restaurant',
+            websiteUrl: 'https://www.tarbushkitchenidaho.com/',
+        },
+        {
+            name: "Sofia's Greek Bistro",
+            image: hotel,
+            address: '6748 N Glenwood St, Garden City, ID 83714',
+            phone: '(208) 853-0844',
+            description: 'Greek Restaurant',
+            websiteUrl: 'https://sofiasgreekbistro.com/',
+        },
+        {
+            name: 'Americana Pizza',
+            image: hotel,
+            address: '304 S Americana Blvd, Boise, ID 83702',
+            phone: '(208) 336-6432',
+            description: 'Pizza',
+            websiteUrl: 'http://places.singleplatform.com/americana-pizza-8/menu?ref=google',
+        },
+        {
+            name: "Tango's Empenadas",
+            image: hotel,
+            address: '701 N Orchard St, Boise, ID 83706',
+            phone: '(208) 322-3090',
+            description: 'Argentinian Empandas',
+            websiteUrl: 'https://tangos-empanadas.com/',
+        },
+        {
+            name: 'Alyonka Russian Cuisine',
+            image: hotel,
+            address: '2870 W State St, Boise, ID 83702',
+            phone: '(208) 344-8996',
+            description: '',
+            websiteUrl: '',
+        },
+        {
+            name: 'Wepa Cafe',
+            image: hotel,
+            address: '175 E 35th St, Garden City, ID 83714',
+            phone: '(208) 207-2962',
+            description: 'Puerto Rican Restaurant',
+            websiteUrl: 'https://wepaprcuisine.com/',
+        },
+        {
+            name: "Caffè Luciano's",
+            image: hotel,
+            address: '3588 N Prospect Way, Garden City, ID 83714',
+            phone: '(208) 577-6010',
+            description: 'River-side Italian Restaurant',
+            websiteUrl: 'https://caffelucianos.com/',
+        },
+        {
+            name: 'Janjou Patisserie',
+            image: hotel,
+            address: '1754 W State St, Boise, ID 83702',
+            phone: '(208) 297-5853',
+            description: 'French Bakery',
+            websiteUrl: 'https://www.janjou.com/',
+        },
+        {
+            name: 'The STIL',
+            image: hotel,
+            address: '786 W Broad St, Boise, ID 83702',
+            phone: '(208) 809-8888',
+            description: 'Seasonal Flavor Ice Cream Shop',
+            websiteUrl: 'https://ilovethestil.com/',
+        },
+        {
+            name: 'The Wylder',
+            image: hotel,
+            address: '501 W Broad St, Boise, ID 83702',
+            phone: '(208) 209-3837',
+            description: '',
+            websiteUrl: '',
+        },
+        {
+            name: 'Suite 104',
+            image: hotel,
+            address: '4720 N 36th St, Boise, ID 83703',
+            phone: '(208) 972-8590',
+            description: 'Wood Fire Pizza',
+            websiteUrl: 'https://the-wylder.club/',
+        },
+        {
+            name: 'Water Bear Bar',
+            image: hotel,
+            address: '350 N 9th St STE 100, Boise, ID 83702',
+            phone: '',
+            description: 'Cocktail Bar',
+            websiteUrl: 'https://www.waterbearbar.com/',
+        },
+    ];
+
+    // TODO: add outdoor activities
+    const activities: TravelInfo[] = [
+        {
+            name: 'Quail Hollow Golf Course',
+            image: hotel,
+            address: '4720 N 36th St, Boise, ID 83703',
+            phone: '(208) 972-8590',
+            description:
+                "The best bang for your buck in the Boise area. It's a public course tucked in to the foothills. Awesome views of the high dessert.",
+            websiteUrl: 'https://www.quailhollowboise.com/',
+        },
+        {
+            name: 'Shadow Valley Golf Course',
+            image: hotel,
+            address: '15711 N Horseshoe Bend Rd, Garden City, ID 83714',
+            phone: '(208) 939-6699',
+            description:
+                'Another great course that takes advantage of the foothills. The front 9 zig zag through the hills. The back 9 flattens out for an easier time.',
+            websiteUrl: 'https://www.shadowvalley.com/',
+        },
+        {
+            name: 'Hiking',
+            image: hotel,
+            address: '',
+            phone: '',
+            description:
+                "There are a great hikes across Idaho, but most of the accessible ones are in the local foothills. We reccommend you use AllTrails to find one that fits what you're looking for. If you would like recommendations, feel free to reach out.",
+            websiteUrl: 'https://www.alltrails.com/',
+        },
+        {
+            name: 'White Water Rafting',
+            image: hotel,
+            address: '',
+            phone: '',
+            description:
+                'The Lower Payette River north of Boise is great for entry level white water rafting while taking in the Boise National Forest. We\'ve used Cascade Rafting before and they are great. We recommend the "Thrill" options since they are the most fun and have the best views. They seem scary, but they cater to everyone.',
+            websiteUrl: 'https://www.cascaderaft.com/payette-river-rafting-idaho',
+        },
+
+        {
+            name: 'Warm Springs Golf Course',
+            image: hotel,
+            address: '2495 E Warm Springs Ave, Boise, ID 83712',
+            phone: '(208) 972-8600',
+            description:
+                "This is your classic public subdivision course. It's very forgiving with flat hills and spaced out trees.",
+            websiteUrl: 'https://www.warmspringsgolfcourse.com/',
+        },
+        {
+            name: 'Terrace Lakes Golf Course',
+            image: hotel,
+            address: '2101 Holiday Dr, Garden Valley, ID 83622',
+            phone: '(208) 462-3250',
+            description:
+                "If you're willing to make the drive, this course is on the edge of the Boise National Forest, so you get great views of the surrounding nature.",
+            websiteUrl: 'http://www.terracelakes.com/-golf-course',
+        },
+        {
+            name: 'Boise Greenbelt',
+            image: hotel,
+            address: '1375 W Shoreline Dr, Boise, ID  83702',
+            phone: '',
+            description:
+                'Boise has a great paved trail that rides along the Boise River through town. It goes 10+ miles in both directions. Going east it rides until the city dam which has a great park, Lucky Peak.',
+            websiteUrl:
+                'https://www.cityofboise.org/departments/parks-and-recreation/parks/boise-greenbelt/',
+        },
+    ];
+
+    const sections: TravelSection[] = [
+        {
+            title: 'Hotels',
+            info: hotels,
+        },
+        {
+            title: 'Airport',
+            info: airports,
+        },
+        {
+            title: 'Transporation',
+            info: transportation,
+        },
+        {
+            title: 'Restaurants and Bars',
+            info: food,
+        },
+        {
+            title: 'Activities',
+            info: activities,
+        },
+    ];
+
+    // TODO: have addresses link to google maps
     return (
         <PageContainer display="block" justifyContent="flex-start">
             <div>
-                <Typography variant="h3">Hotels</Typography>
-                <HorizontalScroll>
-                    {hotels.map((hotel, index) => (
-                        <Paper
-                            key={hotel.name}
-                            elevation={4}
-                            sx={{
-                                border: `1px solid ${theme.palette.primary.main}`,
-                                borderRadius: '10px',
-                                mr: '24px',
-                                width: '400px',
-                            }}
-                        >
-                            <Box p={2}>
-                                <Typography variant="h5" gutterBottom mb={2} textAlign={'center'}>
-                                    {hotel.name}
-                                </Typography>
-                                <Box display="flex" justifyContent="center" mb={2}>
-                                    <img
-                                        src={hotel.image}
-                                        alt={`hotel-${index}`}
-                                        style={{
-                                            width: '100%',
-                                            height: 'auto',
+                {sections.map((section, index) => {
+                    return (
+                        <div>
+                            <Typography variant="h3" mt={index === 0 ? 0 : 5}>
+                                {section.title}
+                            </Typography>
+                            <HorizontalScroll>
+                                {section.info.map((location, index) => (
+                                    <Paper
+                                        key={location.name}
+                                        elevation={4}
+                                        sx={{
+                                            border: `1px solid ${theme.palette.primary.main}`,
                                             borderRadius: '10px',
+                                            mr: index === section.info.length - 1 ? '0px' : '24px',
+                                            width: '400px',
+                                            minWidth: '400px',
                                         }}
-                                    />
-                                </Box>
-                                <Typography
-                                    variant="body1"
-                                    gutterBottom
-                                    textAlign={'center'}
-                                    mb={2}
-                                >
-                                    {hotel.address}
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    gutterBottom
-                                    textAlign={'center'}
-                                    mb={2}
-                                >
-                                    {hotel.phone}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    textAlign={'center'}
-                                    mb={2}
-                                    whiteSpace={'normal'}
-                                >
-                                    {hotel.description}
-                                </Typography>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    aria-label="website-link"
-                                    onClick={() => openInNewWindow(hotel.websiteUrl)}
-                                    sx={{
-                                        display: 'block',
-                                        m: '0 auto',
-                                    }}
-                                >
-                                    Website
-                                </Button>
-                            </Box>
-                        </Paper>
-                    ))}
-                </HorizontalScroll>
-
-                <Typography variant="h3" mt={5}>
-                    Airports
-                </Typography>
-                <HorizontalScroll>
-                    {airports.map((airport) => (
-                        <Paper
-                            key={airport.name}
-                            elevation={4}
-                            sx={{
-                                border: `1px solid ${theme.palette.primary.main}`,
-                                borderRadius: '10px',
-                                mr: '24px',
-                                width: '400px',
-                            }}
-                        >
-                            <Box p={2}>
-                                <Typography variant="h5" gutterBottom textAlign={'center'} mb={2}>
-                                    {airport.name}
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    gutterBottom
-                                    textAlign={'center'}
-                                    mb={2}
-                                >
-                                    {airport.address}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    textAlign={'center'}
-                                    mb={2}
-                                    whiteSpace={'normal'}
-                                >
-                                    {airport.description}
-                                </Typography>
-                            </Box>
-                        </Paper>
-                    ))}
-                </HorizontalScroll>
-
-                <Typography variant="h3" mt={5}>
-                    Transportation
-                </Typography>
-                <HorizontalScroll>
-                    {transportation.map((service, index) => (
-                        <Paper
-                            key={service.name}
-                            elevation={4}
-                            sx={{
-                                border: `1px solid ${theme.palette.primary.main}`,
-                                borderRadius: '10px',
-                                mr: '24px',
-                                width: '400px',
-                                minWidth: '250px',
-                            }}
-                        >
-                            <Box p={2}>
-                                <Typography variant="h5" gutterBottom textAlign={'center'} mb={2}>
-                                    {service.name}
-                                </Typography>
-                                <Box
-                                    display={'flex'}
-                                    alignItems={'center'}
-                                    justifyContent={'center'}
-                                    mb={2}
-                                >
-                                    <img
-                                        src={service.image}
-                                        alt={`transportation-${index}`}
-                                        style={{
-                                            width: '100%',
-                                            height: 'auto',
-                                            borderRadius: '10px',
-                                        }}
-                                    />
-                                </Box>
-                                <Typography
-                                    variant="body2"
-                                    display={'flex'}
-                                    justifyContent={'center'}
-                                    whiteSpace={'normal'}
-                                    textAlign="center"
-                                    mb={2}
-                                >
-                                    {service.description}
-                                </Typography>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    aria-label="website-link"
-                                    onClick={() => openInNewWindow(service.websiteUrl)}
-                                    sx={{
-                                        display: 'block',
-                                        m: '0 auto',
-                                    }}
-                                >
-                                    Website
-                                </Button>
-                            </Box>
-                        </Paper>
-                    ))}
-                </HorizontalScroll>
+                                    >
+                                        <Box p={2}>
+                                            <Typography
+                                                variant="h5"
+                                                gutterBottom
+                                                mb={2}
+                                                textAlign={'center'}
+                                            >
+                                                {location.name}
+                                            </Typography>
+                                            {location.image && (
+                                                <Box display="flex" justifyContent="center" mb={2}>
+                                                    <img
+                                                        src={location.image}
+                                                        alt={`hotel-${index}`}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: 'auto',
+                                                            borderRadius: '10px',
+                                                        }}
+                                                    />
+                                                </Box>
+                                            )}
+                                            {location.address && (
+                                                <Typography
+                                                    variant="body1"
+                                                    gutterBottom
+                                                    textAlign={'center'}
+                                                    mb={2}
+                                                >
+                                                    {location.address}
+                                                </Typography>
+                                            )}
+                                            {location.phone && (
+                                                <Typography
+                                                    variant="body1"
+                                                    gutterBottom
+                                                    textAlign={'center'}
+                                                    mb={2}
+                                                >
+                                                    {location.phone}
+                                                </Typography>
+                                            )}
+                                            <Typography
+                                                variant="body2"
+                                                textAlign={'center'}
+                                                mb={2}
+                                                whiteSpace={'normal'}
+                                            >
+                                                {location.description}
+                                            </Typography>
+                                            {location.websiteUrl && (
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    aria-label="website-link"
+                                                    onClick={() =>
+                                                        openInNewWindow(location.websiteUrl!)
+                                                    }
+                                                    sx={{
+                                                        display: 'block',
+                                                        m: '0 auto',
+                                                    }}
+                                                >
+                                                    Website
+                                                </Button>
+                                            )}
+                                        </Box>
+                                    </Paper>
+                                ))}
+                            </HorizontalScroll>
+                        </div>
+                    );
+                })}
             </div>
         </PageContainer>
     );

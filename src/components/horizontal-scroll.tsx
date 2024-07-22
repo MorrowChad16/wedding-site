@@ -15,11 +15,11 @@ export default function HorizontalScroll({ children }: HorizontalScrollProps) {
                 overflowY: 'hidden',
                 // Scroll bar
                 '&::-webkit-scrollbar': {
-                    height: '8px',
+                    height: '4px',
                 },
                 // Scroll bar
                 '&::-webkit-scrollbar-thumb': {
-                    bgcolor: 'grey',
+                    bgcolor: 'black',
                     borderRadius: '4px',
                 },
             }}
