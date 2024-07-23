@@ -1,10 +1,39 @@
 import PageContainer from '../components/page-container';
 import { Box, Button, Paper, Typography, useTheme } from '@mui/material';
-import { openInNewWindow } from '../utils/utilities';
-import hotel from '../assets/images/hotel.jpeg';
-import lyft from '../assets/images/lyft.jpeg';
-import uber from '../assets/images/uber.webp';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import PhoneIcon from '@mui/icons-material/Phone';
+import { generateGoogleMapsLink, openInNewWindow } from '../utils/utilities';
 import HorizontalScroll from '../components/horizontal-scroll';
+import hotel from '../assets/images/hotel.jpeg';
+import payette_brewery from '../assets/images/travel/payette_brewery.jpeg';
+import atlas from '../assets/images/travel/atlas.jpg';
+import amano from '../assets/images/travel/amano.jpg';
+import barbacoa from '../assets/images/travel/barbacoa.jpg';
+import coadejima from '../assets/images/travel/coadejima.jpg';
+import motherearth from '../assets/images/travel/motherearth.png';
+import lesbois from '../assets/images/travel/lesbois.jpg';
+import wyldchild from '../assets/images/travel/wyldchild.webp';
+import tarbush from '../assets/images/travel/tarbush.jpg';
+import sofias from '../assets/images/travel/sofias.jpg';
+import americana from '../assets/images/travel/americana.jpg';
+import tangos from '../assets/images/travel/tangos.jpg';
+import alyonka from '../assets/images/travel/alyonka.jpg';
+import wepa from '../assets/images/travel/wepa.jpg';
+import lucianos from '../assets/images/travel/lucianos.jpg';
+import janjou from '../assets/images/travel/janjou-patisserie.jpg';
+import stil from '../assets/images/travel/stil.jpg';
+import wylder from '../assets/images/travel/wylder.webp';
+import suite from '../assets/images/travel/104.jpg';
+import waterbear from '../assets/images/travel/waterbear.jpg';
+import quail from '../assets/images/travel/quail.webp';
+import shadow from '../assets/images/travel/shadow.jpeg';
+import hike from '../assets/images/travel/hike.avif';
+import rafting from '../assets/images/travel/rafting.jpeg';
+import warmsprings from '../assets/images/travel/warmsprings.jpg';
+import terrace from '../assets/images/travel/terracelakes.jpg';
+import greenbelt from '../assets/images/travel/greenbelt.jpg';
+import camelsback from '../assets/images/travel/camelsback.jpeg';
 
 // TODO: add distance to venue
 interface TravelInfo {
@@ -59,22 +88,20 @@ export default function Travel() {
 
     const airports: TravelInfo[] = [
         {
-            name: "O'hare Airport",
-            address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
-            description: 'Cream of the crop',
+            name: 'Boise Airport',
+            address: '3201 W Airport Way #1000, Boise, ID 83705',
+            description: 'Only option you got',
         },
     ];
 
     const transportation: TravelInfo[] = [
         {
             name: 'Uber',
-            image: uber,
             description: 'Mobile forward way to ride around',
             websiteUrl: 'https://www.uber.com/',
         },
         {
             name: 'Lyft',
-            image: lyft,
             description:
                 'Alternative to Uber. Usually a worse experience, but can be cheaper than Uber during peak times.',
             websiteUrl: 'https://www.lyft.com/rider',
@@ -84,7 +111,7 @@ export default function Travel() {
     const food: TravelInfo[] = [
         {
             name: 'Payette Brewery',
-            image: hotel,
+            image: payette_brewery,
             address: '733 S Pioneer St, Boise, ID 83702',
             phone: '(208) 344-0011',
             description: 'Outdoor Patio Brewery',
@@ -92,7 +119,7 @@ export default function Travel() {
         },
         {
             name: 'The Atlas Bar',
-            image: hotel,
+            image: atlas,
             address: '108 S 11th St, Boise, ID 83702',
             phone: '(208) 385-0189',
             description: 'Tiny Rotating Menu Cocktail Bar',
@@ -100,7 +127,7 @@ export default function Travel() {
         },
         {
             name: 'Amano',
-            image: hotel,
+            image: amano,
             address: '702 Main St, Caldwell, ID 83605',
             phone: '(208) 453-6410',
             description: 'Fantastic Authentic Mexican Restaurant',
@@ -108,7 +135,7 @@ export default function Travel() {
         },
         {
             name: 'Barbacoa',
-            image: hotel,
+            image: barbacoa,
             address: '276 Bobwhite Ct, Boise, ID 83706',
             phone: '(208) 338-5000',
             description: 'Spanish-Mexican Steak House',
@@ -116,7 +143,7 @@ export default function Travel() {
         },
         {
             name: 'Coa de Jima',
-            image: hotel,
+            image: coadejima,
             address: '615 W Main St, Boise, ID 83702',
             phone: '(208) 519-1213',
             description: 'Downtown Mexican Restaurant',
@@ -124,7 +151,7 @@ export default function Travel() {
         },
         {
             name: 'Mother Earth Brewery',
-            image: hotel,
+            image: motherearth,
             address: '406 S 3rd St, Boise, ID 83702',
             phone: '(986) 200-4594',
             description: 'Smaller Outdoor Patio Brewery',
@@ -132,7 +159,7 @@ export default function Travel() {
         },
         {
             name: 'Les Bois Wines',
-            image: hotel,
+            image: lesbois,
             address: '813 W Bannock St, Boise, ID 83702',
             phone: '',
             description: 'Tiny Great Wine Tasting Shop',
@@ -140,7 +167,7 @@ export default function Travel() {
         },
         {
             name: 'Wyld Child',
-            image: hotel,
+            image: wyldchild,
             address: '13 S Latah St Suite 103, Boise, ID 83705',
             phone: '(208) 789-4639',
             description: 'Great Simple Burgers',
@@ -148,7 +175,7 @@ export default function Travel() {
         },
         {
             name: 'Tarbush Kitchen',
-            image: hotel,
+            image: tarbush,
             address: '2757 S Broadway Ave, Boise, ID 83706',
             phone: '(208) 608-5601',
             description: 'Mediterranean Restaurant',
@@ -156,7 +183,7 @@ export default function Travel() {
         },
         {
             name: "Sofia's Greek Bistro",
-            image: hotel,
+            image: sofias,
             address: '6748 N Glenwood St, Garden City, ID 83714',
             phone: '(208) 853-0844',
             description: 'Greek Restaurant',
@@ -164,7 +191,7 @@ export default function Travel() {
         },
         {
             name: 'Americana Pizza',
-            image: hotel,
+            image: americana,
             address: '304 S Americana Blvd, Boise, ID 83702',
             phone: '(208) 336-6432',
             description: 'Pizza',
@@ -172,7 +199,7 @@ export default function Travel() {
         },
         {
             name: "Tango's Empenadas",
-            image: hotel,
+            image: tangos,
             address: '701 N Orchard St, Boise, ID 83706',
             phone: '(208) 322-3090',
             description: 'Argentinian Empandas',
@@ -180,15 +207,15 @@ export default function Travel() {
         },
         {
             name: 'Alyonka Russian Cuisine',
-            image: hotel,
+            image: alyonka,
             address: '2870 W State St, Boise, ID 83702',
             phone: '(208) 344-8996',
-            description: '',
-            websiteUrl: '',
+            description: 'Russian Restaurant',
+            websiteUrl: 'https://alyonkarussiancuisine.com/',
         },
         {
             name: 'Wepa Cafe',
-            image: hotel,
+            image: wepa,
             address: '175 E 35th St, Garden City, ID 83714',
             phone: '(208) 207-2962',
             description: 'Puerto Rican Restaurant',
@@ -196,7 +223,7 @@ export default function Travel() {
         },
         {
             name: "Caffè Luciano's",
-            image: hotel,
+            image: lucianos,
             address: '3588 N Prospect Way, Garden City, ID 83714',
             phone: '(208) 577-6010',
             description: 'River-side Italian Restaurant',
@@ -204,7 +231,7 @@ export default function Travel() {
         },
         {
             name: 'Janjou Patisserie',
-            image: hotel,
+            image: janjou,
             address: '1754 W State St, Boise, ID 83702',
             phone: '(208) 297-5853',
             description: 'French Bakery',
@@ -212,7 +239,7 @@ export default function Travel() {
         },
         {
             name: 'The STIL',
-            image: hotel,
+            image: stil,
             address: '786 W Broad St, Boise, ID 83702',
             phone: '(208) 809-8888',
             description: 'Seasonal Flavor Ice Cream Shop',
@@ -220,23 +247,23 @@ export default function Travel() {
         },
         {
             name: 'The Wylder',
-            image: hotel,
+            image: wylder,
             address: '501 W Broad St, Boise, ID 83702',
             phone: '(208) 209-3837',
-            description: '',
-            websiteUrl: '',
-        },
-        {
-            name: 'Suite 104',
-            image: hotel,
-            address: '4720 N 36th St, Boise, ID 83703',
-            phone: '(208) 972-8590',
             description: 'Wood Fire Pizza',
             websiteUrl: 'https://the-wylder.club/',
         },
         {
+            name: 'Suite 104',
+            image: suite,
+            address: '4720 N 36th St, Boise, ID 83703',
+            phone: '(208) 972-8590',
+            description: '"Speakeasy" Cocktail Bar',
+            websiteUrl: 'https://the-wylder.club/',
+        },
+        {
             name: 'Water Bear Bar',
-            image: hotel,
+            image: waterbear,
             address: '350 N 9th St STE 100, Boise, ID 83702',
             phone: '',
             description: 'Cocktail Bar',
@@ -244,11 +271,10 @@ export default function Travel() {
         },
     ];
 
-    // TODO: add outdoor activities
     const activities: TravelInfo[] = [
         {
             name: 'Quail Hollow Golf Course',
-            image: hotel,
+            image: quail,
             address: '4720 N 36th St, Boise, ID 83703',
             phone: '(208) 972-8590',
             description:
@@ -256,8 +282,13 @@ export default function Travel() {
             websiteUrl: 'https://www.quailhollowboise.com/',
         },
         {
+            name: 'Public Parks',
+            image: camelsback,
+            description: 'Boise has a ton of great public parks.',
+        },
+        {
             name: 'Shadow Valley Golf Course',
-            image: hotel,
+            image: shadow,
             address: '15711 N Horseshoe Bend Rd, Garden City, ID 83714',
             phone: '(208) 939-6699',
             description:
@@ -266,7 +297,7 @@ export default function Travel() {
         },
         {
             name: 'Hiking',
-            image: hotel,
+            image: hike,
             address: '',
             phone: '',
             description:
@@ -275,17 +306,16 @@ export default function Travel() {
         },
         {
             name: 'White Water Rafting',
-            image: hotel,
-            address: '',
-            phone: '',
+            image: rafting,
+            address: '7050 ID-55, Horseshoe Bend, ID 83629',
+            phone: '(208) 793-2221',
             description:
                 'The Lower Payette River north of Boise is great for entry level white water rafting while taking in the Boise National Forest. We\'ve used Cascade Rafting before and they are great. We recommend the "Thrill" options since they are the most fun and have the best views. They seem scary, but they cater to everyone.',
             websiteUrl: 'https://www.cascaderaft.com/payette-river-rafting-idaho',
         },
-
         {
             name: 'Warm Springs Golf Course',
-            image: hotel,
+            image: warmsprings,
             address: '2495 E Warm Springs Ave, Boise, ID 83712',
             phone: '(208) 972-8600',
             description:
@@ -294,7 +324,7 @@ export default function Travel() {
         },
         {
             name: 'Terrace Lakes Golf Course',
-            image: hotel,
+            image: terrace,
             address: '2101 Holiday Dr, Garden Valley, ID 83622',
             phone: '(208) 462-3250',
             description:
@@ -303,13 +333,11 @@ export default function Travel() {
         },
         {
             name: 'Boise Greenbelt',
-            image: hotel,
+            image: greenbelt,
             address: '1375 W Shoreline Dr, Boise, ID  83702',
             phone: '',
             description:
                 'Boise has a great paved trail that rides along the Boise River through town. It goes 10+ miles in both directions. Going east it rides until the city dam which has a great park, Lucky Peak.',
-            websiteUrl:
-                'https://www.cityofboise.org/departments/parks-and-recreation/parks/boise-greenbelt/',
         },
     ];
 
@@ -372,24 +400,41 @@ export default function Travel() {
                                                 <Box display="flex" justifyContent="center" mb={2}>
                                                     <img
                                                         src={location.image}
-                                                        alt={`hotel-${index}`}
+                                                        alt={`travel-${index}`}
                                                         style={{
                                                             width: '100%',
-                                                            height: 'auto',
+                                                            height: '300px',
+                                                            objectFit: 'cover',
+                                                            objectPosition: 'center',
                                                             borderRadius: '10px',
                                                         }}
                                                     />
                                                 </Box>
                                             )}
                                             {location.address && (
-                                                <Typography
-                                                    variant="body1"
-                                                    gutterBottom
-                                                    textAlign={'center'}
-                                                    mb={2}
+                                                <Button
+                                                    variant="text"
+                                                    onClick={() =>
+                                                        openInNewWindow(
+                                                            generateGoogleMapsLink(
+                                                                location.address!
+                                                            )
+                                                        )
+                                                    }
+                                                    style={{
+                                                        display: 'flex',
+                                                        marginBottom: 2,
+                                                        justifyContent: 'center',
+                                                        width: '100%',
+                                                    }}
                                                 >
+                                                    <LocationOnIcon fontSize="inherit" />
                                                     {location.address}
-                                                </Typography>
+                                                    <OpenInNewIcon
+                                                        style={{ marginLeft: 2 }}
+                                                        fontSize="inherit"
+                                                    />
+                                                </Button>
                                             )}
                                             {location.phone && (
                                                 <Typography
@@ -398,6 +443,7 @@ export default function Travel() {
                                                     textAlign={'center'}
                                                     mb={2}
                                                 >
+                                                    <PhoneIcon fontSize="inherit" />
                                                     {location.phone}
                                                 </Typography>
                                             )}

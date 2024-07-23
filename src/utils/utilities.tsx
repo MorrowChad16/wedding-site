@@ -9,3 +9,8 @@ export function extractFilenameFromImport(importPath: string) {
     const filenameWithHash = importPath.split('/').pop()?.split('?')[0];
     return filenameWithHash?.replace(/-\w+\./, '.') || '';
 }
+
+export function generateGoogleMapsLink(address: string) {
+    const encodedAddress = encodeURIComponent(address);
+    return `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+}

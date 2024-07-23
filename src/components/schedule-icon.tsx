@@ -55,30 +55,30 @@ VERSION:2.0
 PRODID:-//ical.marudot.com//iCal Event Maker
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
-TZID:Europe/Madrid
+TZID:America/Denver
 LAST-MODIFIED:20231222T233358Z
-TZURL:https://www.tzurl.org/zoneinfo-outlook/Europe/Madrid
-X-LIC-LOCATION:Europe/Madrid
+TZURL:https://www.tzurl.org/zoneinfo-outlook/America/Denver
+X-LIC-LOCATION:America/Denver
 BEGIN:DAYLIGHT
-TZNAME:CEST
-TZOFFSETFROM:+0100
-TZOFFSETTO:+0200
-DTSTART:19700329T020000
+TZNAME:MST
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0600
+DTSTART:19701101T020000
 RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
 END:DAYLIGHT
 BEGIN:STANDARD
-TZNAME:CET
-TZOFFSETFROM:+0200
-TZOFFSETTO:+0100
-DTSTART:19701025T030000
+TZNAME:MST
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0700
+DTSTART:19701101T020000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-DTSTAMP:20240522T220034Z
+DTSTAMP:20240723T031740Z
 UID:${uid}@ical.marudot.com
-DTSTART;TZID=Europe/Madrid:${generateIcsDate(startDate)}
-DTEND;TZID=Europe/Madrid:${generateIcsDate(endDate)}
+DTSTART;TZID=America/Denver:${generateIcsDate(startDate)}
+DTEND;TZID=America/Denver:${generateIcsDate(endDate)}
 SUMMARY:${title}
 DESCRIPTION:${description}
 LOCATION:${location}
@@ -151,6 +151,17 @@ END:VCALENDAR`;
                 <Typography variant="h6" textAlign="center" mb={1}>
                     {title}
                 </Typography>
+                <Typography variant="body1" textAlign="center" mb={1}>
+                    {location}
+                </Typography>
+                {/* <Button
+                    variant="text"
+                    onClick={() => openInNewWindow(generateGoogleMapsLink(location))}
+                    style={{ display: 'flex', marginBottom: 2, justifyContent: 'center', width: '100%', }}
+                >
+                    <LocationOnIcon fontSize="inherit" />
+                    {location}
+                </Button> */}
                 <Typography variant="body1" textAlign="center" mb={1}>
                     {formatTimeRange(startTime, endTime)}
                 </Typography>
