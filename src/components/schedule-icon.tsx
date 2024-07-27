@@ -28,12 +28,14 @@ function ScheduleIcon({
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-    const formattedDate = new Intl.DateTimeFormat('en-US', {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-    }).format(startTime);
+    const formattedDate = startTime
+        ? new Intl.DateTimeFormat('en-US', {
+              weekday: 'long',
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+          }).format(startTime)
+        : undefined;
 
     const generateIcsDate = (date: Date) => {
         const year = date.getFullYear();
