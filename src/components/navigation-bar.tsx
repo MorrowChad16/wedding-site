@@ -227,6 +227,15 @@ function NavigationBar() {
                 <DialogActions>
                     <Button onClick={handleLoginClick}>Login</Button>
                 </DialogActions>
+                <Button
+                    sx={{
+                        borderRadius: 0,
+                    }}
+                    variant="contained"
+                    onClick={() => setOpenSignIn(false)}
+                >
+                    Continue as Temporary Unknown Guest
+                </Button>
             </Dialog>
         </div>
     );
