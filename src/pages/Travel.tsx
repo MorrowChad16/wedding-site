@@ -6,7 +6,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import { generateGoogleMapsLink, openInNewWindow } from '../utils/utilities';
 import HorizontalScroll from '../components/horizontal-scroll';
 import hotel from '../assets/images/hotel.jpeg';
-import payette_brewery from '../assets/images/travel/payette_brewery.jpeg';
+import payette_brewery from '../assets/images/travel/payette_brewery.jpg';
 import atlas from '../assets/images/travel/atlas.jpg';
 import amano from '../assets/images/travel/amano.jpg';
 import barbacoa from '../assets/images/travel/barbacoa.jpg';
@@ -33,7 +33,7 @@ import rafting from '../assets/images/travel/rafting.jpeg';
 import warmsprings from '../assets/images/travel/warmsprings.jpg';
 import terrace from '../assets/images/travel/terracelakes.jpg';
 import greenbelt from '../assets/images/travel/greenbelt.jpg';
-import camelsback from '../assets/images/travel/camelsback.jpeg';
+import park from '../assets/images/travel/park.jpg';
 
 // TODO: add distance to venue
 interface TravelInfo {
@@ -283,7 +283,7 @@ export default function Travel() {
         },
         {
             name: 'Public Parks',
-            image: camelsback,
+            image: park,
             description: 'Boise has a ton of great public parks.',
         },
         {
@@ -342,10 +342,11 @@ export default function Travel() {
     ];
 
     const sections: TravelSection[] = [
-        {
-            title: 'Hotels',
-            info: hotels,
-        },
+        // TODO: bring back hotels
+        // {
+        //     title: 'Hotels',
+        //     info: hotels,
+        // },
         {
             title: 'Airport',
             info: airports,
@@ -364,7 +365,6 @@ export default function Travel() {
         },
     ];
 
-    // TODO: have addresses link to google maps
     return (
         <PageContainer display="block" justifyContent="flex-start">
             <div>

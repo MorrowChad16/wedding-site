@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Schedule from './pages/Schedule';
-import Food from './pages/Food';
 import Travel from './pages/Travel';
 import FAQ from './pages/FAQ';
 import NavigationBar from './components/navigation-bar';
@@ -22,7 +21,7 @@ export const pages: Page[] = [
     { path: '/gallery', component: <Gallery />, displayName: 'Gallery' },
     { path: '/schedule', component: <Schedule />, displayName: 'Schedule' },
     { path: '/travel', component: <Travel />, displayName: 'Travel' },
-    { path: '/food', component: <Food />, displayName: 'Food' },
+    // { path: '/food', component: <Food />, displayName: 'Food' },
     // { path: '/registry', component: <Registry />, displayName: 'Registry' },
     { path: '/faq', component: <FAQ />, displayName: 'FAQs' },
 ];

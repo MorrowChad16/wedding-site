@@ -1,6 +1,6 @@
 import PageContainer from '../components/page-container';
-import { ImageList, ImageListItem, styled, useMediaQuery, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { CircularProgress, ImageList, ImageListItem, styled, useMediaQuery, useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 // Define the type for our image module
 interface ImageModule {
@@ -54,10 +54,33 @@ export default function Gallery() {
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
     const cols = isMobile ? 1 : isMediumScreen ? 2 : isLargeScreen ? 3 : 4;
     const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+    const itemData = Object.values(images)
+    const [showImages, setShowImages] = useState(false);
 
     const handleImageLoad = (src: string) => {
         setLoadedImages((prev) => new Set(prev).add(src));
     };
+
+    useEffect(() => {
+        const loadImage = (imageUrl: string) => {
+          return new Promise((resolve, reject) => {
+            const loadImg = new Image();
+            loadImg.src = imageUrl;
+            loadImg.onload = () => resolve(imageUrl);
+            loadImg.onerror = (err) => reject(err);
+          });
+        };
+    
+        Promise.all(itemData.map((item) => loadImage(item.src)))
+          .then(() => setShowImages(true))
+          .catch((err) => console.log("Failed to load images", err));
+      }, [itemData]);
+
+    if (!showImages) {
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+            <CircularProgress />
+        </div>
+    }
 
     return (
         <PageContainer>

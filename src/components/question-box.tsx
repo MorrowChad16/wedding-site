@@ -6,6 +6,7 @@ interface QuestionAnswerBoxProps {
     answer: string;
     expanded: boolean;
     handleChange: () => void;
+    lastUpdated: Date;
 }
 
 export function QuestionAnswerBox({
@@ -13,6 +14,7 @@ export function QuestionAnswerBox({
     answer,
     expanded,
     handleChange,
+    lastUpdated
 }: QuestionAnswerBoxProps) {
     return (
         <Box mb={2}>
@@ -25,8 +27,17 @@ export function QuestionAnswerBox({
                     <Typography variant="h6">{question}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography variant="body1">{answer}</Typography>
+                    <Typography variant="subtitle1">{answer}</Typography>
                 </AccordionDetails>
+                { lastUpdated &&
+                    <AccordionDetails sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                    }}>
+                        <Typography color="gray" variant="caption" style={{ fontStyle: 'italic' }}>{`Last Updated: ${lastUpdated.toDateString()}`}</Typography>
+                    </AccordionDetails>
+                }
             </Accordion>
         </Box>
     );

@@ -10,6 +10,7 @@ interface ScheduleItem {
     endTime: Date;
     title: string;
     description: string;
+    locationName: string;
     location: string;
     iconAsset: string;
     formality: string;
@@ -17,16 +18,18 @@ interface ScheduleItem {
 
 export default function Schedule() {
     const scheduleItems: ScheduleItem[] = [
-        {
-            uid: '1712020056342-73242',
-            startTime: new Date(2025, 5, 13, 17),
-            endTime: new Date(2025, 5, 13, 18),
-            title: 'Welcome Party',
-            description: 'say hi to everybody',
-            location: '1110 W Grove St, Boise, ID 83702',
-            iconAsset: gathering,
-            formality: 'Casual',
-        },
+        // TODO: bring this back
+        // {
+        //     uid: '1712020056342-73242',
+        //     startTime: new Date(2025, 5, 13, 17),
+        //     endTime: new Date(2025, 5, 13, 18),
+        //     title: 'Welcome Party',
+        //     description: 'say hi to everybody',
+        //     locationName: 'Highlander',
+        //     location: '1110 W Grove St, Boise, ID 83702',
+        //     iconAsset: gathering,
+        //     formality: 'Semi-Formal',
+        // },
         {
             uid: '1712020056342-73241',
             startTime: new Date(2025, 5, 14, 14),
@@ -34,6 +37,7 @@ export default function Schedule() {
             title: 'Wedding Ceremony',
             description: 'have fun',
             location: '9600 W Brookside Ln, Boise, ID 83714',
+            locationName: 'Stone Crossing',
             iconAsset: weddingCeremony,
             formality: 'Formal',
         },
@@ -51,6 +55,7 @@ export default function Schedule() {
                         title={item.title}
                         description={item.description}
                         location={item.location}
+                        locationName={item.locationName}
                         iconAsset={item.iconAsset}
                         formality={item.formality}
                     />

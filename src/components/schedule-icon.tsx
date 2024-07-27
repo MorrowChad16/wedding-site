@@ -1,4 +1,6 @@
 import { Box, Button, Grid, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { generateGoogleMapsLink, openInNewWindow } from '../utils/utilities';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 interface ScheduleIconProps {
     uid: string;
@@ -7,6 +9,7 @@ interface ScheduleIconProps {
     title: string;
     description: string;
     location: string;
+    locationName: string;
     iconAsset: string;
     formality: string;
 }
@@ -20,6 +23,7 @@ function ScheduleIcon({
     iconAsset,
     formality,
     location,
+    locationName
 }: ScheduleIconProps) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -148,20 +152,20 @@ END:VCALENDAR`;
                         />
                     }
                 </Box>
-                <Typography variant="h6" textAlign="center" mb={1}>
+                <Typography variant="h4" textAlign="center" mb={1}>
                     {title}
                 </Typography>
-                <Typography variant="body1" textAlign="center" mb={1}>
-                    {location}
+                <Typography variant="h6" textAlign="center" mb={1}>
+                    {locationName}
                 </Typography>
-                {/* <Button
+                <Button
                     variant="text"
                     onClick={() => openInNewWindow(generateGoogleMapsLink(location))}
                     style={{ display: 'flex', marginBottom: 2, justifyContent: 'center', width: '100%', }}
                 >
                     <LocationOnIcon fontSize="inherit" />
                     {location}
-                </Button> */}
+                </Button>
                 <Typography variant="body1" textAlign="center" mb={1}>
                     {formatTimeRange(startTime, endTime)}
                 </Typography>
