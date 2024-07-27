@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-// Define the type for our image module
 interface ImageModule {
     default: string;
 }

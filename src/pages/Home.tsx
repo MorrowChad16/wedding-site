@@ -12,10 +12,26 @@ import {
 import PageContainer from '../components/page-container';
 import CountdownClock from '../components/countdown-clock';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import image0 from '../assets/images/home/IMG_5772.jpeg';
-import image1 from '../assets/images/home/IMG_9220.jpeg';
-import { extractFilenameFromImport } from '../utils/utilities';
 import { WEDDING_DATE } from '../utils/constants';
+
+interface ImageModule {
+    default: string;
+}
+
+// Use import.meta.glob to import all images
+const imageModules = import.meta.glob<ImageModule>('../assets/images/home/*.(png|jpg|jpeg|svg)', {
+    eager: true,
+});
+
+// Convert the modules object into an array of image objects
+const images = Object.entries(imageModules).map(([path, module]) => ({
+    src: module.default,
+    title:
+        path
+            .split('/')
+            .pop()
+            ?.replace(/\.(png|jpe?g|svg)$/, '') || '',
+}));
 
 export default function Home() {
     const theme = useTheme();
@@ -27,7 +43,6 @@ export default function Home() {
         day: 'numeric',
     }).format(WEDDING_DATE);
     const [activeStep, setActiveStep] = useState(0);
-    const images = [image0, image1];
     const maxSteps = images ? Object.entries(images).length : 0;
     const [imageLoading, setImageLoading] = useState(true);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -57,7 +72,7 @@ export default function Home() {
                 }}
             >
                 <Box
-                    width={{ xs: '100%', sm: '100%', md: '600px', lg: '600px' }}
+                    width={{ xs: '100%', sm: '100%', md: '650px', lg: '650px' }}
                     flexGrow={1}
                     position={'relative'}
                 >
@@ -65,19 +80,21 @@ export default function Home() {
                         <div
                             style={{
                                 width: '100%',
-                                height: windowWidth < 450 ? windowWidth : '450px',
+                                height: windowWidth < 450 ? windowWidth : '500px',
                                 backgroundColor: 'lightgray',
                                 borderRadius: '10px',
                                 display: imageLoading ? 'block' : 'none',
                             }}
                         />
                         <img
-                            key={extractFilenameFromImport(images[activeStep])}
-                            src={images[activeStep]}
-                            alt={extractFilenameFromImport(images[activeStep])}
+                            key={images[activeStep].src}
+                            src={images[activeStep].src}
+                            alt={images[activeStep].src}
                             style={{
+                                objectFit: 'cover',
+                                aspectRatio: 'auto',
                                 width: '100%',
-                                height: isSmallScreen ? 'auto' : '450px',
+                                height: '500px',
                                 borderRadius: '10px',
                                 display: imageLoading ? 'none' : 'block',
                             }}

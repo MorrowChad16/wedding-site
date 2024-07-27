@@ -108,7 +108,7 @@ export default function Travel() {
         {
             name: 'Shuttle Service',
             description:
-                'We\'re investigating a shuttle service for the day of the wedding. Stay tuned on extra info.',
+                "We're investigating a shuttle service for the day of the wedding. Stay tuned on extra info.",
         },
     ];
 
@@ -288,7 +288,8 @@ export default function Travel() {
         {
             name: 'Public Parks',
             image: park,
-            description: 'Boise has a ton of great public parks. Let us know if you need us to send over some of our favorites.',
+            description:
+                'Boise has a ton of great public parks. Let us know if you need us to send over some of our favorites.',
         },
         {
             name: 'Shadow Valley Golf Course',
