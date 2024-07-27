@@ -34,13 +34,12 @@ import terrace from '../assets/images/travel/terracelakes.jpg';
 import greenbelt from '../assets/images/travel/greenbelt.jpg';
 import park from '../assets/images/travel/park.jpg';
 
-// TODO: add distance to venue
 interface TravelInfo {
     name: string;
     image?: string;
     address?: string;
     phone?: string;
-    description: string;
+    description?: string;
     websiteUrl?: string;
 }
 
@@ -52,6 +51,7 @@ interface TravelSection {
 export default function Travel() {
     const theme = useTheme();
 
+    // TODO: add distance to venue
     // const hotels: TravelInfo[] = [
     //     {
     //         name: 'EAGLE RIDGE RESORT',
@@ -96,13 +96,10 @@ export default function Travel() {
     const transportation: TravelInfo[] = [
         {
             name: 'Uber',
-            description: 'Mobile forward way to ride around',
             websiteUrl: 'https://www.uber.com/',
         },
         {
             name: 'Lyft',
-            description:
-                'Alternative to Uber. Usually a worse experience, but can be cheaper than Uber during peak times.',
             websiteUrl: 'https://www.lyft.com/rider',
         },
         {
@@ -452,14 +449,16 @@ export default function Travel() {
                                                     {location.phone}
                                                 </Typography>
                                             )}
-                                            <Typography
-                                                variant="body2"
-                                                textAlign={'center'}
-                                                mb={2}
-                                                whiteSpace={'normal'}
-                                            >
-                                                {location.description}
-                                            </Typography>
+                                            {location.description && (
+                                                <Typography
+                                                    variant="body2"
+                                                    textAlign={'center'}
+                                                    mb={2}
+                                                    whiteSpace={'normal'}
+                                                >
+                                                    {location.description}
+                                                </Typography>
+                                            )}
                                             {location.websiteUrl && (
                                                 <Button
                                                     variant="contained"

@@ -7,11 +7,11 @@ interface ScheduleIconProps {
     startTime: Date;
     endTime: Date;
     title: string;
-    description: string;
-    location: string;
-    locationName: string;
+    description?: string;
+    location?: string;
+    locationName?: string;
     iconAsset: string;
-    formality: string;
+    formality?: string;
 }
 
 function ScheduleIcon({
@@ -134,14 +134,16 @@ END:VCALENDAR`;
                     p: 4,
                 }}
             >
-                <Typography
-                    variant="h3"
-                    fontSize={isSmallScreen ? '2rem' : '3rem'}
-                    textAlign="center"
-                    mb={1}
-                >
-                    {formattedDate}
-                </Typography>
+                {formattedDate && (
+                    <Typography
+                        variant="h3"
+                        fontSize={isSmallScreen ? '2rem' : '3rem'}
+                        textAlign="center"
+                        mb={1}
+                    >
+                        {formattedDate}
+                    </Typography>
+                )}
                 <Box display="flex" justifyContent="center" mb={1}>
                     {
                         <img
@@ -155,48 +157,58 @@ END:VCALENDAR`;
                 <Typography variant="h4" textAlign="center" mb={1}>
                     {title}
                 </Typography>
-                <Typography variant="h6" textAlign="center" mb={1}>
-                    {locationName}
-                </Typography>
-                <Button
-                    variant="text"
-                    onClick={() => openInNewWindow(generateGoogleMapsLink(location))}
-                    style={{
-                        display: 'flex',
-                        marginBottom: 2,
-                        justifyContent: 'center',
-                        width: '100%',
-                    }}
-                >
-                    <LocationOnIcon fontSize="inherit" />
-                    {location}
-                </Button>
-                <Typography variant="body1" textAlign="center" mb={1}>
-                    {formatTimeRange(startTime, endTime)}
-                </Typography>
-                <Typography variant="body1" textAlign="center" mb={1}>
-                    {formality}
-                </Typography>
-                <Box textAlign={'center'}>
+                {locationName && (
+                    <Typography variant="h6" textAlign="center" mb={1}>
+                        {locationName}
+                    </Typography>
+                )}
+                {location && (
                     <Button
-                        variant="contained"
-                        color="primary"
-                        aria-label="wedding-event-download"
-                        onClick={() =>
-                            downloadIcsFile(
-                                uid,
-                                `${title.toLowerCase().replace(' ', '-')}.ics`,
-                                startTime,
-                                endTime,
-                                title,
-                                description,
-                                location
-                            )
-                        }
+                        variant="text"
+                        onClick={() => openInNewWindow(generateGoogleMapsLink(location))}
+                        style={{
+                            display: 'flex',
+                            marginBottom: 2,
+                            justifyContent: 'center',
+                            width: '100%',
+                        }}
                     >
-                        Add to calendar
+                        <LocationOnIcon fontSize="inherit" />
+                        {location}
                     </Button>
-                </Box>
+                )}
+                {startTime && endTime && (
+                    <Typography variant="body1" textAlign="center" mb={1}>
+                        {formatTimeRange(startTime, endTime)}
+                    </Typography>
+                )}
+                {formality && (
+                    <Typography variant="body1" textAlign="center" mb={1}>
+                        {formality}
+                    </Typography>
+                )}
+                {startTime && endTime && description && location && (
+                    <Box textAlign={'center'}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            aria-label="wedding-event-download"
+                            onClick={() =>
+                                downloadIcsFile(
+                                    uid,
+                                    `${title.toLowerCase().replace(' ', '-')}.ics`,
+                                    startTime,
+                                    endTime,
+                                    title,
+                                    description,
+                                    location
+                                )
+                            }
+                        >
+                            Add to calendar
+                        </Button>
+                    </Box>
+                )}
             </Paper>
         </Grid>
     );

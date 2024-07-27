@@ -44,7 +44,7 @@ export default function FAQ(): JSX.Element {
         {
             id: 'q4',
             question: 'Where will the wedding and ceremony be?',
-            answer: 'It will be at Stone Crossing in Boise Idaho. If you need more info head to the "Travel" tab.',
+            answer: 'It will be at Stone Crossing in Boise Idaho. If you need more info head to the "Schedule" tab.',
         },
         // { id: 'q5', question: 'How do I get to X from the airport?', answer: '...' },
         // { id: 'q6', question: 'When do I need to RSVP by?', answer: '...' },

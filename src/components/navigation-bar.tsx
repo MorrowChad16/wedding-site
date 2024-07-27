@@ -206,8 +206,8 @@ function NavigationBar() {
                 <DialogTitle>Login</DialogTitle>
                 <DialogContent>
                     <DialogContentText mb={2}>
-                        Enter your email to view your selections. Each 'party' will share the same
-                        email across all guests.
+                        Enter your email to view your selections. This is the email you entered in
+                        the Save the Date. Each 'party' will share the same email across all guests.
                     </DialogContentText>
                     <TextField
                         autoFocus
