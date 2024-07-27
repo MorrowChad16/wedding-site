@@ -206,8 +206,10 @@ function NavigationBar() {
                 <DialogTitle>Login</DialogTitle>
                 <DialogContent>
                     <DialogContentText mb={2}>
-                        Please enter the email submitted in the "Save the Date" form. Each "party" will share the same email across all guests. 
-                        You will be able to view your RSVP status, food choices, and song requests. If you have any issues, please contact us.
+                        Please enter the email submitted in the "Save the Date" form. Each "party"
+                        will share the same email across all guests. You will be able to view your
+                        RSVP status, food choices, and song requests. If you have any issues, please
+                        contact us.
                     </DialogContentText>
                     <TextField
                         autoFocus

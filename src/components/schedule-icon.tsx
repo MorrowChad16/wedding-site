@@ -4,8 +4,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 interface ScheduleIconProps {
     uid: string;
-    startTime: Date;
-    endTime: Date;
+    startTime?: Date;
+    endTime?: Date;
     title: string;
     description?: string;
     location?: string;
