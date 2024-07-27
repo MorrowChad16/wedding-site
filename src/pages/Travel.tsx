@@ -5,7 +5,6 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { generateGoogleMapsLink, openInNewWindow } from '../utils/utilities';
 import HorizontalScroll from '../components/horizontal-scroll';
-import hotel from '../assets/images/hotel.jpeg';
 import payette_brewery from '../assets/images/travel/payette_brewery.jpg';
 import atlas from '../assets/images/travel/atlas.jpg';
 import amano from '../assets/images/travel/amano.jpg';
@@ -53,38 +52,38 @@ interface TravelSection {
 export default function Travel() {
     const theme = useTheme();
 
-    const hotels: TravelInfo[] = [
-        {
-            name: 'EAGLE RIDGE RESORT',
-            image: hotel,
-            address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
-            phone: '(815) 777-5000',
-            description:
-                'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
-            websiteUrl:
-                'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
-        },
-        {
-            name: 'EAGLE RIDGE SPA',
-            image: hotel,
-            address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
-            phone: '(815) 777-5000',
-            description:
-                'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
-            websiteUrl:
-                'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
-        },
-        {
-            name: 'EAGLE RIDGE RESORT & SPA',
-            image: hotel,
-            address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
-            phone: '(815) 777-5000',
-            description:
-                'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
-            websiteUrl:
-                'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
-        },
-    ];
+    // const hotels: TravelInfo[] = [
+    //     {
+    //         name: 'EAGLE RIDGE RESORT',
+    //         image: hotel,
+    //         address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
+    //         phone: '(815) 777-5000',
+    //         description:
+    //             'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
+    //         websiteUrl:
+    //             'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
+    //     },
+    //     {
+    //         name: 'EAGLE RIDGE SPA',
+    //         image: hotel,
+    //         address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
+    //         phone: '(815) 777-5000',
+    //         description:
+    //             'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
+    //         websiteUrl:
+    //             'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
+    //     },
+    //     {
+    //         name: 'EAGLE RIDGE RESORT & SPA',
+    //         image: hotel,
+    //         address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
+    //         phone: '(815) 777-5000',
+    //         description:
+    //             'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
+    //         websiteUrl:
+    //             'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
+    //     },
+    // ];
 
     const airports: TravelInfo[] = [
         {

@@ -23,7 +23,7 @@ function ScheduleIcon({
     iconAsset,
     formality,
     location,
-    locationName
+    locationName,
 }: ScheduleIconProps) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -161,7 +161,12 @@ END:VCALENDAR`;
                 <Button
                     variant="text"
                     onClick={() => openInNewWindow(generateGoogleMapsLink(location))}
-                    style={{ display: 'flex', marginBottom: 2, justifyContent: 'center', width: '100%', }}
+                    style={{
+                        display: 'flex',
+                        marginBottom: 2,
+                        justifyContent: 'center',
+                        width: '100%',
+                    }}
                 >
                     <LocationOnIcon fontSize="inherit" />
                     {location}

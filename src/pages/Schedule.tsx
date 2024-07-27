@@ -1,6 +1,5 @@
 import PageContainer from '../components/page-container';
 import ScheduleIcon from '../components/schedule-icon';
-import gathering from '../assets/icons/gathering.png';
 import weddingCeremony from '../assets/icons/wedding-ceremony.png';
 import { Grid } from '@mui/material';
 

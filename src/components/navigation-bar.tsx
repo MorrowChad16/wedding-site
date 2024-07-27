@@ -23,7 +23,6 @@ import {
     useTheme,
 } from '@mui/material';
 import { isValidEmail } from '../api/use-guests';
-import { PAST_DUE_DATE } from '../utils/constants';
 import { useStore } from '../api/use-store';
 
 function NavigationBar() {
@@ -42,19 +41,19 @@ function NavigationBar() {
         setOpen(newOpen);
     };
 
-    const RsvpButton = (
-        <Button
-            color="primary"
-            variant="contained"
-            onClick={() => {
-                setCurrentPage('RSVP');
-                navigate('/rsvp');
-            }}
-            fullWidth
-        >
-            {PAST_DUE_DATE ? 'See Details' : 'RSVP'}
-        </Button>
-    );
+    // const RsvpButton = (
+    //     <Button
+    //         color="primary"
+    //         variant="contained"
+    //         onClick={() => {
+    //             setCurrentPage('RSVP');
+    //             navigate('/rsvp');
+    //         }}
+    //         fullWidth
+    //     >
+    //         {PAST_DUE_DATE ? 'See Details' : 'RSVP'}
+    //     </Button>
+    // );
 
     const isOnPage = (page: Page) => {
         return currentPage === page.displayName || currentPage === page.path;
