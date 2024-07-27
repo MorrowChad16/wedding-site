@@ -105,6 +105,11 @@ export default function Travel() {
                 'Alternative to Uber. Usually a worse experience, but can be cheaper than Uber during peak times.',
             websiteUrl: 'https://www.lyft.com/rider',
         },
+        {
+            name: 'Shuttle Service',
+            description:
+                'We\'re investigating a shuttle service for the day of the wedding. Stay tuned on extra info.',
+        },
     ];
 
     const food: TravelInfo[] = [
@@ -283,7 +288,7 @@ export default function Travel() {
         {
             name: 'Public Parks',
             image: park,
-            description: 'Boise has a ton of great public parks.',
+            description: 'Boise has a ton of great public parks. Let us know if you need us to send over some of our favorites.',
         },
         {
             name: 'Shadow Valley Golf Course',

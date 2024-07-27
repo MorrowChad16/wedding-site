@@ -31,7 +31,7 @@ export default function Schedule() {
         // },
         {
             uid: '1712020056342-73241',
-            startTime: new Date(2025, 5, 14, 14),
+            startTime: new Date(2025, 5, 14, 16),
             endTime: new Date(2025, 5, 14, 22),
             title: 'Wedding Ceremony',
             description: 'have fun',

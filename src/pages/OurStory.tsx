@@ -57,7 +57,7 @@ export default function OurStory() {
         {
             title: 'Engagement',
             description:
-                'Oceanside dinner in an old Spanish fort, her family waiting on a boat? It was the perfect ending to our dating lives.',
+                'Oceanside dinner in an old Spanish fort, her family waiting on a boat? It was the perfect start to the next chapter in our lives.',
             image: engagement,
         },
     ];

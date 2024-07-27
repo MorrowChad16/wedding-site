@@ -56,12 +56,13 @@ export default function FAQ(): JSX.Element {
         {
             id: 'q8',
             question: 'Can we bring our children?',
-            answer: 'Yes, we are having a kid friendly event. For the ceremony, we are only allowing close family children. We will have staff around to help with the kids until the reception.',
+            answer: 'Yes, we are having a kid friendly event. For the ceremony, we are looking into caretakers for all children who aren\'t in the ceremony.',
         },
         {
             id: 'q9',
             question: 'I have a dietary restriction, will there be food for me?',
-            answer: 'Nope, sorry. Better luck next wedding. Just kidding. We will! We will have a cauiflower steak with chimicurri on top. You can view the option on the "Food" tab.',
+            answer: 'Nope, sorry. Better luck next wedding. Just kidding. We will! We\'ll have more details on the option very soon!',
+            lastUpdated: new Date(2024, 6, 26),
         },
         {
             id: 'q10',
@@ -82,7 +83,8 @@ export default function FAQ(): JSX.Element {
         {
             id: 'q13',
             question: 'Will there be drinks available?',
-            answer: 'You bet. We will have a cocktail hour right after the ceremony and then 4 hours of open bar.',
+            answer: 'We\'re still working on the details. Stay tuned.',
+            lastUpdated: new Date(2024, 6, 26),
         },
         {
             id: 'q14',
