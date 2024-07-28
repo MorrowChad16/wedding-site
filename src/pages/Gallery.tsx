@@ -26,7 +26,7 @@ const images = Object.entries(imageModules).map(([path, module]) => ({
         path
             .split('/')
             .pop()
-            ?.replace(/\.(png|jpe?g|svg)$/, '') || '',
+            ?.replace(/\.(webp)$/, '') || '',
 }));
 
 const StyledImageListItem = styled(ImageListItem)({
