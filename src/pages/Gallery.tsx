@@ -1,11 +1,5 @@
 import PageContainer from '../components/page-container';
-import {
-    ImageList,
-    ImageListItem,
-    styled,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material';
+import { ImageList, ImageListItem, styled, useMediaQuery, useTheme } from '@mui/material';
 import LazyLoad from 'react-lazyload';
 import { useState } from 'react';
 
@@ -14,10 +8,9 @@ interface ImageModule {
 }
 
 // Use import.meta.glob to import all images
-const imageModules = import.meta.glob<ImageModule>(
-    '../assets/images/display/*.(webp)',
-    { eager: true }
-);
+const imageModules = import.meta.glob<ImageModule>('../assets/images/display/*.(webp)', {
+    eager: true,
+});
 
 // Convert the modules object into an array of image objects
 const images = Object.entries(imageModules).map(([path, module]) => ({

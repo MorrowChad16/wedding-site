@@ -9,7 +9,7 @@ import {
     TimelineOppositeContent,
 } from '@mui/lab';
 import { Box, Card, CardMedia } from '@mui/material';
-import LazyLoad from 'react-lazyload'
+import LazyLoad from 'react-lazyload';
 import taco_tuesday from '../assets/images/story/taco_tuesday.webp';
 import roadtrip from '../assets/images/story/roadtrip.webp';
 import chicago from '../assets/images/story/chicago.webp';
