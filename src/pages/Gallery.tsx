@@ -1,13 +1,13 @@
 import PageContainer from '../components/page-container';
 import {
-    CircularProgress,
     ImageList,
     ImageListItem,
     styled,
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import LazyLoad from 'react-lazyload';
+import { useState } from 'react';
 
 interface ImageModule {
     default: string;
@@ -60,54 +60,26 @@ export default function Gallery() {
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
     const cols = isMobile ? 1 : isMediumScreen ? 2 : isLargeScreen ? 3 : 4;
     const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
-    const itemData = Object.values(images);
-    const [showImages, setShowImages] = useState(false);
 
     const handleImageLoad = (src: string) => {
         setLoadedImages((prev) => new Set(prev).add(src));
     };
-
-    useEffect(() => {
-        const loadImage = (imageUrl: string) => {
-            return new Promise((resolve, reject) => {
-                const loadImg = new Image();
-                loadImg.src = imageUrl;
-                loadImg.onload = () => resolve(imageUrl);
-                loadImg.onerror = (err) => reject(err);
-            });
-        };
-
-        Promise.all(itemData.map((item) => loadImage(item.src)))
-            .then(() => setShowImages(true))
-            .catch((err) => console.log('Failed to load images', err));
-    }, [itemData]);
-
-    if (!showImages) {
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '300px',
-            }}
-        >
-            <CircularProgress />
-        </div>;
-    }
 
     return (
         <PageContainer>
             <ImageList variant="masonry" cols={cols} gap={8}>
                 {Object.values(images).map((item) => (
                     <StyledImageListItem key={item.src}>
-                        <AnimatedImg
-                            srcSet={`${item.src}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                            src={`${item.src}?w=248&fit=crop&auto=format`}
-                            alt={item.title}
-                            loading="lazy"
-                            className={loadedImages.has(item.src) ? 'loaded' : 'loading'}
-                            onLoad={() => handleImageLoad(item.src)}
-                        />
+                        <LazyLoad height={'100%'}>
+                            <AnimatedImg
+                                srcSet={`${item.src}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                src={`${item.src}?w=248&fit=crop&auto=format`}
+                                alt={item.title}
+                                loading="lazy"
+                                className={loadedImages.has(item.src) ? 'loaded' : 'loading'}
+                                onLoad={() => handleImageLoad(item.src)}
+                            />
+                        </LazyLoad>
                     </StyledImageListItem>
                 ))}
             </ImageList>
