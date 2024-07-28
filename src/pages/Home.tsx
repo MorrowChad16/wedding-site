@@ -19,7 +19,7 @@ interface ImageModule {
 }
 
 // Use import.meta.glob to import all images
-const imageModules = import.meta.glob<ImageModule>('../assets/images/home/*.(png|jpg|jpeg|svg)', {
+const imageModules = import.meta.glob<ImageModule>('../assets/images/home/*.(webp)', {
     eager: true,
 });
 

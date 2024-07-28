@@ -9,13 +9,13 @@ import {
     TimelineOppositeContent,
 } from '@mui/lab';
 import { Box, Card, CardMedia } from '@mui/material';
-import taco_tuesday from '../assets/images/story/taco_tuesday.jpeg';
-import roadtrip from '../assets/images/story/roadtrip.jpeg';
-import chicago from '../assets/images/story/chicago.jpeg';
-import russia from '../assets/images/story/russia.jpeg';
-import boise from '../assets/images/story/boise.jpeg';
-import mallorca from '../assets/images/story/mallorca.jpeg';
-import engagement from '../assets/images/story/engagement.jpeg';
+import taco_tuesday from '../assets/images/story/taco_tuesday.webp';
+import roadtrip from '../assets/images/story/roadtrip.webp';
+import chicago from '../assets/images/story/chicago.webp';
+import russia from '../assets/images/story/russia.webp';
+import boise from '../assets/images/story/boise.webp';
+import mallorca from '../assets/images/story/mallorca.webp';
+import engagement from '../assets/images/story/engagement.webp';
 
 export default function OurStory() {
     const timelineData = [
