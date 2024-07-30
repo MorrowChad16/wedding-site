@@ -60,7 +60,7 @@ export default function Travel() {
             name: 'AirBnB',
             image: airbnb,
             description:
-                'We recommend AirBnB\'s for Boise. They are a much better bang for you buck compared to hotels. You can look up the Venue location in the "Schedule" tab to understand how far away it will be. Our recommended areas are: Hyde Park, Downtown, Warm Springs/Southeast Boise, and anywhere in the foothills. We provided a sample list below, but this is by no means a comprehensive list. There are plenty more options if none of these are what you are looking for.',
+                'We recommend AirBnB\'s for Boise. They are a much better bang for your buck compared to hotels. You can look up the Venue location in the "Schedule" tab to understand how far away it will be. Our recommended areas are: Hyde Park, Downtown, Warm Springs/Southeast Boise, and anywhere in the foothills. We provided a sample list below, but this is by no means a comprehensive list. There are plenty more options if none of these are what you are looking for.',
             websiteUrl: 'https://www.airbnb.com/wishlists/v/1570378408?viralityEntryPoint=49&s=76',
         },
         {
