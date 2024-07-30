@@ -33,6 +33,9 @@ import warmsprings from '../assets/images/travel/warmsprings.webp';
 import terrace from '../assets/images/travel/terracelakes.webp';
 import greenbelt from '../assets/images/travel/greenbelt.webp';
 import park from '../assets/images/travel/park.webp';
+import airbnb from '../assets/images/travel/airbnb.webp';
+import hotel from '../assets/images/travel/hotel.webp';
+import trattoria from '../assets/images/travel/trattoria.webp';
 
 interface TravelInfo {
     name: string;
@@ -52,38 +55,20 @@ export default function Travel() {
     const theme = useTheme();
 
     // TODO: add distance to venue
-    // const hotels: TravelInfo[] = [
-    //     {
-    //         name: 'EAGLE RIDGE RESORT',
-    //         image: hotel,
-    //         address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
-    //         phone: '(815) 777-5000',
-    //         description:
-    //             'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
-    //         websiteUrl:
-    //             'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
-    //     },
-    //     {
-    //         name: 'EAGLE RIDGE SPA',
-    //         image: hotel,
-    //         address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
-    //         phone: '(815) 777-5000',
-    //         description:
-    //             'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
-    //         websiteUrl:
-    //             'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
-    //     },
-    //     {
-    //         name: 'EAGLE RIDGE RESORT & SPA',
-    //         image: hotel,
-    //         address: '444 EAGLE RIDGE DR, GALENA, IL 61036, USA',
-    //         phone: '(815) 777-5000',
-    //         description:
-    //             'Luxury resort, spa, and rental homes located 8 miles from downtown Galena',
-    //         websiteUrl:
-    //             'http://www.eagleridge.com/?wwpath=www.theknot.com%2Fus%2Fmadison-williams-and-boyan-kirby-jun-2024',
-    //     },
-    // ];
+    const hotels: TravelInfo[] = [
+        {
+            name: 'AirBnB',
+            image: airbnb,
+            description:
+                'We recommend AirBnB\'s for Boise. They are a much better bang for you buck compared to hotels. You can look up the Venue location in the "Schedule" tab to understand how far away it will be. Our recommended areas are: Hyde Park, Downtown, Warm Springs/Southeast Boise, and anywhere in the foothills. We provided a sample list below, but this is by no means a comprehensive list. There are plenty more options if none of these are what you are looking for.',
+            websiteUrl: 'https://www.airbnb.com/wishlists/v/1570378408?viralityEntryPoint=49&s=76',
+        },
+        {
+            name: 'Hotels',
+            image: hotel,
+            description: "We're working on gathering hotel recommendations and hotel blocks.",
+        },
+    ];
 
     const airports: TravelInfo[] = [
         {
@@ -181,6 +166,14 @@ export default function Travel() {
             phone: '(208) 608-5601',
             description: 'Mediterranean Restaurant',
             websiteUrl: 'https://www.tarbushkitchenidaho.com/',
+        },
+        {
+            name: 'Vincenzo Trattoria',
+            image: trattoria,
+            address: '6970 W State St, Garden City, ID 83714',
+            phone: '(208) 853-6292',
+            description: 'Classic South Italian Restaurant',
+            websiteUrl: 'https://vincenzotrattoria.com/',
         },
         {
             name: "Sofia's Greek Bistro",
@@ -344,11 +337,10 @@ export default function Travel() {
     ];
 
     const sections: TravelSection[] = [
-        // TODO: bring back hotels
-        // {
-        //     title: 'Hotels',
-        //     info: hotels,
-        // },
+        {
+            title: 'Hotels',
+            info: hotels,
+        },
         {
             title: 'Airport',
             info: airports,
