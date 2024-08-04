@@ -52,7 +52,7 @@ export default function OurStory() {
         {
             title: 'Fuimos a España',
             description:
-                "Following our recent move from Russia, we made our first trip to visit Ciara's family in Mallorca.",
+                "Following their recent move from Russia, we made our first trip to visit Ciara's family in Mallorca.",
             image: mallorca,
         },
         {

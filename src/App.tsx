@@ -8,6 +8,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
 import Rsvp from './pages/RSVP';
+// import Registry from './pages/Registry';
 
 export type Page = {
     path: string;
