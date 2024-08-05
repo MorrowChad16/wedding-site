@@ -88,6 +88,10 @@ export default function Travel() {
             websiteUrl: 'https://www.lyft.com/rider',
         },
         {
+            name: 'Turo',
+            websiteUrl: 'https://turo.com/',
+        },
+        {
             name: 'Shuttle Service',
             description:
                 "We're investigating a shuttle service for the day of the wedding. Stay tuned on extra info.",
