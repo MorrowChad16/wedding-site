@@ -32,10 +32,18 @@ import rafting from '../assets/images/travel/rafting.webp';
 import warmsprings from '../assets/images/travel/warmsprings.webp';
 import terrace from '../assets/images/travel/terracelakes.webp';
 import greenbelt from '../assets/images/travel/greenbelt.webp';
-import park from '../assets/images/travel/park.webp';
+import osprey from '../assets/images/travel/osprey.webp';
 import airbnb from '../assets/images/travel/airbnb.webp';
 import hotel from '../assets/images/travel/hotel.webp';
 import trattoria from '../assets/images/travel/trattoria.webp';
+import lucky_peak from '../assets/images/travel/lucky_peak.webp';
+import hot_springs from '../assets/images/travel/hot_springs.webp';
+import teton from '../assets/images/travel/teton.webp';
+import fishing from '../assets/images/travel/fishing.webp';
+import sun_valley from '../assets/images/travel/sun_valley.webp';
+import mccall from '../assets/images/travel/mccall.webp';
+import stanley from '../assets/images/travel/stanley.webp';
+import bogus from '../assets/images/travel/bogus.webp';
 
 interface TravelInfo {
     name: string;
@@ -280,10 +288,33 @@ export default function Travel() {
             websiteUrl: 'https://www.quailhollowboise.com/',
         },
         {
-            name: 'Public Parks',
-            image: park,
+            name: 'Bogus Basin',
+            image: bogus,
+            address: 'Bogus Basin',
             description:
-                'Boise has a ton of great public parks. Let us know if you need us to send over some of our favorites.',
+                'Bogus Basin is a ski resort in the winter, but in the Summer they have hiking, mountain biking, yoga, and other outdoor activities.',
+        },
+        {
+            name: 'Lucky Peak State Park',
+            image: lucky_peak,
+            address: '9725 ID-21, Boise, ID 83716',
+            description:
+                'Lucky Peak is great for grilling, hanging out near the water, or renting a boat for the day.',
+        },
+        {
+            name: 'Osprey Meadows Golf Course',
+            image: osprey,
+            address: '75 Arling Center Ct Suite 150, Tamarack, ID 83615',
+            phone: '(208) 325-1458',
+            description:
+                "One of the best courses in Idaho. It's located up near McCall at Tamarack Resort. Next door you have Lake Cascade, which is great for everyone.",
+        },
+        {
+            name: 'Stanley',
+            image: stanley,
+            address: 'Stanley, Idaho',
+            description:
+                "Stanley is nestled in the nearby Sawtooth mountain range. You'll get great mountain views with horseback riding, camping, and other lake activities.",
         },
         {
             name: 'Shadow Valley Golf Course',
@@ -295,13 +326,24 @@ export default function Travel() {
             websiteUrl: 'https://www.shadowvalley.com/',
         },
         {
+            name: 'Hot Springs',
+            image: hot_springs,
+            description:
+                "There are natural hot springs scattered across the state. We can send over some recommended ones if you're interested!",
+        },
+        {
             name: 'Hiking',
             image: hike,
-            address: '',
-            phone: '',
             description:
                 "There are a great hikes across Idaho, but most of the accessible ones are in the local foothills. We reccommend you use AllTrails to find one that fits what you're looking for. If you would like recommendations, feel free to reach out.",
             websiteUrl: 'https://www.alltrails.com/',
+        },
+        {
+            name: 'Teton Valley',
+            image: teton,
+            address: 'Grand Teton',
+            description:
+                "Eastern Idaho has Teton Valley and Yellowstone. Both are incredibly beautiful in the Summer. The have hiking in the National Parks and in Jackson Hole, you'll get a mountain resort town vibe.",
         },
         {
             name: 'White Water Rafting',
@@ -322,13 +364,34 @@ export default function Travel() {
             websiteUrl: 'https://www.warmspringsgolfcourse.com/',
         },
         {
-            name: 'Terrace Lakes Golf Course',
+            name: 'Fishing',
+            image: fishing,
+            description:
+                "Idaho has a ton of great cast and fly fishing across the state. If you're interested in spots, feel free to reach out!",
+        },
+        // TODO: update
+        {
+            name: 'Osprey Meadows Golf Course',
             image: terrace,
             address: '2101 Holiday Dr, Garden Valley, ID 83622',
             phone: '(208) 462-3250',
             description:
                 "If you're willing to make the drive, this course is on the edge of the Boise National Forest, so you get great views of the surrounding nature.",
             websiteUrl: 'http://www.terracelakes.com/-golf-course',
+        },
+        {
+            name: 'Sun Valley',
+            image: sun_valley,
+            address: 'Sun Valley',
+            description:
+                'Sun Valley is a few hours east of Boise. It is a resort town with great golf courses, shopping, and summer activities.',
+        },
+        {
+            name: 'McCall',
+            image: mccall,
+            address: 'McCall',
+            description:
+                'McCall is a few hours north of Boise. It is a resort town with great golf courses, shopping, and summer activities.',
         },
         {
             name: 'Boise Greenbelt',
