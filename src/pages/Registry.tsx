@@ -20,7 +20,6 @@ import { openInNewWindow } from '../utils/utilities';
 import amazon from '../assets/images/registry/amazon.webp';
 import createandbarrel from '../assets/images/registry/crateandbarrel.webp';
 import etsy from '../assets/images/registry/etsy.webp';
-import rough_linen from '../assets/images/registry/rough_linen.webp';
 import honeymoon from '../assets/images/registry/honeymoon.webp';
 import { useRef, useState } from 'react';
 
@@ -56,10 +55,6 @@ const registries: GiftInfo[] = [
     {
         image: etsy,
         registryUrl: 'https://www.etsy.com/registry/MTM4NDQ4MTE1fDIwMjI1MzYwNA',
-    },
-    {
-        image: rough_linen,
-        registryUrl: 'https://www.roughlinen.com/apps/giftregistry/registry/338732',
     },
 ];
 

@@ -367,7 +367,7 @@ export default function Travel() {
             name: 'Fishing',
             image: fishing,
             description:
-                "Idaho has a ton of great cast and fly fishing across the state. If you're interested in spots, feel free to reach out!",
+                "Idaho has a ton of great fishing spots across the state. If you're interested in spots, feel free to reach out!",
         },
         // TODO: update
         {
