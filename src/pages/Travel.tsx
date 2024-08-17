@@ -99,11 +99,6 @@ export default function Travel() {
             name: 'Turo',
             websiteUrl: 'https://turo.com/',
         },
-        {
-            name: 'Shuttle Service',
-            description:
-                "We're investigating a shuttle service for the day of the wedding. Stay tuned on extra info.",
-        },
     ];
 
     const food: TravelInfo[] = [
@@ -369,7 +364,6 @@ export default function Travel() {
             description:
                 "Idaho has a ton of great fishing spots across the state. If you're interested in spots, feel free to reach out!",
         },
-        // TODO: update
         {
             name: 'Osprey Meadows Golf Course',
             image: terrace,

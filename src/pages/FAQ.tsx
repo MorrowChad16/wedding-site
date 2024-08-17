@@ -1,7 +1,18 @@
 import { useState } from 'react';
 import { QuestionAnswerBox } from '../components/question-box';
 import PageContainer from '../components/page-container';
-import { Box } from '@mui/material';
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Box,
+    Grid,
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function FAQ(): JSX.Element {
     const [expandedPanels, setExpandedPanels] = useState<string[]>([]);
@@ -23,6 +34,21 @@ export default function FAQ(): JSX.Element {
         lastUpdated?: Date;
     }
 
+    const womenAttire = [
+        'Sundresses or floral print dresses',
+        'Tea-length or midi skirts with a blouse',
+        'Tailored pants or dressy capris with a silk top',
+        'Light fabric blazer or cardigan for layering',
+        'Wedges, low heels, or dressy flats (avoid stilettos as they may sink into grass)',
+    ];
+
+    const menAttire = [
+        'Light-colored suits or sport coats with dress pants',
+        'Button-down shirts, potentially with subtle patterns',
+        'Khakis or chinos paired with a blazer',
+        'Loafers, oxfords, or other dress shoes suitable for grass',
+    ];
+
     const faqItems: FaqItem[] = [
         {
             id: 'q1',
@@ -38,8 +64,7 @@ export default function FAQ(): JSX.Element {
         {
             id: 'q3',
             question: 'What is the dress code of the wedding?',
-            answer: 'To Be Determined.',
-            lastUpdated: new Date(2024, 6, 26),
+            answer: 'In Ciara\'s words, "Upscale Garden Party." ',
         },
         {
             id: 'q4',
@@ -51,7 +76,7 @@ export default function FAQ(): JSX.Element {
         {
             id: 'q7',
             question: 'Can I bring a date?',
-            answer: 'Yes we are allowing +1s. We just ask you be cognizant of who you bring.',
+            answer: "Yes we are allowing +1's. We just ask you be cognizant of who you bring.",
         },
         {
             id: 'q8',
@@ -72,28 +97,31 @@ export default function FAQ(): JSX.Element {
         {
             id: 'q11',
             question: 'What is the shuttle service?',
-            answer: 'We are investigating this. Please stay tuned.',
-            lastUpdated: new Date(2024, 6, 26),
+            answer: 'After talking with the venue and researching local options, we have decided not use a shuttle service. Uber and Lyft are very convenient and cheap in the Boise area. If any special accomodation is needed, please let us know.',
         },
         {
             id: 'q12',
             question: 'Can I take pictures during the ceremony?',
-            answer: 'Unless you want your hand cut off, no. We will have a photographer and videographer there at the even handling everything. We will share the pictures with everyone. Once we head to the reception, please feel free to take as many pictures as you want.',
+            answer: 'Unless you want your hand cut off, no. We will have a photographer and videographer there at the event handling everything. We will share the pictures with everyone. Once we head to the reception, please feel free to take as many pictures as you want.',
         },
         {
             id: 'q13',
             question: 'Will there be drinks available?',
-            answer: "We're still working on the details. Stay tuned.",
-            lastUpdated: new Date(2024, 6, 26),
+            answer: "Yep! We'll have a his/hers signature cocktail during cocktail hour. After that, we'll have an open beer, wine, and liquor bar. Feel free to go crazy.",
         },
         {
             id: 'q14',
             question: 'Registry',
-            answer: 'Coming soon to theater near you.',
+            answer: 'Coming soon to a theater near you.',
             lastUpdated: new Date(2024, 6, 26),
         },
         {
             id: 'q15',
+            question: 'Will there be a welcome party?',
+            answer: "Yep! We're working on the detail where it'll be, but we anticipate it being Friday night from 7pm - midnight.",
+        },
+        {
+            id: 'q16',
             question: 'Any additional questions?',
             answer: 'Please feel free to call or message us.',
         },
@@ -102,16 +130,66 @@ export default function FAQ(): JSX.Element {
     return (
         <PageContainer>
             <Box margin="0 auto" width={{ xs: '100%', sm: '100%', md: '80%', lg: '80%' }}>
-                {faqItems.map((item) => (
-                    <QuestionAnswerBox
-                        key={item.id}
-                        question={item.question}
-                        answer={item.answer}
-                        expanded={expandedPanels.includes(item.id)}
-                        handleChange={() => handlePanelChange(item.id)}
-                        lastUpdated={item.lastUpdated}
-                    />
-                ))}
+                {faqItems.map((item) => {
+                    return item.id === 'q3' ? (
+                        <Box mb={2}>
+                            <Accordion
+                                expanded={expandedPanels.includes(item.id)}
+                                onChange={() => handlePanelChange(item.id)}
+                            >
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel-content"
+                                    id="panel-header"
+                                >
+                                    <Typography variant="h6">{item.question}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Grid container spacing={4}>
+                                        <Grid item xs={12} md={6}>
+                                            <Typography variant="h5" component="h3" gutterBottom>
+                                                For Women
+                                            </Typography>
+                                            <List>
+                                                {womenAttire.map((item, index) => (
+                                                    <ListItem key={index}>
+                                                        <ListItemText primary={item} />
+                                                    </ListItem>
+                                                ))}
+                                            </List>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <Typography variant="h5" component="h3" gutterBottom>
+                                                For Men
+                                            </Typography>
+                                            <List>
+                                                {menAttire.map((item, index) => (
+                                                    <ListItem key={index}>
+                                                        <ListItemText primary={item} />
+                                                    </ListItem>
+                                                ))}
+                                            </List>
+                                        </Grid>
+                                    </Grid>
+                                    <Typography variant="body1" sx={{ mt: 2 }}>
+                                        Remember to choose breathable fabrics, opt for lighter
+                                        colors or pastels, and avoid overly casual items like jeans,
+                                        t-shirts, flannels, or sneakers.
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Box>
+                    ) : (
+                        <QuestionAnswerBox
+                            key={item.id}
+                            question={item.question}
+                            answer={item.answer}
+                            expanded={expandedPanels.includes(item.id)}
+                            handleChange={() => handlePanelChange(item.id)}
+                            lastUpdated={item.lastUpdated}
+                        />
+                    );
+                })}
             </Box>
         </PageContainer>
     );
