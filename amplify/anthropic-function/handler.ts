@@ -9,6 +9,8 @@ const anthropic = new Anthropic({
 export const handler: Schema['askWeddingQuestion']['functionHandler'] = async (event) => {
     try {
         console.log(process.env.VITE_CLAUDE_API_KEY);
+        console.log('event: ' , event);
+        console.log('arguments: ', event.arguments);
         const context = event.arguments.context;
         console.log('context: ', context)
         const question = event.arguments.question;
