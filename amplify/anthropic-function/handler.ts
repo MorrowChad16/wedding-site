@@ -2,15 +2,17 @@ import Anthropic from '@anthropic-ai/sdk';
 import { TextBlock } from '@anthropic-ai/sdk/resources/messages.mjs';
 import { Schema } from '../data/resource';
 
-console.log(process.env.VITE_CLAUDE_API_KEY);
 const anthropic = new Anthropic({
     apiKey: process.env.VITE_CLAUDE_API_KEY,
 });
 
 export const handler: Schema['askWeddingQuestion']['functionHandler'] = async (event) => {
     try {
+        console.log(process.env.VITE_CLAUDE_API_KEY);
         const context = event.arguments.context;
+        console.log('context: ', context)
         const question = event.arguments.question;
+        console.log('question: ', question)
 
         // Call the Anthropic API
         const msg = await anthropic.messages.create({
