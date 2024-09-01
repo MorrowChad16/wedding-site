@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { TextBlock } from '@anthropic-ai/sdk/resources/messages.mjs';
 import { Schema } from '../data/resource';
 
+console.log(process.env.VITE_CLAUDE_API_KEY);
 const anthropic = new Anthropic({
     apiKey: process.env.VITE_CLAUDE_API_KEY,
 });

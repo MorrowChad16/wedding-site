@@ -69,9 +69,18 @@ const hotels: TravelInfo[] = [
         websiteUrl: 'https://www.airbnb.com/wishlists/v/1570378408?viralityEntryPoint=49&s=76',
     },
     {
-        name: 'Hotels',
+        name: 'The Avery Hotel',
         image: hotel,
-        description: "We're working on gathering hotel recommendations and hotel blocks.",
+        description:
+            "The Avery hotel is newly renovated classic hotel. It originally opened in 1911 and was recently renovated and reopened in 2023. We have a 20% discount on all rooms. They stressed to us that guest should book the rooms as soon as possible since the President's cup is in town our wedding weekend.",
+        websiteUrl: '', // TODO: add discount code
+    },
+    {
+        name: 'Hilton Garden Inn Boise/Eagle',
+        image: hotel,
+        description:
+            'This hotel is conveniently located 10 minutes from the Venue. If we get 10 guests who stay at this hotel, then we will have a shuttle service here to the venue.',
+        websiteUrl: '', // TODO: add discount code
     },
 ];
 

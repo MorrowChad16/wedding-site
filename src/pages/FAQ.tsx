@@ -1,18 +1,7 @@
 import { useState } from 'react';
 import { QuestionAnswerBox } from '../components/question-box';
 import PageContainer from '../components/page-container';
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Box,
-    Grid,
-    List,
-    ListItem,
-    ListItemText,
-    Typography,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box } from '@mui/material';
 
 export interface FaqItem {
     id: string;
@@ -51,7 +40,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     {
         id: 'q3',
         question: 'What is the dress code of the wedding?',
-        answer: 'In Ciara\'s words, "Upscale Garden Party." ',
+        answer: "The wedding will have a formal dress code. We are asking women wear midi to floor length dresses. Satins and pastels are encouraged. We're asking men wear button ups and jackets. Ties are optional. No jeans, flannels or plaid. Thank you!",
     },
     {
         id: 'q4',
@@ -83,7 +72,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     {
         id: 'q11',
         question: 'What is the shuttle service?',
-        answer: 'After talking with the venue and researching local options, we have decided not use a shuttle service. Uber and Lyft are very convenient and cheap in the Boise area. If any special accomodation is needed, please let us know.',
+        answer: 'After talking with the venue and researching local options, we have decided not use a general shuttle service. The Hotel "Hilton Garden Inn Boise/Eagle" offers a shuttle service if we get 10 guests who stay at this hotel. We will keep you updated. Uber and Lyft are very convenient and cheap in the Boise area. If any special accomodation is needed, please let us know.',
     },
     {
         id: 'q12',
@@ -129,66 +118,16 @@ export default function FAQ(): JSX.Element {
     return (
         <PageContainer>
             <Box margin="0 auto" width={{ xs: '100%', sm: '100%', md: '80%', lg: '80%' }}>
-                {FAQ_ITEMS.map((item, index) => {
-                    return item.id === 'q3' ? (
-                        <Box mb={2} key={index}>
-                            <Accordion
-                                expanded={expandedPanels.includes(item.id)}
-                                onChange={() => handlePanelChange(item.id)}
-                            >
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel-content"
-                                    id="panel-header"
-                                >
-                                    <Typography variant="h6">{item.question}</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <Grid container spacing={4}>
-                                        <Grid item xs={12} md={6}>
-                                            <Typography variant="h5" component="h3" gutterBottom>
-                                                For Women
-                                            </Typography>
-                                            <List>
-                                                {WOMEN_ATTIRE.map((item, index) => (
-                                                    <ListItem key={index}>
-                                                        <ListItemText primary={item} />
-                                                    </ListItem>
-                                                ))}
-                                            </List>
-                                        </Grid>
-                                        <Grid item xs={12} md={6}>
-                                            <Typography variant="h5" component="h3" gutterBottom>
-                                                For Men
-                                            </Typography>
-                                            <List>
-                                                {MEN_ATTIRE.map((item, index) => (
-                                                    <ListItem key={index}>
-                                                        <ListItemText primary={item} />
-                                                    </ListItem>
-                                                ))}
-                                            </List>
-                                        </Grid>
-                                    </Grid>
-                                    <Typography variant="body1" sx={{ mt: 2 }}>
-                                        Remember to choose breathable fabrics, opt for lighter
-                                        colors or pastels, and avoid overly casual items like jeans,
-                                        t-shirts, flannels, plaid, or sneakers.
-                                    </Typography>
-                                </AccordionDetails>
-                            </Accordion>
-                        </Box>
-                    ) : (
-                        <QuestionAnswerBox
-                            key={item.id}
-                            question={item.question}
-                            answer={item.answer}
-                            expanded={expandedPanels.includes(item.id)}
-                            handleChange={() => handlePanelChange(item.id)}
-                            lastUpdated={item.lastUpdated}
-                        />
-                    );
-                })}
+                {FAQ_ITEMS.map((item, index) => (
+                    <QuestionAnswerBox
+                        key={index}
+                        question={item.question}
+                        answer={item.answer}
+                        expanded={expandedPanels.includes(item.id)}
+                        handleChange={() => handlePanelChange(item.id)}
+                        lastUpdated={item.lastUpdated}
+                    />
+                ))}
             </Box>
         </PageContainer>
     );
