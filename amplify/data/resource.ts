@@ -1,4 +1,5 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { anthropicFunction } from '../anthropic-function/resource';
 
 const schema = a.schema({
     Relationship: a.enum(['PRIMARY_GUEST', 'SECONDARY_GUEST', 'PLUS_ONE', 'CHILD']),
@@ -19,6 +20,16 @@ const schema = a.schema({
             songRequests: a.string(),
         })
         .identifier(['email', 'guestId'])
+        .authorization((allow) => [allow.guest()]),
+
+    askWeddingQuestion: a
+        .query()
+        .arguments({
+            context: a.string(),
+            question: a.string(),
+        })
+        .returns(a.string())
+        .handler(a.handler.function(anthropicFunction))
         .authorization((allow) => [allow.guest()]),
 });
 

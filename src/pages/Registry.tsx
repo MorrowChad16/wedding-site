@@ -58,7 +58,7 @@ const registries: GiftInfo[] = [
     },
 ];
 
-const sections: GiftSection[] = [
+export const REGISTRY_SECTIONS: GiftSection[] = [
     {
         title: 'Funds',
         info: funds,
@@ -78,7 +78,7 @@ export default function Registry() {
     return (
         <PageContainer>
             <div>
-                {sections.map((section, index) => {
+                {REGISTRY_SECTIONS.map((section, index) => {
                     return (
                         <div>
                             <Typography variant="h3" mt={index === 0 ? 0 : 5}>

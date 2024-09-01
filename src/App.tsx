@@ -8,6 +8,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
 import Rsvp from './pages/RSVP';
+import ChatBot from './components/chatbot';
 // import Registry from './pages/Registry';
 
 export type Page = {
@@ -56,6 +57,7 @@ export default function App() {
         <ThemeProvider theme={myTheme}>
             <BrowserRouter>
                 <NavigationBar />
+                <ChatBot />
                 <Routes>
                     {pages.map((route) => (
                         <Route key={route.path} path={route.path} element={route.component} />

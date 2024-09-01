@@ -16,31 +16,31 @@ interface ScheduleItem {
     formality?: string;
 }
 
-export default function Schedule() {
-    const scheduleItems: ScheduleItem[] = [
-        {
-            uid: '1712020056342-73242',
-            title: 'Welcome Party',
-            locationName: 'TBD',
-            iconAsset: gathering,
-        },
-        {
-            uid: '1712020056342-73241',
-            startTime: new Date(2025, 5, 14, 16),
-            endTime: new Date(2025, 5, 14, 22),
-            title: 'Wedding Ceremony',
-            description: 'have fun',
-            location: '9600 W Brookside Ln, Boise, ID 83714',
-            locationName: 'Stone Crossing',
-            iconAsset: weddingCeremony,
-            formality: 'Formal',
-        },
-    ];
+export const SCHEDULE_ITEMS: ScheduleItem[] = [
+    {
+        uid: '1712020056342-73242',
+        title: 'Welcome Party',
+        locationName: 'TBD',
+        iconAsset: gathering,
+    },
+    {
+        uid: '1712020056342-73241',
+        startTime: new Date(2025, 5, 14, 16),
+        endTime: new Date(2025, 5, 14, 22),
+        title: 'Wedding Ceremony',
+        description: 'have fun',
+        location: '9600 W Brookside Ln, Boise, ID 83714',
+        locationName: 'Stone Crossing',
+        iconAsset: weddingCeremony,
+        formality: 'Formal',
+    },
+] as const;
 
+export default function Schedule() {
     return (
         <PageContainer>
             <Grid container spacing={2} justifyContent="center">
-                {scheduleItems.map((item) => (
+                {SCHEDULE_ITEMS.map((item) => (
                     <ScheduleIcon
                         key={item.uid}
                         uid={item.uid}

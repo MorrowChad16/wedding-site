@@ -12,7 +12,7 @@ import {
 import PageContainer from '../components/page-container';
 import CountdownClock from '../components/countdown-clock';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { WEDDING_DATE } from '../utils/constants';
+import { COUPLE_NAMES, WEDDING_DATE } from '../utils/constants';
 
 interface ImageModule {
     default: string;
@@ -127,7 +127,7 @@ export default function Home() {
                         fontWeight={'bold'}
                         fontSize={isSmallScreen ? '3rem' : '4rem'}
                     >
-                        Ciara and Chad
+                        {COUPLE_NAMES}
                     </Typography>
 
                     <Box pt={'20px'}>
