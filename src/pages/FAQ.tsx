@@ -71,7 +71,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     },
     {
         id: 'q11',
-        question: 'What is the shuttle service?',
+        question: 'Is there a shuttle service?',
         answer: 'After talking with the venue and researching local options, we have decided not use a general shuttle service. The Hotel "Hilton Garden Inn Boise/Eagle" offers a shuttle service if we get 10 guests who stay at this hotel. We will keep you updated. Uber and Lyft are very convenient and cheap in the Boise area. If any special accomodation is needed, please let us know.',
     },
     {

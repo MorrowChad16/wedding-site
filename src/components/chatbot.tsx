@@ -26,10 +26,10 @@ import { Schema } from '../../amplify/data/resource';
 
 const getClient = () => generateClient<Schema>();
 
-//
+// Local testing only
 // const anthropic = new Anthropic({
 //     apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
-//     dangerouslyAllowBrowser: true, // TODO: figure this out
+//     dangerouslyAllowBrowser: true,
 // });
 
 function generateScheduleString(scheduleItems: typeof SCHEDULE_ITEMS): string {
