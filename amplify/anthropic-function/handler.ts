@@ -29,7 +29,7 @@ export const handler: Schema['askWeddingQuestion']['functionHandler'] = async (e
             ],
         });
 
-        console.log(msg.content)
+        console.log(msg.content);
         return (msg.content[0] as TextBlock).text;
     } catch (error) {
         return "I'm sorry, I encountered an error while processing your question. Please try again later or contact the wedding organizer for assistance.";
