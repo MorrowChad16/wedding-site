@@ -286,7 +286,7 @@ function ChatBot() {
                     padding: isMobile ? undefined : '10%',
                 }}
                 PaperProps={{
-                    style: { borderRadius: 10 },
+                    style: { borderRadius: isMobile ? 0 : 10 },
                 }}
                 fullScreen
             >
