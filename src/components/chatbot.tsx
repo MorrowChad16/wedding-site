@@ -12,12 +12,14 @@ import {
     Paper,
     TextField,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { COUPLE_NAMES, WEDDING_DATE } from '../utils/constants';
 import { SCHEDULE_ITEMS } from '../pages/Schedule';
-import { FAQ_ITEMS, MEN_ATTIRE, WOMEN_ATTIRE } from '../pages/FAQ';
+import { FAQ_ITEMS } from '../pages/FAQ';
 import { TRAVEL_SECTIONS } from '../pages/Travel';
 import { REGISTRY_SECTIONS } from '../pages/Registry';
 import { MarkdownTypography } from './markdown-typography';
@@ -161,10 +163,6 @@ const WEDDING_CONTEXT = `
   - Frequently Asked Questions: 
   ${faqString}
 
-  - Attire: 
-    - Men: ${MEN_ATTIRE.join(',')}
-    - Women: ${WOMEN_ATTIRE.join(',')}}
-
   - Travel Information: 
   ${travelInformation}
 
@@ -215,10 +213,12 @@ interface Message {
 }
 
 function ChatBot() {
+    const theme = useTheme();
     const [openChatBot, setOpenChatBot] = useState(false);
     const [question, setQuestion] = useState<string>('');
     const [messages, setMessages] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const exampleQuestions = [
         'Where is the venue located?',
@@ -283,7 +283,7 @@ function ChatBot() {
                     }
                 }}
                 sx={{
-                    padding: '10%',
+                    padding: isMobile ? undefined : '10%',
                 }}
                 PaperProps={{
                     style: { borderRadius: 10 },

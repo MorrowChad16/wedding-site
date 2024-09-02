@@ -10,21 +10,6 @@ export interface FaqItem {
     lastUpdated?: Date;
 }
 
-export const WOMEN_ATTIRE = [
-    'Sundresses or floral print dresses',
-    'Tea-length or midi skirts with a blouse',
-    'Tailored pants or dressy capris with a silk top',
-    'Light fabric blazer or cardigan for layering',
-    'Wedges, low heels, or dressy flats (avoid stilettos as they may sink into grass)',
-] as const;
-
-export const MEN_ATTIRE = [
-    'Light-colored suits or sport coats with dress pants',
-    'Button-down shirts, potentially with subtle patterns',
-    'Khakis or chinos paired with a blazer',
-    'Loafers, oxfords, or other dress shoes suitable for grass',
-] as const;
-
 export const FAQ_ITEMS: FaqItem[] = [
     {
         id: 'q1',
