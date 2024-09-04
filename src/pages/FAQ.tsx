@@ -25,7 +25,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     {
         id: 'q3',
         question: 'What is the dress code of the wedding?',
-        answer: "The wedding will have a formal dress code. We are asking women wear midi to floor length dresses. Satins and pastels are encouraged. We're asking men wear button ups and jackets. Ties are optional. No jeans, flannels or plaid. Thank you!",
+        answer: "The wedding will have a formal dress code. We are asking women wear midi to floor length dresses. Satins and pastels are encouraged. We're asking men wear button ups and jackets. Ties are optional. No jeans, flannels or plaid. Kids can wear basically whatever they want. Thank you!",
     },
     {
         id: 'q4',
