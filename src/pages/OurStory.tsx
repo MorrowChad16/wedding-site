@@ -45,7 +45,8 @@ export default function OurStory() {
         },
         {
             title: 'Boise Bound',
-            description: "Ciara's job brought us out to Boise and we haven't looked back since.",
+            description:
+                "Idaho, more like Ida-woah! Ciara's job brought us out to Boise and we haven't looked back since.",
             image: boise,
         },
         {

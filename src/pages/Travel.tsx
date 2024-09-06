@@ -34,7 +34,8 @@ import terrace from '../assets/images/travel/terracelakes.webp';
 import greenbelt from '../assets/images/travel/greenbelt.webp';
 import osprey from '../assets/images/travel/osprey.webp';
 import airbnb from '../assets/images/travel/airbnb.webp';
-import hotel from '../assets/images/travel/hotel.webp';
+import avery from '../assets/images/travel/avery.webp';
+import hilton from '../assets/images/travel/hilton.webp';
 import trattoria from '../assets/images/travel/trattoria.webp';
 import lucky_peak from '../assets/images/travel/lucky_peak.webp';
 import hot_springs from '../assets/images/travel/hot_springs.webp';
@@ -70,17 +71,18 @@ const hotels: TravelInfo[] = [
     },
     {
         name: 'The Avery Hotel',
-        image: hotel,
+        image: avery,
         description:
-            "The Avery hotel is newly renovated classic hotel. It originally opened in 1911 and was recently renovated and reopened in 2023. We have a 20% discount on all rooms. They stressed to us that guest should book the rooms as soon as possible since the President's cup is in town our wedding weekend.",
+            "Discount code coming soon. The Avery hotel is newly renovated classic hotel. It originally opened in 1911 and was recently renovated and reopened in 2023. We have a 20% discount on all rooms. They stressed to us that guest should book the rooms as soon as possible since the President's cup is in town our wedding weekend.",
         websiteUrl: '', // TODO: add discount code
     },
     {
         name: 'Hilton Garden Inn Boise/Eagle',
-        image: hotel,
+        image: hilton,
         description:
             'This hotel is conveniently located 10 minutes from the Venue. If we get 10 guests who stay at this hotel, then we will have a shuttle service here to the venue.',
-        websiteUrl: '', // TODO: add discount code
+        websiteUrl:
+            'https://www.hilton.com/en/attend-my-event/boiehgi-mmw-c9ec10c0-51ca-419c-a325-ea3034150cee/',
     },
 ];
 
