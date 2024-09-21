@@ -9,7 +9,7 @@ import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
 import Rsvp from './pages/RSVP';
 import ChatBot from './components/chatbot';
-// import Registry from './pages/Registry';
+import Registry from './pages/Registry';
 
 export type Page = {
     path: string;
@@ -24,7 +24,7 @@ export const pages: Page[] = [
     { path: '/schedule', component: <Schedule />, displayName: 'Schedule' },
     { path: '/travel', component: <Travel />, displayName: 'Travel' },
     // { path: '/food', component: <Food />, displayName: 'Food' },
-    // { path: '/registry', component: <Registry />, displayName: 'Registry' },
+    { path: '/registry', component: <Registry />, displayName: 'Registry' },
     { path: '/faq', component: <FAQ />, displayName: 'FAQs' },
 ];
 

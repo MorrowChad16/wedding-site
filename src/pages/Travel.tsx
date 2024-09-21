@@ -332,7 +332,7 @@ const activities: TravelInfo[] = [
         name: 'Hot Springs',
         image: hot_springs,
         description:
-            "There are natural hot springs scattered across the state. We can send over some recommended ones if you're interested!",
+            "There are natural hot springs scattered across the state. We can send over some recommended ones if you're interested! We also recommend the resort The Springs, which is 45 minutes from Boise.",
     },
     {
         name: 'Hiking',
@@ -371,15 +371,6 @@ const activities: TravelInfo[] = [
         image: fishing,
         description:
             "Idaho has a ton of great fishing spots across the state. If you're interested in spots, feel free to reach out!",
-    },
-    {
-        name: 'Osprey Meadows Golf Course',
-        image: terrace,
-        address: '2101 Holiday Dr, Garden Valley, ID 83622',
-        phone: '(208) 462-3250',
-        description:
-            "If you're willing to make the drive, this course is on the edge of the Boise National Forest, so you get great views of the surrounding nature.",
-        websiteUrl: 'http://www.terracelakes.com/-golf-course',
     },
     {
         name: 'Sun Valley',

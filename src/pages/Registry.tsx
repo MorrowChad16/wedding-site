@@ -18,8 +18,7 @@ import PageContainer from '../components/page-container';
 import HorizontalScroll from '../components/horizontal-scroll';
 import { openInNewWindow } from '../utils/utilities';
 import amazon from '../assets/images/registry/amazon.webp';
-import createandbarrel from '../assets/images/registry/crateandbarrel.webp';
-import etsy from '../assets/images/registry/etsy.webp';
+import furniture from '../assets/images/registry/furniture.webp';
 import honeymoon from '../assets/images/registry/honeymoon.webp';
 import { useRef, useState } from 'react';
 
@@ -41,20 +40,17 @@ const funds: GiftInfo[] = [
         description: 'Please contribute what you wish',
         image: honeymoon,
     },
+    {
+        name: 'Furniture',
+        description: 'Please contribute what you wish',
+        image: furniture,
+    },
 ];
 
 const registries: GiftInfo[] = [
     {
         image: amazon,
         registryUrl: 'https://www.amazon.com/wedding/registry/35XXOW64VSOEL',
-    },
-    {
-        image: createandbarrel,
-        registryUrl: 'https://www.crateandbarrel.com/gift-registry/chad-morrow/r7160605',
-    },
-    {
-        image: etsy,
-        registryUrl: 'https://www.etsy.com/registry/MTM4NDQ4MTE1fDIwMjI1MzYwNA',
     },
 ];
 
