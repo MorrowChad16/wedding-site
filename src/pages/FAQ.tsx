@@ -72,7 +72,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     {
         id: 'q14',
         question: 'Registry',
-        answer: 'Coming soon to a theater near you.',
+        answer: 'You can head to the "Registry" tab to see our external registries and cash funds.',
         lastUpdated: new Date(2024, 6, 26),
     },
     {
