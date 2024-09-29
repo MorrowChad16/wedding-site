@@ -189,7 +189,7 @@ END:VCALENDAR`;
                         {formality}
                     </Typography>
                 )}
-                {startTime && endTime && description && location && (
+                {startTime && endTime && location && (
                     <Box textAlign={'center'}>
                         <Button
                             variant="contained"
@@ -202,7 +202,7 @@ END:VCALENDAR`;
                                     startTime,
                                     endTime,
                                     title,
-                                    description,
+                                    description ?? '',
                                     location
                                 )
                             }
