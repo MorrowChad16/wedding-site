@@ -19,8 +19,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     {
         id: 'q2',
         question: 'What is the schedule of events for the wedding?',
-        answer: 'To Be Determined', // Add: ceremony, cocktail hour, reception
-        lastUpdated: new Date(2024, 6, 26),
+        answer: 'You can head to the "Schedule" tab or feel free to ask our AI assistant in the bottom right.',
     },
     {
         id: 'q3',
@@ -30,7 +29,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     {
         id: 'q4',
         question: 'Where will the wedding and ceremony be?',
-        answer: 'It will be at Stone Crossing in Boise Idaho. If you need more info head to the "Schedule" tab.',
+        answer: 'It will be at Stone Crossing in Boise Idaho. If you need more info head to the "Schedule" tab or feel free to ask our AI assistant in the bottom right.',
     },
     // { id: 'q6', question: 'When do I need to RSVP by?', answer: '...' },
     {
@@ -73,17 +72,16 @@ export const FAQ_ITEMS: FaqItem[] = [
         id: 'q14',
         question: 'Registry',
         answer: 'You can head to the "Registry" tab to see our external registries and cash funds.',
-        lastUpdated: new Date(2024, 6, 26),
     },
     {
         id: 'q15',
         question: 'Will there be a welcome party?',
-        answer: "Yep! We're working on the detail where it'll be, but we anticipate it being Friday night from 7pm - midnight.",
+        answer: 'Yep! It will be Friday night from 7pm - midnight at Suite 104. You can head to the "Schedule" tab or feel free to ask our AI assistant in the bottom right.',
     },
     {
         id: 'q16',
         question: 'Any additional questions?',
-        answer: 'Please feel free to call or message us.',
+        answer: 'Try to ask the AI assistant, and if that fails, please feel free to call or message us.',
     },
 ] as const;
 
