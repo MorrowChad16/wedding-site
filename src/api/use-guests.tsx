@@ -180,6 +180,7 @@ export const getGuests = (email: string) => {
                     foodChoice: guest.foodChoice as FoodChoice,
                     foodAllergies: guest.foodAllergies,
                     songRequests: guest.songRequests,
+                    isBridalParty: guest.isBridalParty,
                 };
             });
         },

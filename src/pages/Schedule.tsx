@@ -2,6 +2,7 @@ import PageContainer from '../components/page-container';
 import ScheduleIcon from '../components/schedule-icon';
 import weddingCeremony from '../assets/icons/wedding-ceremony.png';
 import gathering from '../assets/icons/gathering.png';
+import dinner from '../assets/icons/romantic-dinner.png';
 import { CircularProgress, Grid } from '@mui/material';
 import { useStore } from '../api/use-store';
 import { getGuests } from '../api/use-guests';
@@ -28,7 +29,7 @@ export const SCHEDULE_ITEMS: ScheduleItem[] = [
         title: 'Rehearsal Dinner',
         location: '3588 N Prospect Way, Garden City, ID 83714',
         locationName: "Caffè Luciano's",
-        iconAsset: gathering,
+        iconAsset: dinner,
         formality: 'Semi-Formal',
         isPrivate: true,
     },
@@ -63,14 +64,17 @@ export default function Schedule() {
     const { isLoading, guests } = getGuests(email);
     console.log(guests);
 
-    // TODO: add list of bridal party for rehearsal dinner timing
     return (
         <PageContainer>
             <Grid container spacing={2} justifyContent="center">
                 {isLoading ? (
                     <CircularProgress />
                 ) : (
-                    SCHEDULE_ITEMS.map((item) => (
+                    SCHEDULE_ITEMS.filter(
+                        (item) =>
+                            item.isPrivate === false ||
+                            item.isPrivate === guests?.some((guest) => guest.isBridalParty)
+                    ).map((item) => (
                         <ScheduleIcon
                             key={item.uid}
                             uid={item.uid}

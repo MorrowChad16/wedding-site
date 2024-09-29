@@ -28,4 +28,5 @@ export type Guest = {
     foodChoice: FoodChoice;
     foodAllergies: string | null;
     songRequests: string | null;
+    isBridalParty: boolean | null;
 };

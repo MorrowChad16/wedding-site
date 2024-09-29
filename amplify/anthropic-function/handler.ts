@@ -9,13 +9,11 @@ const anthropic = new Anthropic({
 export const handler: Schema['askWeddingQuestion']['functionHandler'] = async (event) => {
     try {
         const { context, question } = event.arguments;
-        // console.log('Context: ', context);
         console.log('Question: ', question);
-        // console.log('API key: ', process.env.VITE_CLAUDE_API_KEY);
 
         // Call the Anthropic API
         const msg = await anthropic.messages.create({
-            model: 'claude-3-haiku-20240307', // claude-3-5-sonnet-20240620
+            model: 'claude-3-5-sonnet-20240620',
             max_tokens: 300,
             temperature: 0.5,
             system: context!,
