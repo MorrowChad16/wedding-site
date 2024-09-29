@@ -30,7 +30,6 @@ import shadow from '../assets/images/travel/shadow.webp';
 import hike from '../assets/images/travel/hike.webp';
 import rafting from '../assets/images/travel/rafting.webp';
 import warmsprings from '../assets/images/travel/warmsprings.webp';
-import terrace from '../assets/images/travel/terracelakes.webp';
 import greenbelt from '../assets/images/travel/greenbelt.webp';
 import osprey from '../assets/images/travel/osprey.webp';
 import airbnb from '../assets/images/travel/airbnb.webp';

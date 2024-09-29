@@ -15,6 +15,7 @@ export const addFakeGuests = async () => {
         lastName: 'Morrow',
         status: 'ATTENDING',
         songRequests: 'song1, song2',
+        isBridalParty: true,
     });
 
     getClient().models.Guest.create({
@@ -25,6 +26,7 @@ export const addFakeGuests = async () => {
         firstName: 'Ciara',
         lastName: 'McNeley',
         status: 'ATTENDING',
+        isBridalParty: true,
     });
 
     getClient().models.Guest.create({
@@ -35,6 +37,7 @@ export const addFakeGuests = async () => {
         firstName: 'Ciara',
         lastName: 'Morrow',
         status: 'ATTENDING',
+        isBridalParty: true,
     });
 
     getClient().models.Guest.create({
@@ -45,6 +48,7 @@ export const addFakeGuests = async () => {
         firstName: 'Yohan',
         lastName: 'Morrow',
         status: 'ATTENDING',
+        isBridalParty: true,
     });
 };
 
@@ -181,6 +185,7 @@ export const getGuests = (email: string) => {
         },
         retry: 3,
         retryDelay: 200,
+        staleTime: 86_400_000,
     });
 
     return {

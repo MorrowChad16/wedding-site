@@ -18,6 +18,7 @@ const schema = a.schema({
             foodChoice: a.ref('Food'),
             foodAllergies: a.string(),
             songRequests: a.string(),
+            isBridalParty: a.boolean().required().default(false),
         })
         .identifier(['email', 'guestId'])
         .authorization((allow) => [allow.guest()]),
