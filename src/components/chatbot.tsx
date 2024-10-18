@@ -177,6 +177,11 @@ const WEDDING_CONTEXT = `
   Please answer any questions about the wedding based on this information. If you don't have the specific information requested, politely say so and suggest contacting the provided contact person for more details.
   Please feel free to add new lines and any styling updates necessary to help readers parse the information.
   If the guest asks non-Wedding questions, please let them know this can only be used for Wedding-related questions. When you let them know, always start the request with "I'm afraid", so I can track it.
+
+  I'll also append on past conversation context, so you can rely on past information to help with any future questions.
+
+  Past Questions and Responses:
+
   `;
 
 // Local testing only
@@ -235,10 +240,11 @@ function ChatBot() {
         const text = question.trim();
         setMessages([...messages, { text, isUser: true }]);
         setQuestion('');
+        const aggregatedMessages = messages.map((message) => message.text).join('\n');
 
         getClient()
             .queries.askWeddingQuestion({
-                context: WEDDING_CONTEXT,
+                context: `${WEDDING_CONTEXT} ${aggregatedMessages}`,
                 question: text,
             })
             .then((response) => {
