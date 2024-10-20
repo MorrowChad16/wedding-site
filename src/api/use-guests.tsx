@@ -134,9 +134,6 @@ export const updateGuest = async (
     guestId: string,
     foodAllergies: string,
     status: Status,
-    arrivalDate: string,
-    deparatureDate: string,
-    preferredActivities: string,
     foodChoice: FoodChoice,
     songRequests?: string
 ) => {
@@ -147,9 +144,6 @@ export const updateGuest = async (
         foodChoice: foodChoice,
         foodAllergies: foodAllergies,
         songRequests: songRequests,
-        arrivalDate: arrivalDate,
-        departureDate: deparatureDate,
-        preferredActivities: preferredActivities,
     });
 };
 

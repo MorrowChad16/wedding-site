@@ -19,9 +19,6 @@ const schema = a.schema({
             foodAllergies: a.string(),
             songRequests: a.string(),
             isBridalParty: a.boolean().default(false),
-            arrivalDate: a.string(),
-            departureDate: a.string(),
-            preferredActivities: a.string(),
         })
         .identifier(['email', 'guestId'])
         .authorization((allow) => [allow.guest()]),
