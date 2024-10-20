@@ -141,7 +141,6 @@ function NavigationBar() {
                                 ))}
                             </Box>
                         </Box>
-                        {/* TODO: bring back when RSVP is ready */}
                         {/* <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
                             {RsvpButton}
                         </Box> */}
@@ -186,7 +185,6 @@ function NavigationBar() {
                                         </MenuItem>
                                     ))}
                                     <Divider />
-                                    {/* TODO: bring back when RSVP is ready */}
                                     {/* <MenuItem>{RsvpButton}</MenuItem> */}
                                 </Box>
                             </Drawer>

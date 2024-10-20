@@ -22,12 +22,14 @@ import {
     Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import PageContainer from '../components/page-container';
+import PageContainer from '../../components/page-container';
 import { useNavigate } from 'react-router-dom';
-import { getGuests, updateGuest } from '../api/use-guests';
-import { FoodChoice, Relationship, Status } from '../utils/types';
-import { PAST_DUE_DATE } from '../utils/constants';
-import { useStore } from '../api/use-store';
+import { getGuests, updateGuest } from '../../api/use-guests';
+import { FoodChoice, Relationship, Status } from '../../utils/types';
+import { PAST_DUE_DATE } from '../../utils/constants';
+import { useStore } from '../../api/use-store';
+import ActivityForm from './activities';
+import DateForm from './dates';
 
 type DisplayFoodChoice = {
     name: string;
@@ -47,7 +49,17 @@ const Rsvp = () => {
     const [foodChoices, setFoodChoices] = useState<DisplayFoodChoice[]>([]);
     const [songs, setSongs] = useState<string[]>([]);
     const [newSong, setNewSong] = useState('');
-    const steps = ['Attending?', 'Food Choice', 'Song Requests'];
+    const steps = [
+        'Attending?',
+        'Dates In Town',
+        'Planned Activties',
+        'Food Choice',
+        'Song Requests',
+    ];
+
+    const [arrivalDate, setArrivalDate] = useState('');
+    const [departureDate, setDepartureDate] = useState('');
+    const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
 
     const addSong = () => {
         if (newSong.trim() !== '') {
@@ -77,6 +89,9 @@ const Rsvp = () => {
                 item.guestId,
                 item.allergies,
                 attending ? Status.COMING : Status.NOT_ATTENDING,
+                arrivalDate,
+                departureDate,
+                selectedActivities.join(','),
                 item.choice,
                 songs.join(',')
             );
@@ -220,6 +235,20 @@ const Rsvp = () => {
                             </Box>
                         )}
                         {activeStep === 1 && (
+                            <DateForm
+                                arrivalDate={arrivalDate}
+                                setArrivalDate={setArrivalDate}
+                                departureDate={departureDate}
+                                setDepartureDate={setDepartureDate}
+                            />
+                        )}
+                        {activeStep === 2 && (
+                            <ActivityForm
+                                selectedActivities={selectedActivities}
+                                setSelectedActivities={setSelectedActivities}
+                            />
+                        )}
+                        {activeStep === 3 && (
                             <div>
                                 {foodChoices.map((item, index) => (
                                     <div key={item.guestId}>
@@ -282,7 +311,7 @@ const Rsvp = () => {
                                 ))}
                             </div>
                         )}
-                        {activeStep === 2 && (
+                        {activeStep === 4 && (
                             <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
                                 <Box mb={2} width={'40%'}>
                                     <TextField

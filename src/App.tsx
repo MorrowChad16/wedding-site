@@ -7,7 +7,7 @@ import NavigationBar from './components/navigation-bar';
 import { ThemeProvider, createTheme } from '@mui/material';
 import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
-import Rsvp from './pages/RSVP';
+import Rsvp from './pages/rsvp/RSVP';
 import ChatBot from './components/chatbot';
 import Registry from './pages/Registry';
 
