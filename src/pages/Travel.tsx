@@ -72,8 +72,9 @@ const hotels: TravelInfo[] = [
         name: 'The Avery Hotel',
         image: avery,
         description:
-            "Discount code coming soon. The Avery hotel is newly renovated classic hotel. It originally opened in 1911 and was recently renovated and reopened in 2023. We have a 20% discount on all rooms. They stressed to us that guest should book the rooms as soon as possible since the President's cup is in town our wedding weekend.",
-        websiteUrl: '', // TODO: add discount code
+            "Discount code coming soon. The Avery hotel is newly renovated classic hotel. It originally opened in 1911 and was recently renovated and reopened in 2023. We have a 15% discount on all rooms. They stressed to us that guests should book the rooms as soon as possible since the President's cup is in town our wedding weekend.",
+        websiteUrl:
+            'https://theaveryboise.windsurfercrs.com/ibe/details.aspx?propertyid=17309&rate=IDO&lang=en-us',
     },
     {
         name: 'Hilton Garden Inn Boise/Eagle',
