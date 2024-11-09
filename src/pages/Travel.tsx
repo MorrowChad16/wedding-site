@@ -59,7 +59,6 @@ interface TravelSection {
     info: TravelInfo[];
 }
 
-// TODO: add distance to venue
 const hotels: TravelInfo[] = [
     {
         name: 'AirBnB',

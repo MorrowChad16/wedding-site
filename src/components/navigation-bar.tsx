@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import { isValidEmail } from '../api/use-guests';
 import { useStore } from '../api/use-store';
+import { PAST_DUE_DATE } from '../utils/constants';
 
 function NavigationBar() {
     const theme = useTheme();
@@ -41,19 +42,19 @@ function NavigationBar() {
         setOpen(newOpen);
     };
 
-    // const RsvpButton = (
-    //     <Button
-    //         color="primary"
-    //         variant="contained"
-    //         onClick={() => {
-    //             setCurrentPage('RSVP');
-    //             navigate('/rsvp');
-    //         }}
-    //         fullWidth
-    //     >
-    //         {PAST_DUE_DATE ? 'See Details' : 'RSVP'}
-    //     </Button>
-    // );
+    const RsvpButton = (
+        <Button
+            color="primary"
+            variant="contained"
+            onClick={() => {
+                setCurrentPage('RSVP');
+                navigate('/rsvp');
+            }}
+            fullWidth
+        >
+            {PAST_DUE_DATE ? 'See Details' : 'RSVP'}
+        </Button>
+    );
 
     const isOnPage = (page: Page) => {
         return currentPage === page.displayName || currentPage === page.path;
@@ -141,9 +142,9 @@ function NavigationBar() {
                                 ))}
                             </Box>
                         </Box>
-                        {/* <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
+                        <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
                             {RsvpButton}
-                        </Box> */}
+                        </Box>
 
                         {/* Only displays for mobile */}
                         <Box display={{ sm: '', md: 'none' }}>
@@ -185,7 +186,7 @@ function NavigationBar() {
                                         </MenuItem>
                                     ))}
                                     <Divider />
-                                    {/* <MenuItem>{RsvpButton}</MenuItem> */}
+                                    <MenuItem>{RsvpButton}</MenuItem>
                                 </Box>
                             </Drawer>
                         </Box>

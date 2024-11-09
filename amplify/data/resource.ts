@@ -4,7 +4,7 @@ import { anthropicFunction } from '../anthropic-function/resource';
 const schema = a.schema({
     Relationship: a.enum(['PRIMARY_GUEST', 'SECONDARY_GUEST', 'PLUS_ONE', 'CHILD']),
     Status: a.enum(['NOT_ATTENDING', 'ATTENDING', 'COMING']),
-    Food: a.enum(['MEAT', 'FISH', 'VEGETARIAN']),
+    Food: a.enum(['BEEF', 'CHICKEN', 'VEGETARIAN']),
 
     Guest: a
         .model({
