@@ -43,7 +43,6 @@ const Rsvp = () => {
     const [isToastOpen, setIsToastOpen] = useState(false);
 
     const { isLoading, error, guests } = getGuests(email);
-    console.log(guests)
     const [attending, setAttending] = useState(false);
     const [foodChoices, setFoodChoices] = useState<DisplayFoodChoice[]>([]);
     const [songs, setSongs] = useState<string[]>([]);
