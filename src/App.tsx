@@ -4,7 +4,7 @@ import Schedule from './pages/Schedule';
 import Travel from './pages/Travel';
 import FAQ from './pages/FAQ';
 import NavigationBar from './components/navigation-bar';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
 import Rsvp from './pages/RSVP';
@@ -23,7 +23,6 @@ export const pages: Page[] = [
     { path: '/gallery', component: <Gallery />, displayName: 'Gallery' },
     { path: '/schedule', component: <Schedule />, displayName: 'Schedule' },
     { path: '/travel', component: <Travel />, displayName: 'Travel' },
-    // { path: '/food', component: <Food />, displayName: 'Food' },
     { path: '/registry', component: <Registry />, displayName: 'Registry' },
     { path: '/faq', component: <FAQ />, displayName: 'FAQs' },
 ];
@@ -31,9 +30,6 @@ export const pages: Page[] = [
 export default function App() {
     const myTheme = createTheme({
         palette: {
-            background: {
-                // default: '#f5f5f5',
-            },
             primary: {
                 main: '#B5651D',
                 contrastText: '#fff',

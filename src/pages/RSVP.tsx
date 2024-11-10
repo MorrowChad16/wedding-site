@@ -3,6 +3,8 @@ import {
     Alert,
     Box,
     Button,
+    Card,
+    CardContent,
     CircularProgress,
     Divider,
     FormControl,
@@ -28,6 +30,7 @@ import { getGuests, updateGuest } from '../api/use-guests';
 import { FoodChoice, Relationship, Status } from '../utils/types';
 import { PAST_DUE_DATE } from '../utils/constants';
 import { useStore } from '../api/use-store';
+import { Info } from '@mui/icons-material';
 
 type DisplayFoodChoice = {
     name: string;
@@ -220,6 +223,51 @@ const Rsvp = () => {
                         )}
                         {activeStep === 1 && (
                             <div>
+                                <Card
+                                    sx={{
+                                        maxWidth: 800,
+                                        margin: 'auto',
+                                        mt: 2,
+                                        mb: 2,
+                                    }}
+                                    elevation={2}
+                                >
+                                    <CardContent>
+                                        <Box sx={{ display: 'flex', gap: 2 }}>
+                                            <Info
+                                                sx={{
+                                                    color: 'primary.main',
+                                                    fontSize: 28,
+                                                    mt: 0.5,
+                                                }}
+                                            />
+                                            <Box>
+                                                <Typography
+                                                    variant="h6"
+                                                    component="h3"
+                                                    gutterBottom
+                                                    sx={{
+                                                        fontWeight: 500,
+                                                        color: 'text.primary',
+                                                    }}
+                                                >
+                                                    Dinner Service Information
+                                                </Typography>
+                                                <Typography
+                                                    variant="body1"
+                                                    sx={{ color: 'text.secondary' }}
+                                                >
+                                                    Dinner will be served buffet-style, offering a
+                                                    variety of dishes for you to enjoy at your own
+                                                    pace. To help us with kitchen planning, please
+                                                    select your preferred main course in advance.
+                                                    Menu details are being finalized and will be
+                                                    shared here soon.
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
                                 {foodChoices.map((item, index) => (
                                     <div key={item.guestId}>
                                         <Typography align="center" variant="h4">
