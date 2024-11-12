@@ -327,6 +327,47 @@ const Rsvp = () => {
                                         </Box>
                                     </div>
                                 ))}
+                                <Card
+                                    sx={{
+                                        maxWidth: 800,
+                                        margin: 'auto',
+                                        mt: 2,
+                                        mb: 2,
+                                    }}
+                                    elevation={2}
+                                >
+                                    <CardContent>
+                                        <Box sx={{ display: 'flex', gap: 2 }}>
+                                            <Info
+                                                sx={{
+                                                    color: 'primary.main',
+                                                    fontSize: 28,
+                                                    mt: 0.5,
+                                                }}
+                                            />
+                                            <Box>
+                                                <Typography
+                                                    variant="h6"
+                                                    component="h3"
+                                                    gutterBottom
+                                                    sx={{
+                                                        fontWeight: 500,
+                                                        color: 'text.primary',
+                                                    }}
+                                                >
+                                                    Additional Guests
+                                                </Typography>
+                                                <Typography
+                                                    variant="body1"
+                                                    sx={{ color: 'text.secondary' }}
+                                                >
+                                                    Not seeing everybody in your party? Feel free to
+                                                    contact us at morrowchad1@protonmail.com.
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
                             </div>
                         )}
                         {activeStep === 2 && (
