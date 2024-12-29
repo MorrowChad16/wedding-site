@@ -25,6 +25,8 @@ import stil from '../assets/images/travel/stil.webp';
 import wylder from '../assets/images/travel/wylder.webp';
 import suite from '../assets/images/travel/104.webp';
 import waterbear from '../assets/images/travel/waterbear.webp';
+import highlander from '../assets/images/travel/highlander.webp';
+import haphap from '../assets/images/travel/haphap.webp';
 import quail from '../assets/images/travel/quail.webp';
 import shadow from '../assets/images/travel/shadow.webp';
 import hike from '../assets/images/travel/hike.webp';
@@ -108,23 +110,7 @@ const transportation: TravelInfo[] = [
     },
 ];
 
-const food: TravelInfo[] = [
-    {
-        name: 'Payette Brewery',
-        image: payette_brewery,
-        address: '733 S Pioneer St, Boise, ID 83702',
-        phone: '(208) 344-0011',
-        description: 'Outdoor Patio Brewery',
-        websiteUrl: 'https://www.payettebrewing.com/',
-    },
-    {
-        name: 'The Atlas Bar',
-        image: atlas,
-        address: '108 S 11th St, Boise, ID 83702',
-        phone: '(208) 385-0189',
-        description: 'Tiny Rotating Menu Cocktail Bar',
-        websiteUrl: '',
-    },
+const restaurants: TravelInfo[] = [
     {
         name: 'Amano',
         image: amano,
@@ -148,22 +134,6 @@ const food: TravelInfo[] = [
         phone: '(208) 519-1213',
         description: 'Downtown Mexican Restaurant',
         websiteUrl: 'https://coadejimaboise.com/',
-    },
-    {
-        name: 'Mother Earth Brewery',
-        image: motherearth,
-        address: '406 S 3rd St, Boise, ID 83702',
-        phone: '(986) 200-4594',
-        description: 'Smaller Outdoor Patio Brewery',
-        websiteUrl: 'https://www.motherearthbrewco.com/boise',
-    },
-    {
-        name: 'Les Bois Wines',
-        image: lesbois,
-        address: '813 W Bannock St, Boise, ID 83702',
-        phone: '',
-        description: 'Tiny Great Wine Tasting Shop',
-        websiteUrl: '',
     },
     {
         name: 'Wyld Child',
@@ -261,6 +231,25 @@ const food: TravelInfo[] = [
         description: 'Wood Fire Pizza',
         websiteUrl: 'https://the-wylder.club/',
     },
+];
+
+const bars: TravelInfo[] = [
+    {
+        name: 'The Atlas Bar',
+        image: atlas,
+        address: '108 S 11th St, Boise, ID 83702',
+        phone: '(208) 385-0189',
+        description: 'Tiny Rotating Menu Cocktail Bar',
+        websiteUrl: '',
+    },
+    {
+        name: 'Les Bois Wines',
+        image: lesbois,
+        address: '813 W Bannock St, Boise, ID 83702',
+        phone: '',
+        description: 'Tiny Great Wine Tasting Shop',
+        websiteUrl: '',
+    },
     {
         name: 'Suite 104',
         image: suite,
@@ -277,18 +266,44 @@ const food: TravelInfo[] = [
         description: 'Cocktail Bar',
         websiteUrl: 'https://www.waterbearbar.com/',
     },
+    {
+        name: 'Hap Hap Lounge',
+        image: haphap,
+        address: '722 W Broad St Second Floor, Boise, ID 83702',
+        phone: '',
+        description: 'House Music Cocktail Bar',
+        websiteUrl: 'https://treefortmusichall.com/hap-hap/',
+    },
+    {
+        name: 'The Highlander',
+        image: highlander,
+        address: '1110 W Grove St, Boise, ID 83702',
+        phone: '',
+        description: 'Cocktail Bar with a great view',
+        websiteUrl: 'https://www.highlanderboise.com/',
+    },
 ];
 
-const activities: TravelInfo[] = [
+const breweries: TravelInfo[] = [
     {
-        name: 'Quail Hollow Golf Course',
-        image: quail,
-        address: '4720 N 36th St, Boise, ID 83703',
-        phone: '(208) 972-8590',
-        description:
-            "The best bang for your buck in the Boise area. It's a public course tucked in to the foothills. Awesome views of the high dessert.",
-        websiteUrl: 'https://www.quailhollowboise.com/',
+        name: 'Payette Brewery',
+        image: payette_brewery,
+        address: '733 S Pioneer St, Boise, ID 83702',
+        phone: '(208) 344-0011',
+        description: 'Outdoor Patio Brewery',
+        websiteUrl: 'https://www.payettebrewing.com/',
     },
+    {
+        name: 'Mother Earth Brewery',
+        image: motherearth,
+        address: '406 S 3rd St, Boise, ID 83702',
+        phone: '(986) 200-4594',
+        description: 'Smaller Outdoor Patio Brewery',
+        websiteUrl: 'https://www.motherearthbrewco.com/boise',
+    },
+];
+
+const parks: TravelInfo[] = [
     {
         name: 'Bogus Basin',
         image: bogus,
@@ -304,14 +319,6 @@ const activities: TravelInfo[] = [
             'Lucky Peak is great for grilling, hanging out near the water, or renting a boat for the day.',
     },
     {
-        name: 'Osprey Meadows Golf Course',
-        image: osprey,
-        address: '75 Arling Center Ct Suite 150, Tamarack, ID 83615',
-        phone: '(208) 325-1458',
-        description:
-            "One of the best courses in Idaho. It's located up near McCall at Tamarack Resort. Next door you have Lake Cascade, which is great for everyone.",
-    },
-    {
         name: 'Stanley',
         image: stanley,
         address: 'Stanley, Idaho',
@@ -319,57 +326,11 @@ const activities: TravelInfo[] = [
             "Stanley is nestled in the nearby Sawtooth mountain range. You'll get great mountain views with horseback riding, camping, and other lake activities.",
     },
     {
-        name: 'Shadow Valley Golf Course',
-        image: shadow,
-        address: '15711 N Horseshoe Bend Rd, Garden City, ID 83714',
-        phone: '(208) 939-6699',
-        description:
-            'Another great course that takes advantage of the foothills. The front 9 zig zag through the hills. The back 9 flattens out for an easier time.',
-        websiteUrl: 'https://www.shadowvalley.com/',
-    },
-    {
-        name: 'Hot Springs',
-        image: hot_springs,
-        description:
-            "There are natural hot springs scattered across the state. We can send over some recommended ones if you're interested! We also recommend the resort The Springs, which is 45 minutes from Boise.",
-    },
-    {
-        name: 'Hiking',
-        image: hike,
-        description:
-            "There are a great hikes across Idaho, but most of the accessible ones are in the local foothills. We reccommend you use AllTrails to find one that fits what you're looking for. If you would like recommendations, feel free to reach out.",
-        websiteUrl: 'https://www.alltrails.com/',
-    },
-    {
         name: 'Teton Valley',
         image: teton,
         address: 'Grand Teton',
         description:
             "Eastern Idaho has Teton Valley and Yellowstone. Both are incredibly beautiful in the Summer. The have hiking in the National Parks and in Jackson Hole, you'll get a mountain resort town vibe.",
-    },
-    {
-        name: 'White Water Rafting',
-        image: rafting,
-        address: '7050 ID-55, Horseshoe Bend, ID 83629',
-        phone: '(208) 793-2221',
-        description:
-            'The Lower Payette River north of Boise is great for entry level white water rafting while taking in the Boise National Forest. We\'ve used Cascade Rafting before and they are great. We recommend the "Thrill" options since they are the most fun and have the best views. They seem scary, but they cater to everyone.',
-        websiteUrl: 'https://www.cascaderaft.com/payette-river-rafting-idaho',
-    },
-    {
-        name: 'Warm Springs Golf Course',
-        image: warmsprings,
-        address: '2495 E Warm Springs Ave, Boise, ID 83712',
-        phone: '(208) 972-8600',
-        description:
-            "This is your classic public subdivision course. It's very forgiving with flat hills and spaced out trees.",
-        websiteUrl: 'https://www.warmspringsgolfcourse.com/',
-    },
-    {
-        name: 'Fishing',
-        image: fishing,
-        description:
-            "Idaho has a ton of great fishing spots across the state. If you're interested in spots, feel free to reach out!",
     },
     {
         name: 'Sun Valley',
@@ -395,6 +356,75 @@ const activities: TravelInfo[] = [
     },
 ];
 
+const otherOutdoor: TravelInfo[] = [
+    {
+        name: 'Hot Springs',
+        image: hot_springs,
+        description:
+            "There are natural hot springs scattered across the state. We can send over some recommended ones if you're interested! We also recommend the resort The Springs, which is 45 minutes from Boise.",
+    },
+    {
+        name: 'Hiking',
+        image: hike,
+        description:
+            "There are a great hikes across Idaho, but most of the accessible ones are in the local foothills. We reccommend you use AllTrails to find one that fits what you're looking for. If you would like recommendations, feel free to reach out.",
+        websiteUrl: 'https://www.alltrails.com/',
+    },
+    {
+        name: 'White Water Rafting',
+        image: rafting,
+        address: '7050 ID-55, Horseshoe Bend, ID 83629',
+        phone: '(208) 793-2221',
+        description:
+            'The Lower Payette River north of Boise is great for entry level white water rafting while taking in the Boise National Forest. We\'ve used Cascade Rafting before and they are great. We recommend the "Thrill" options since they are the most fun and have the best views. They seem scary, but they cater to everyone.',
+        websiteUrl: 'https://www.cascaderaft.com/payette-river-rafting-idaho',
+    },
+    {
+        name: 'Fishing',
+        image: fishing,
+        description:
+            "Idaho has a ton of great fishing spots across the state. If you're interested in spots, feel free to reach out!",
+    },
+];
+
+const golf: TravelInfo[] = [
+    {
+        name: 'Quail Hollow Golf Course',
+        image: quail,
+        address: '4720 N 36th St, Boise, ID 83703',
+        phone: '(208) 972-8590',
+        description:
+            "The best bang for your buck in the Boise area. It's a public course tucked in to the foothills. Awesome views of the high dessert.",
+        websiteUrl: 'https://www.quailhollowboise.com/',
+    },
+    {
+        name: 'Osprey Meadows Golf Course',
+        image: osprey,
+        address: '75 Arling Center Ct Suite 150, Tamarack, ID 83615',
+        phone: '(208) 325-1458',
+        description:
+            "One of the best courses in Idaho. It's located up near McCall at Tamarack Resort. Next door you have Lake Cascade, which is great for everyone.",
+    },
+    {
+        name: 'Shadow Valley Golf Course',
+        image: shadow,
+        address: '15711 N Horseshoe Bend Rd, Garden City, ID 83714',
+        phone: '(208) 939-6699',
+        description:
+            'Another great course that takes advantage of the foothills. The front 9 zig zag through the hills. The back 9 flattens out for an easier time.',
+        websiteUrl: 'https://www.shadowvalley.com/',
+    },
+    {
+        name: 'Warm Springs Golf Course',
+        image: warmsprings,
+        address: '2495 E Warm Springs Ave, Boise, ID 83712',
+        phone: '(208) 972-8600',
+        description:
+            "This is your classic public subdivision course. It's very forgiving with flat hills and spaced out trees.",
+        websiteUrl: 'https://www.warmspringsgolfcourse.com/',
+    },
+];
+
 export const TRAVEL_SECTIONS: TravelSection[] = [
     {
         title: 'Hotels',
@@ -409,12 +439,28 @@ export const TRAVEL_SECTIONS: TravelSection[] = [
         info: transportation,
     },
     {
-        title: 'Restaurants and Bars',
-        info: food,
+        title: 'Restaurants',
+        info: restaurants,
     },
     {
-        title: 'Activities',
-        info: activities,
+        title: 'Bars',
+        info: bars,
+    },
+    {
+        title: 'Breweries',
+        info: breweries,
+    },
+    {
+        title: 'Parks',
+        info: parks,
+    },
+    {
+        title: 'Golf',
+        info: golf,
+    },
+    {
+        title: 'Other Outdoor Activities',
+        info: otherOutdoor,
     },
 ] as const;
 
