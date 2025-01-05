@@ -84,7 +84,7 @@ export const isValidEmail = async (email: string) => {
     const response = await getClient().models.Guest.list({
         filter: {
             email: {
-                eq: email,
+                eq: email.toLowerCase(),
             },
         },
     });
