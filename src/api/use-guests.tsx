@@ -165,6 +165,7 @@ export const getGuests = (email: string) => {
                         },
                     },
                 });
+                console.log('response', response.data)
 
                 const translatedValues = response.data.map<Guest>((guest) => ({
                     email: guest.email,
