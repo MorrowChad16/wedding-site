@@ -151,7 +151,7 @@ export const getGuests = (email: string) => {
         isLoading,
         error,
         data: guests,
-    } = useQuery<Guest[]>({
+    } = useQuery<Guest[] | undefined>({
         queryKey: ['getGuests'],
         queryFn: async () => {
             const response = await getClient().models.Guest.list({
@@ -160,10 +160,12 @@ export const getGuests = (email: string) => {
                         eq: email,
                     },
                 },
-                limit: 1_000
+                limit: 1_000,
             });
 
-            console.log(response.data)
+            if (response.data.length === 0) {
+                return undefined;
+            }
 
             return response.data.map<Guest>((guest) => ({
                 email: guest.email,
