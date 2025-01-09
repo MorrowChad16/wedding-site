@@ -23,17 +23,6 @@ interface ScheduleItem {
 
 export const SCHEDULE_ITEMS: ScheduleItem[] = [
     {
-        uid: '1712020056342-73243',
-        startTime: new Date(2025, 5, 13, 17),
-        endTime: new Date(2025, 5, 13, 19),
-        title: 'Rehearsal Dinner',
-        location: '3588 N Prospect Way, Garden City, ID 83714',
-        locationName: "Caffè Luciano's",
-        iconAsset: dinner,
-        formality: 'Semi-Formal',
-        isPrivate: true,
-    },
-    {
         uid: '1712020056342-73242',
         startTime: new Date(2025, 5, 13, 19),
         endTime: new Date(2025, 5, 13, 24),

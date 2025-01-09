@@ -30,7 +30,6 @@ export const handler: Schema['askWeddingQuestion']['functionHandler'] = async (e
             ],
         });
 
-        console.log('Content List: ', msg.content);
         return (msg.content[0] as TextBlock).text;
     } catch (error) {
         console.log('Error: ', error);
