@@ -148,7 +148,6 @@ function generateGiftRegistryString(sections: typeof REGISTRY_SECTIONS): string 
         .join('\n\n');
 }
 
-const scheduleString = generateScheduleString(SCHEDULE_ITEMS);
 const faqString = generateFaqString(FAQ_ITEMS);
 const travelInformation = generateTravelInfoString(TRAVEL_SECTIONS);
 const giftRegistryString = generateGiftRegistryString(REGISTRY_SECTIONS);
@@ -159,9 +158,6 @@ let WEDDING_CONTEXT = `
   - Couple: ${COUPLE_NAMES}
 
   - Date: ${WEDDING_DATE}
-
-  - Schedule: 
-  ${scheduleString}
 
   - Frequently Asked Questions: 
   ${faqString}
@@ -231,13 +227,10 @@ function ChatBot() {
     const { storeEmail } = useStore();
     const { guests } = getGuests(storeEmail);
 
-    const scheduleString = generateScheduleString(
-        SCHEDULE_ITEMS.filter(
-            (item) =>
-                item.isPrivate === false ||
-                item.isPrivate === guests?.some((guest) => guest.isBridalParty)
-        )
-    );
+    const scheduleString = generateScheduleString(SCHEDULE_ITEMS.filter(
+        (item) =>
+            item.isPrivate === false ||
+            item.isPrivate === guests?.some((guest) => guest.isBridalParty)));
 
     const exampleQuestions = [
         'Where is the venue located?',
