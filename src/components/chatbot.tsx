@@ -26,6 +26,8 @@ import { MarkdownTypography } from './markdown-typography';
 import { generateClient } from 'aws-amplify/api';
 import { Schema } from '../../amplify/data/resource';
 import { useLocation } from 'react-router-dom';
+import { getGuests } from '../api/use-guests';
+import { useStore } from '../api/use-store';
 
 const getClient = () => generateClient<Schema>();
 
@@ -146,20 +148,16 @@ function generateGiftRegistryString(sections: typeof REGISTRY_SECTIONS): string 
         .join('\n\n');
 }
 
-const scheduleString = generateScheduleString(SCHEDULE_ITEMS);
 const faqString = generateFaqString(FAQ_ITEMS);
 const travelInformation = generateTravelInfoString(TRAVEL_SECTIONS);
 const giftRegistryString = generateGiftRegistryString(REGISTRY_SECTIONS);
 
-const WEDDING_CONTEXT = `
+let WEDDING_CONTEXT = `
   You are an AI assistant for a wedding. Here are the key details about the wedding:
   
   - Couple: ${COUPLE_NAMES}
 
   - Date: ${WEDDING_DATE}
-
-  - Schedule: 
-  ${scheduleString}
 
   - Frequently Asked Questions: 
   ${faqString}
@@ -226,6 +224,14 @@ function ChatBot() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
+    const { storeEmail } = useStore();
+    const { guests } = getGuests(storeEmail);
+
+    const scheduleString = generateScheduleString(SCHEDULE_ITEMS.filter(
+        (item) =>
+            item.isPrivate === false ||
+            item.isPrivate === guests?.some((guest) => guest.isBridalParty)));
+    WEDDING_CONTEXT.concat(scheduleString);
 
     const exampleQuestions = [
         'Where is the venue located?',

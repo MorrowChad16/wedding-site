@@ -2,6 +2,7 @@ import PageContainer from '../components/page-container';
 import ScheduleIcon from '../components/schedule-icon';
 import weddingCeremony from '../assets/icons/wedding-ceremony.png';
 import gathering from '../assets/icons/gathering.png';
+import romanticDinner from '../assets/icons/romantic-dinner.png';
 import { CircularProgress, Grid } from '@mui/material';
 import { useStore } from '../api/use-store';
 import { getGuests } from '../api/use-guests';
@@ -21,6 +22,18 @@ interface ScheduleItem {
 }
 
 export const SCHEDULE_ITEMS: ScheduleItem[] = [
+    {
+        uid: '1712020056342-73240',
+        startTime: new Date(2025, 5, 13, 15),
+        endTime: new Date(2025, 5, 13, 18),
+        title: 'Rehearsal Dinner',
+        description: 'Rehearse for the wedding over dinner',
+        location: '2355 N Old Penitentiary Rd, Boise, ID 83712',
+        locationName: 'Idaho Botanical Gardens',
+        iconAsset: romanticDinner,
+        formality: 'Semi-Formal',
+        isPrivate: true,
+    },
     {
         uid: '1712020056342-73242',
         startTime: new Date(2025, 5, 13, 19),
