@@ -184,6 +184,7 @@ export const getGuests = (email: string) => {
                 nextToken = response.nextToken;
             } while (nextToken);
 
+            console.log(allGuests);
             return allGuests;
         },
         retry: 3,
