@@ -165,6 +165,7 @@ export const getGuests = (email: string) => {
                         },
                     },
                 });
+                console.log('email', email)
                 console.log('response', response.data)
 
                 const translatedValues = response.data.map<Guest>((guest) => ({
@@ -183,7 +184,7 @@ export const getGuests = (email: string) => {
 
                 allGuests.concat(translatedValues);
                 nextToken = response.nextToken;
-            } while (nextToken);
+            } while (nextToken !== undefined || nextToken !== null);
 
             console.log(allGuests);
             return allGuests;
