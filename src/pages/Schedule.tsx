@@ -50,7 +50,6 @@ export const SCHEDULE_ITEMS: ScheduleItem[] = [
 export default function Schedule() {
     const { email } = useStore();
     const { isLoading, guests } = getGuests(email);
-    console.log(guests);
 
     return (
         <PageContainer>

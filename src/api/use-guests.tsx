@@ -163,6 +163,8 @@ export const getGuests = (email: string) => {
                 limit: 1_000
             });
 
+            console.log(response.data)
+
             return response.data.map<Guest>((guest) => ({
                 email: guest.email,
                 guestId: guest.guestId,
