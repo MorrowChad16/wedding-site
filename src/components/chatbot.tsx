@@ -231,7 +231,6 @@ function ChatBot() {
         (item) =>
             item.isPrivate === false ||
             item.isPrivate === guests?.some((guest) => guest.isBridalParty)));
-    WEDDING_CONTEXT.concat(scheduleString);
 
     const exampleQuestions = [
         'Where is the venue located?',
@@ -252,7 +251,7 @@ function ChatBot() {
 
         getClient()
             .queries.askWeddingQuestion({
-                context: `${WEDDING_CONTEXT} ${aggregatedMessages}`,
+                context: `${WEDDING_CONTEXT} ${scheduleString} ${aggregatedMessages}`,
                 question: text,
             })
             .then((response) => {
