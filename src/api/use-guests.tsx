@@ -154,38 +154,28 @@ export const getGuests = (email: string) => {
     } = useQuery<Guest[]>({
         queryKey: ['getGuests'],
         queryFn: async () => {
-            let allGuests: Guest[] = [];
+            const response = await getClient().models.Guest.list({
+                filter: {
+                    email: {
+                        eq: email,
+                    },
+                },
+                limit: 1_000
+            });
 
-            for (let i = 0; i < 10; i++) {
-                const response = await getClient().models.Guest.get({
-                    email: email,
-                    guestId: `${i}`,
-                });
-
-                if (response.data === undefined) {
-                    continue;
-                }
-
-                const guest = response.data!;
-                const translatedValue: Guest = {
-                    email: guest.email,
-                    guestId: guest.guestId,
-                    relationship: guest.relationship as Relationship,
-                    phoneNumber: guest.phoneNumber,
-                    firstName: guest.firstName,
-                    lastName: guest.lastName,
-                    status: guest.status as Status,
-                    foodChoice: guest.foodChoice as FoodChoice,
-                    foodAllergies: guest.foodAllergies,
-                    songRequests: guest.songRequests,
-                    isBridalParty: guest.isBridalParty,
-                };
-
-                allGuests.concat(translatedValue);
-            }
-
-            console.log(allGuests);
-            return allGuests;
+            return response.data.map<Guest>((guest) => ({
+                email: guest.email,
+                guestId: guest.guestId,
+                relationship: guest.relationship as Relationship,
+                phoneNumber: guest.phoneNumber,
+                firstName: guest.firstName,
+                lastName: guest.lastName,
+                status: guest.status as Status,
+                foodChoice: guest.foodChoice as FoodChoice,
+                foodAllergies: guest.foodAllergies,
+                songRequests: guest.songRequests,
+                isBridalParty: guest.isBridalParty,
+            }));
         },
         retry: 3,
         retryDelay: 200,
