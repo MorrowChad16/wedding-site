@@ -108,8 +108,8 @@ export const hasSubmittedRsvp = (email: string) => {
                 },
             });
 
-            const tempResponse = await getClient().models.Guest.list();
-            console.log(tempResponse);
+            // const tempResponse = await getClient().models.Guest.list();
+            // console.log(tempResponse);
 
             return response.data.some((guest) => guest.status !== Status.ATTENDING);
         },
