@@ -183,6 +183,7 @@ export const getGuests = (email: string) => {
                 }));
 
                 allGuests.concat(translatedValues);
+                console.log('nextToken', response.nextToken)
                 nextToken = response.nextToken;
             } while (nextToken !== undefined || nextToken !== null);
 
