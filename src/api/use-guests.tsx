@@ -149,7 +149,6 @@ export const updateGuest = async (
 export const getGuests = (email: string) => {
     const {
         isLoading,
-        refetch,
         error,
         data: guests,
     } = useQuery<Guest[] | undefined>({
@@ -189,7 +188,6 @@ export const getGuests = (email: string) => {
 
     return {
         isLoading,
-        refetch,
         error,
         guests,
     };

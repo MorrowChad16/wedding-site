@@ -45,7 +45,7 @@ const Rsvp = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [isToastOpen, setIsToastOpen] = useState(false);
 
-    const { isLoading, refetch, error, guests } = getGuests(email);
+    const { isLoading, error, guests } = getGuests(email);
     const [attending, setAttending] = useState(false);
     const [foodChoices, setFoodChoices] = useState<DisplayFoodChoice[]>([]);
     const [songs, setSongs] = useState<string[]>([]);
@@ -86,7 +86,6 @@ const Rsvp = () => {
         });
 
         setIsToastOpen(true);
-        refetch();
     };
 
     useLayoutEffect(() => {
