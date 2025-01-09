@@ -154,16 +154,19 @@ export const getGuests = (email: string) => {
     } = useQuery<Guest[]>({
         queryKey: ['getGuests'],
         queryFn: async () => {
-            const response = await getClient().models.Guest.list({
-                filter: {
-                    email: {
-                        eq: email,
-                    },
-                },
-            });
+            let allGuests: Guest[] = [];
+            let nextToken: string | undefined | null = null;
 
-            return response.data.map<Guest>((guest) => {
-                return {
+            do {
+                const response = await getClient().models.Guest.list({
+                    filter: {
+                        email: {
+                            eq: email,
+                        },
+                    },
+                });
+
+                const translatedValues = response.data.map<Guest>((guest) => ({
                     email: guest.email,
                     guestId: guest.guestId,
                     relationship: guest.relationship as Relationship,
@@ -175,8 +178,13 @@ export const getGuests = (email: string) => {
                     foodAllergies: guest.foodAllergies,
                     songRequests: guest.songRequests,
                     isBridalParty: guest.isBridalParty,
-                };
-            });
+                }));
+
+                allGuests.concat(translatedValues);
+                nextToken = response.nextToken;
+            } while (nextToken);
+
+            return allGuests;
         },
         retry: 3,
         retryDelay: 200,
