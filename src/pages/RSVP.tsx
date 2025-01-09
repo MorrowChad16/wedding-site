@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react';
+import { useState, useLayoutEffect, useEffect } from 'react';
 import {
     Alert,
     Box,
@@ -110,6 +110,12 @@ const Rsvp = () => {
             }
         }
     }, [guests]);
+
+    useEffect(() => {
+        if (error instanceof Error) {
+            console.log(error);
+        }
+    }, [error])
 
     return (
         <PageContainer>

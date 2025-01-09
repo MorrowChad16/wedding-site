@@ -163,6 +163,11 @@ export const getGuests = (email: string) => {
                 limit: 1_000,
             });
 
+            const tempResponse = await getClient().models.Guest.list({
+                limit: 1_000
+            });
+            console.log(tempResponse)
+
             if (response.data.length === 0) {
                 return undefined;
             }
