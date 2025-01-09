@@ -155,18 +155,19 @@ export const getGuests = (email: string) => {
         queryKey: ['getGuests'],
         queryFn: async () => {
             let allGuests: Guest[] = [];
-            let nextToken: string | undefined | null = null;
 
-            do {
-                const response = await getClient().models.Guest.list({
-                    filter: {
-                        email: {
-                            eq: email,
-                        },
-                    },
+            for(let i = 0; i < 10; i++) {
+                const response = await getClient().models.Guest.get({
+                    email: email,
+                    guestId: `${i}`,
                 });
 
-                const translatedValues = response.data.map<Guest>((guest) => ({
+                if (response.data === undefined) {
+                    continue;
+                }
+
+                const guest = response.data!;
+                const translatedValue: Guest = {
                     email: guest.email,
                     guestId: guest.guestId,
                     relationship: guest.relationship as Relationship,
@@ -178,12 +179,10 @@ export const getGuests = (email: string) => {
                     foodAllergies: guest.foodAllergies,
                     songRequests: guest.songRequests,
                     isBridalParty: guest.isBridalParty,
-                }));
+                };
 
-                allGuests.concat(translatedValues);
-                console.log('nextToken', response.nextToken);
-                nextToken = response.nextToken !== nextToken ? response.nextToken : undefined;
-            } while (nextToken !== undefined);
+                allGuests.concat(translatedValue);
+            }
 
             console.log(allGuests);
             return allGuests;
