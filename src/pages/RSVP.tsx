@@ -40,12 +40,12 @@ type DisplayFoodChoice = {
 };
 
 const Rsvp = () => {
-    const { email } = useStore();
+    const { storeEmail } = useStore();
     const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
     const [isToastOpen, setIsToastOpen] = useState(false);
 
-    const { isLoading, error, guests } = getGuests(email);
+    const { isLoading, error, guests } = getGuests(storeEmail);
     const [attending, setAttending] = useState(false);
     const [foodChoices, setFoodChoices] = useState<DisplayFoodChoice[]>([]);
     const [songs, setSongs] = useState<string[]>([]);
@@ -76,7 +76,7 @@ const Rsvp = () => {
     const handleSubmit = () => {
         foodChoices.forEach(async (item) => {
             await updateGuest(
-                email,
+                storeEmail,
                 item.guestId,
                 item.allergies,
                 attending ? Status.COMING : Status.NOT_ATTENDING,
@@ -115,7 +115,7 @@ const Rsvp = () => {
         if (error instanceof Error) {
             console.log(error);
         }
-    }, [error])
+    }, [error]);
 
     return (
         <PageContainer>

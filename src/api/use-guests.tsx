@@ -85,7 +85,7 @@ export const isValidEmail = async (email: string) => {
         email: email,
         guestId: '1',
     });
-    return response.data !== undefined;
+    return response.data !== null;
 };
 
 /**
@@ -163,12 +163,6 @@ export const getGuests = (email: string) => {
                 limit: 1_000,
             });
 
-            console.log(response.data)
-
-            if (response.data.length === 0) {
-                return undefined;
-            }
-
             return response.data.map<Guest>((guest) => ({
                 email: guest.email,
                 guestId: guest.guestId,
@@ -186,6 +180,7 @@ export const getGuests = (email: string) => {
         retry: 3,
         retryDelay: 200,
         staleTime: 86_400_000,
+        enabled: email !== '' && email !== undefined,
     });
 
     return {

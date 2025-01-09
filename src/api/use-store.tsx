@@ -1,11 +1,14 @@
 import { create } from 'zustand';
 
 interface UserState {
-    email: string;
-    setEmail: (email: string) => void;
+    storeEmail: string;
+    setStoreEmail: (email: string) => void;
 }
 
 export const useStore = create<UserState>((set) => ({
-    email: localStorage.getItem('email') || '',
-    setEmail: (email) => set(() => ({ email: email })),
+    storeEmail: localStorage.getItem('email') || '',
+    setStoreEmail: (email) => {
+        localStorage.setItem('email', email);
+        set(() => ({ storeEmail: email }));
+    },
 }));

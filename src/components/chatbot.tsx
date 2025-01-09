@@ -25,6 +25,7 @@ import { REGISTRY_SECTIONS } from '../pages/Registry';
 import { MarkdownTypography } from './markdown-typography';
 import { generateClient } from 'aws-amplify/api';
 import { Schema } from '../../amplify/data/resource';
+import { useLocation } from 'react-router-dom';
 
 const getClient = () => generateClient<Schema>();
 
@@ -224,6 +225,7 @@ function ChatBot() {
     const [messages, setMessages] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const location = useLocation();
 
     const exampleQuestions = [
         'Where is the venue located?',
@@ -267,19 +269,21 @@ function ChatBot() {
 
     return (
         <div>
-            <Fab
-                color="primary"
-                variant="extended"
-                onClick={() => setOpenChatBot(true)}
-                style={{
-                    position: 'fixed',
-                    bottom: '20px',
-                    right: '20px',
-                    zIndex: 1000,
-                }}
-            >
-                Ask AI
-            </Fab>
+            {location.pathname !== '/rsvp' && (
+                <Fab
+                    color="primary"
+                    variant="extended"
+                    onClick={() => setOpenChatBot(true)}
+                    style={{
+                        position: 'fixed',
+                        bottom: '20px',
+                        right: '20px',
+                        zIndex: 1000,
+                    }}
+                >
+                    Ask AI
+                </Fab>
+            )}
 
             <Dialog
                 open={openChatBot}

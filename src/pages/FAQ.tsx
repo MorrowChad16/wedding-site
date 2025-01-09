@@ -24,14 +24,23 @@ export const FAQ_ITEMS: FaqItem[] = [
     {
         id: 'q3',
         question: 'What is the dress code of the wedding?',
-        answer: "The wedding will have a formal dress code. We are asking women wear midi to floor length dresses. Satins and pastels are encouraged. We're asking men wear button ups and jackets. Ties are optional. No jeans, flannels or plaid. Kids can wear basically whatever they want. Thank you!",
+        answer: "We look forward to celebrating with you at our formal wedding celebration. For adult guests, we encourage formal attire such as floor or midi length dresses, suits, or dress separates. We particularly love satin fabrics and pastel tones for this special occasion. All adult guests should wear collared button-up shirts with jackets, and ties are optional. Please note that jeans, flannel, and plaid patterns won't be appropriate for this event. Children are welcome to dress comfortably in their choice of attire. Thank you for helping us maintain the elegant atmosphere of our celebration!",
     },
     {
         id: 'q4',
+        question: 'What is the dress code for the welcome party?',
+        answer: "The welcome party dress code is cocktail casual - think what you'd wear for a nice dinner out at a restaurant. We want everyone to feel comfortable while looking polished and party-ready!",
+    },
+    {
+        id: 'q5',
         question: 'Where will the wedding and ceremony be?',
         answer: 'It will be at Stone Crossing in Boise Idaho. If you need more info head to the "Schedule" tab or feel free to ask our AI assistant in the bottom right.',
     },
-    // { id: 'q6', question: 'When do I need to RSVP by?', answer: '...' },
+    {
+        id: 'q6',
+        question: 'When do I need to RSVP by?',
+        answer: 'May 14th',
+    },
     {
         id: 'q7',
         question: 'Can I bring a date?',

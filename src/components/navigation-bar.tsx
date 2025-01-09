@@ -28,14 +28,17 @@ import { PAST_DUE_DATE } from '../utils/constants';
 
 function NavigationBar() {
     const theme = useTheme();
-    const { email, setEmail } = useStore();
+    // used across screens
+    const { storeEmail, setStoreEmail } = useStore();
+    // used for visualizations
+    const [email, setEmail] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(location.pathname);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const [open, setOpen] = useState(false);
-    const [openSignIn, setOpenSignIn] = useState(email === '');
+    const [openSignIn, setOpenSignIn] = useState(storeEmail === '');
     const [error, setError] = useState('');
 
     const toggleDrawer = (newOpen: boolean) => () => {
@@ -62,10 +65,9 @@ function NavigationBar() {
 
     const handleLoginClick = async () => {
         if (email) {
-            const isValid = await isValidEmail(email);
+            const isValid = await isValidEmail(email.toLowerCase());
             if (isValid) {
-                localStorage.setItem('email', email!);
-                setEmail(email);
+                setStoreEmail(email.toLowerCase());
                 setOpenSignIn(false);
             } else {
                 setError('Invalid email address');
@@ -220,7 +222,7 @@ function NavigationBar() {
                         fullWidth
                         variant="outlined"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value.toLowerCase())}
                         error={!!error}
                         helperText={error}
                     />

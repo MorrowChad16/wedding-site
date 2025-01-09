@@ -17,13 +17,13 @@ function PageContainer({
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { email } = useStore();
+    const { storeEmail } = useStore();
     const isWithin30Days = (): boolean => {
         const timeDiff = Math.abs(WEDDING_DATE.getTime() - new Date().getTime());
         const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
         return daysDiff > 0 && daysDiff <= 30;
     };
-    const { hasSubmitted } = hasSubmittedRsvp(email);
+    const { hasSubmitted } = hasSubmittedRsvp(storeEmail);
 
     let paddingTop = '100px';
     if (isMobile) {

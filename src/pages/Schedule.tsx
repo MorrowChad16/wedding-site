@@ -48,8 +48,8 @@ export const SCHEDULE_ITEMS: ScheduleItem[] = [
 ];
 
 export default function Schedule() {
-    const { email } = useStore();
-    const { isLoading, guests } = getGuests(email);
+    const { storeEmail } = useStore();
+    const { isLoading, guests } = getGuests(storeEmail);
 
     return (
         <PageContainer>
