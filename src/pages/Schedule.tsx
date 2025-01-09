@@ -2,7 +2,6 @@ import PageContainer from '../components/page-container';
 import ScheduleIcon from '../components/schedule-icon';
 import weddingCeremony from '../assets/icons/wedding-ceremony.png';
 import gathering from '../assets/icons/gathering.png';
-import dinner from '../assets/icons/romantic-dinner.png';
 import { CircularProgress, Grid } from '@mui/material';
 import { useStore } from '../api/use-store';
 import { getGuests } from '../api/use-guests';

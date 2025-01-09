@@ -181,8 +181,7 @@ export const getGuests = (email: string) => {
                 }));
 
                 allGuests.concat(translatedValues);
-                console.log('response', response.data)
-                console.log('nextToken', response.nextToken)
+                console.log('nextToken', response.nextToken);
                 nextToken = response.nextToken !== nextToken ? response.nextToken : undefined;
             } while (nextToken !== undefined);
 
