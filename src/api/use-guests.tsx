@@ -157,16 +157,13 @@ export const getGuests = (email: string) => {
             const response = await getClient().models.Guest.list({
                 filter: {
                     email: {
-                        eq: email,
+                        eq: email.toLowerCase(),
                     },
                 },
                 limit: 1_000,
             });
 
-            const tempResponse = await getClient().models.Guest.list({
-                limit: 1_000
-            });
-            console.log(tempResponse)
+            console.log(response.data)
 
             if (response.data.length === 0) {
                 return undefined;
