@@ -156,7 +156,7 @@ export const getGuests = (email: string) => {
         queryFn: async () => {
             let allGuests: Guest[] = [];
 
-            for(let i = 0; i < 10; i++) {
+            for (let i = 0; i < 10; i++) {
                 const response = await getClient().models.Guest.get({
                     email: email,
                     guestId: `${i}`,
