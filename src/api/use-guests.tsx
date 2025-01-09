@@ -81,14 +81,11 @@ export const resetTable = () => {
  * @returns true if email is in database, false otherwise
  */
 export const isValidEmail = async (email: string) => {
-    const response = await getClient().models.Guest.list({
-        filter: {
-            email: {
-                eq: email.toLowerCase(),
-            },
-        },
+    const response = await getClient().models.Guest.get({
+        email: email,
+        guestId: '1',
     });
-    return response.data.length > 0;
+    return response.data !== undefined;
 };
 
 /**
@@ -100,18 +97,12 @@ export const hasSubmittedRsvp = (email: string) => {
     const { data: hasSubmitted } = useQuery<boolean>({
         queryKey: ['getRsvpStatus'],
         queryFn: async () => {
-            const response = await getClient().models.Guest.list({
-                filter: {
-                    email: {
-                        eq: email,
-                    },
-                },
+            const response = await getClient().models.Guest.get({
+                email: email,
+                guestId: '1',
             });
 
-            const tempResponse = await getClient().models.Guest.list();
-            console.log(tempResponse);
-
-            return response.data.some((guest) => guest.status !== Status.ATTENDING);
+            return response.data?.status !== Status.ATTENDING;
         },
         retry: 3,
         retryDelay: 200,
