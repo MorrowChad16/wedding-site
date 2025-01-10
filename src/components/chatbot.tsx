@@ -224,14 +224,16 @@ function ChatBot() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
-    console.log(location)
     const { storeEmail } = useStore();
     const { guests } = getGuests(storeEmail);
 
-    const scheduleString = generateScheduleString(SCHEDULE_ITEMS.filter(
-        (item) =>
-            item.isPrivate === false ||
-            item.isPrivate === guests?.some((guest) => guest.isBridalParty)));
+    const scheduleString = generateScheduleString(
+        SCHEDULE_ITEMS.filter(
+            (item) =>
+                item.isPrivate === false ||
+                item.isPrivate === guests?.some((guest) => guest.isBridalParty)
+        )
+    );
 
     const exampleQuestions = [
         'Where is the venue located?',
