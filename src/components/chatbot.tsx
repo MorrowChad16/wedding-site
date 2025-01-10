@@ -224,6 +224,7 @@ function ChatBot() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
+    console.log(location)
     const { storeEmail } = useStore();
     const { guests } = getGuests(storeEmail);
 
@@ -280,7 +281,7 @@ function ChatBot() {
 
     return (
         <div>
-            {location.pathname !== '/rsvp' && (
+            {location.pathname.includes('rsvp') && (
                 <Fab
                     color="primary"
                     variant="extended"
