@@ -155,7 +155,7 @@ const giftRegistryString = generateGiftRegistryString(REGISTRY_SECTIONS);
 let WEDDING_CONTEXT = `
   You are an AI assistant for a wedding. Here are the key details about the wedding:
   
-  - Couple: ${COUPLE_NAMES}
+  - Couple: Ciara McNeley and Chad Morrow
 
   - Date: ${WEDDING_DATE}
 
@@ -169,7 +169,7 @@ let WEDDING_CONTEXT = `
   ${giftRegistryString}
 
   - Contact for questions: 
-    - Name: Chad
+    - Name: Chad Morrow
     - Number: 815-708-4489
     - Email: morrowchad1@protonmail.com
   

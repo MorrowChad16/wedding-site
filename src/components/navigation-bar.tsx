@@ -60,7 +60,7 @@ function NavigationBar() {
     );
 
     const isOnPage = (page: Page) => {
-        return currentPage === page.displayName || currentPage === page.path;
+        return currentPage.includes(page.displayName) || currentPage.includes(page.path);
     };
 
     const handleLoginClick = async () => {

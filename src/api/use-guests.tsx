@@ -160,7 +160,7 @@ export const getGuests = (email: string) => {
                         eq: email.toLowerCase(),
                     },
                 },
-                limit: 1_000,
+                limit: 200,
             });
 
             return response.data.map<Guest>((guest) => ({
