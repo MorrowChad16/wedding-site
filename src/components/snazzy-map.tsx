@@ -93,7 +93,7 @@ const TravelMap = () => {
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyBiY0xpaMLsMbEuYNyd8GalXW6HXJMLQB8', // process.env.REACT_APP_GOOGLE_MAPS_API_KEY ||
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''
     });
 
     const schedule: TravelInfo[] = [
