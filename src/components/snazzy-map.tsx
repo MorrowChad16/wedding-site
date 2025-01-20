@@ -119,9 +119,7 @@ const TravelMap = () => {
         },
     ];
 
-    const locations = TRAVEL_SECTIONS.map((section) => {
-        return section.info.filter((location) => location.coordinates !== undefined);
-    }).flat();
+    const locations = TRAVEL_SECTIONS.map((section) => section.info.filter((location) => location.coordinates !== undefined)).flat();
     locations.push(...schedule);
 
     const mapStyles = [
