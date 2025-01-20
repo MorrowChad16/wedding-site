@@ -92,6 +92,9 @@ const TravelMap = () => {
     const [selectedLocation, setSelectedLocation] = React.useState<TravelInfo | null>(null);
 
     console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
+    console.log(process.env.VITE_CLAUDE_API_KEY)
+    console.log(import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY)
+    console.log(import.meta.env.VITE_CLAUDE_API_KEY)
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''
