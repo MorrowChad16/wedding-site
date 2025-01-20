@@ -6,6 +6,7 @@ import romanticDinner from '../assets/icons/romantic-dinner.png';
 import { CircularProgress, Grid } from '@mui/material';
 import { useStore } from '../api/use-store';
 import { getGuests } from '../api/use-guests';
+import { LocationType } from './Travel';
 
 type Formailty = 'Casual' | 'Semi-Formal' | 'Formal';
 interface ScheduleItem {
@@ -16,6 +17,8 @@ interface ScheduleItem {
     description?: string;
     locationName: string;
     location: string;
+    coordinates: google.maps.LatLng | google.maps.LatLngLiteral;
+    type: LocationType;
     iconAsset: string;
     formality: Formailty;
     isPrivate: boolean;
@@ -29,6 +32,11 @@ export const SCHEDULE_ITEMS: ScheduleItem[] = [
         title: 'Rehearsal Dinner',
         description: 'Rehearse for the wedding over dinner',
         location: '2355 N Old Penitentiary Rd, Boise, ID 83712',
+        coordinates: {
+            lat: 43.60046969761995,
+            lng: -116.16229284551895,
+        },
+        type: 'event',
         locationName: 'Idaho Botanical Gardens',
         iconAsset: romanticDinner,
         formality: 'Semi-Formal',
@@ -41,6 +49,11 @@ export const SCHEDULE_ITEMS: ScheduleItem[] = [
         title: 'Welcome Party',
         description: 'Come celebrate with us!',
         location: '280 N 8th St Suite 104, Boise, ID 83702',
+        coordinates: {
+            lat: 43.61706109262501,
+            lng: -116.20200166581762,
+        },
+        type: 'event',
         locationName: 'Suite 104',
         iconAsset: gathering,
         formality: 'Semi-Formal',
@@ -53,6 +66,11 @@ export const SCHEDULE_ITEMS: ScheduleItem[] = [
         title: 'Wedding Ceremony',
         description: 'have fun',
         location: '9600 W Brookside Ln, Boise, ID 83714',
+        coordinates: {
+            lat: 43.73675347623313,
+            lng: -116.29977025186639,
+        },
+        type: 'ceremony',
         locationName: 'Stone Crossing',
         iconAsset: weddingCeremony,
         formality: 'Formal',
