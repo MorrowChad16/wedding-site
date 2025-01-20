@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import PageContainer from '../components/page-container';
 import { Box, Button, Paper, Typography, useTheme } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -46,7 +47,6 @@ import sun_valley from '../assets/images/travel/sun_valley.webp';
 import mccall from '../assets/images/travel/mccall.webp';
 import stanley from '../assets/images/travel/stanley.webp';
 import bogus from '../assets/images/travel/bogus.webp';
-import { useState } from 'react';
 import { MapListFab } from '../components/map-list-fab';
 import TravelMap from '../components/snazzy-map';
 
@@ -726,6 +726,9 @@ export default function Travel() {
                                                                     objectFit: 'cover',
                                                                     objectPosition: 'center',
                                                                     borderRadius: '10px',
+                                                                }}
+                                                                onError={(e) => {
+                                                                    console.log('Image error:', e);
                                                                 }}
                                                             />
                                                         </Box>
