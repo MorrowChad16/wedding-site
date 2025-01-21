@@ -28,6 +28,8 @@ import { Schema } from '../../amplify/data/resource';
 import { useLocation } from 'react-router-dom';
 import { getGuests } from '../api/use-guests';
 import { useStore } from '../api/use-store';
+import { LoadingDots } from './loading-dots';
+import { StreamingText } from './streaming-text';
 
 const getClient = () => generateClient<Schema>();
 
@@ -211,16 +213,18 @@ let WEDDING_CONTEXT = `
 //     }
 // }
 
-interface Message {
+type Message = {
     text: string;
     isUser: boolean;
-}
+    isStreaming?: boolean;
+};
 
 function ChatBot() {
     const theme = useTheme();
     const [openChatBot, setOpenChatBot] = useState(false);
     const [question, setQuestion] = useState<string>('');
     const [messages, setMessages] = useState<Message[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
@@ -251,12 +255,13 @@ function ChatBot() {
         setMessages([...messages, { text, isUser: true }]);
         setQuestion('');
         const aggregatedMessages = messages.map((message) => message.text).join('\n');
+        setIsLoading(true);
 
         getClient()
             .queries.askWeddingQuestion({
                 context: `
                 ${WEDDING_CONTEXT} 
-
+    
                 - Schedule: 
                 ${scheduleString}
                 
@@ -264,8 +269,16 @@ function ChatBot() {
                 question: text,
             })
             .then((response) => {
-                console.log(response);
-                setMessages((prev) => [...prev, { text: response.data!, isUser: false }]);
+                setIsLoading(false);
+                // Add the new message with streaming flag
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                        text: response.data!,
+                        isUser: false,
+                        isStreaming: true,
+                    },
+                ]);
             })
             .catch(() => {});
 
@@ -366,22 +379,55 @@ function ChatBot() {
                             </List>
                         </div>
                     ) : (
-                        messages.map((message, index) => (
-                            <Paper
-                                key={index}
-                                variant="outlined"
-                                sx={{
-                                    p: 2,
-                                    mb: 2,
-                                    backgroundColor: message.isUser ? 'primary.light' : 'grey.200',
-                                    maxWidth: '70%',
-                                    ml: message.isUser ? 'auto' : 0,
-                                    mr: message.isUser ? 0 : 'auto',
-                                }}
-                            >
-                                <MarkdownTypography>{message.text}</MarkdownTypography>
-                            </Paper>
-                        ))
+                        <>
+                            {messages.map((message, index) => (
+                                <Paper
+                                    key={index}
+                                    variant="outlined"
+                                    sx={{
+                                        p: 2,
+                                        mb: 2,
+                                        backgroundColor: message.isUser
+                                            ? 'primary.light'
+                                            : 'grey.200',
+                                        maxWidth: '70%',
+                                        ml: message.isUser ? 'auto' : 0,
+                                        mr: message.isUser ? 0 : 'auto',
+                                    }}
+                                >
+                                    {message.isUser || !message.isStreaming ? (
+                                        <MarkdownTypography>{message.text}</MarkdownTypography>
+                                    ) : (
+                                        <StreamingText
+                                            text={message.text}
+                                            onComplete={() => {
+                                                setMessages(
+                                                    messages.map((msg, i) =>
+                                                        i === index
+                                                            ? { ...msg, isStreaming: false }
+                                                            : msg
+                                                    )
+                                                );
+                                            }}
+                                        />
+                                    )}
+                                </Paper>
+                            ))}
+                            {isLoading && (
+                                <Paper
+                                    variant="outlined"
+                                    sx={{
+                                        p: 2,
+                                        mb: 2,
+                                        backgroundColor: 'grey.200',
+                                        maxWidth: '70%',
+                                        mr: 'auto',
+                                    }}
+                                >
+                                    <LoadingDots />
+                                </Paper>
+                            )}
+                        </>
                     )}
                     <div ref={messagesEndRef} />
                 </DialogContent>

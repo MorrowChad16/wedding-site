@@ -93,7 +93,7 @@ const TravelMap = () => {
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY || ''
+        googleMapsApiKey: import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY || '',
     });
 
     const schedule: TravelInfo[] = [
@@ -119,7 +119,9 @@ const TravelMap = () => {
         },
     ];
 
-    const locations = TRAVEL_SECTIONS.map((section) => section.info.filter((location) => location.coordinates !== undefined)).flat();
+    const locations = TRAVEL_SECTIONS.map((section) =>
+        section.info.filter((location) => location.coordinates !== undefined)
+    ).flat();
     locations.push(...schedule);
 
     const mapStyles = [
