@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 
-const StreamingText = ({ text, onComplete }) => {
+const StreamingText = ({ text, onComplete }: { text: any; onComplete: any }) => {
     const [displayedText, setDisplayedText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
 

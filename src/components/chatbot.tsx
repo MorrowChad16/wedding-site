@@ -33,12 +33,6 @@ import { StreamingText } from './streaming-text';
 
 const getClient = () => generateClient<Schema>();
 
-// Local testing only
-// const anthropic = new Anthropic({
-//     apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
-//     dangerouslyAllowBrowser: true,
-// });
-
 function generateScheduleString(scheduleItems: typeof SCHEDULE_ITEMS): string {
     return scheduleItems
         .map((item) => {
@@ -185,34 +179,6 @@ let WEDDING_CONTEXT = `
 
   `;
 
-// Local testing only
-// async function askWeddingQuestion(question: string): Promise<string> {
-//     try {
-//         const msg = await anthropic.messages.create({
-//             model: 'claude-3-sonnet-20240229', // claude-3-5-sonnet-20240620
-//             max_tokens: 300,
-//             temperature: 0.5,
-//             system: WEDDING_CONTEXT,
-//             messages: [
-//                 {
-//                     role: 'user',
-//                     content: [
-//                         {
-//                             type: 'text',
-//                             text: question,
-//                         },
-//                     ],
-//                 },
-//             ],
-//         });
-
-//         return (msg.content[0] as TextBlock).text;
-//     } catch (error) {
-//         console.error('Error calling Anthropic API: ', error);
-//         return "I'm sorry, I encountered an error while processing your question. Please try again later or contact the wedding organizer for assistance.";
-//     }
-// }
-
 type Message = {
     text: string;
     isUser: boolean;
@@ -281,15 +247,6 @@ function ChatBot() {
                 ]);
             })
             .catch(() => {});
-
-        // Local testing only
-        // // Ask LLM to respond
-        // askWeddingQuestion(text)
-        //     .then((response) => {
-        //         console.log(response);
-        //         setMessages((prev) => [...prev, { text: response, isUser: false }]);
-        //     })
-        //     .catch(() => {});
     };
 
     useEffect(scrollToBottom, [messages]);
