@@ -3,6 +3,7 @@ import ScheduleIcon from '../components/schedule-icon';
 import weddingCeremony from '../assets/icons/wedding-ceremony.png';
 import gathering from '../assets/icons/gathering.png';
 import romanticDinner from '../assets/icons/romantic-dinner.png';
+import rehearsal from '../assets/icons/rehearsal.png';
 import { CircularProgress, Grid } from '@mui/material';
 import { useStore } from '../api/use-store';
 import { getGuests } from '../api/use-guests';
@@ -25,6 +26,23 @@ interface ScheduleItem {
 }
 
 export const SCHEDULE_ITEMS: ScheduleItem[] = [
+    {
+        uid: '1712020056342-73241',
+        startTime: new Date(2025, 5, 13, 10),
+        endTime: new Date(2025, 5, 13, 11),
+        title: 'Wedding Rehearsal',
+        description: 'go through day-of schedule',
+        location: '9600 W Brookside Ln, Boise, ID 83714',
+        coordinates: {
+            lat: 43.73675347623313,
+            lng: -116.29977025186639,
+        },
+        type: 'event',
+        locationName: 'Stone Crossing',
+        iconAsset: rehearsal,
+        formality: 'Semi-Formal',
+        isPrivate: true,
+    },
     {
         uid: '1712020056342-73240',
         startTime: new Date(2025, 5, 13, 15),
