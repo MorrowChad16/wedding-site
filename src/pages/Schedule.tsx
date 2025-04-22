@@ -4,6 +4,10 @@ import weddingCeremony from '../assets/icons/wedding-ceremony.png';
 import gathering from '../assets/icons/gathering.png';
 import romanticDinner from '../assets/icons/romantic-dinner.png';
 import rehearsal from '../assets/icons/rehearsal.png';
+import chip from '../assets/icons/chip.png';
+import golf from '../assets/icons/golf.png';
+import rafting from '../assets/icons/rafting.png';
+import gun from '../assets/icons/gun.png';
 import { CircularProgress, Grid } from '@mui/material';
 import { useStore } from '../api/use-store';
 import { getGuests } from '../api/use-guests';
@@ -26,6 +30,74 @@ interface ScheduleItem {
 }
 
 export const SCHEDULE_ITEMS: ScheduleItem[] = [
+    {
+        uid: '1712020056342-73276',
+        startTime: new Date(2025, 5, 12, 11),
+        endTime: new Date(2025, 5, 12, 13),
+        title: 'Paintball/GoKarting',
+        description: 'grow up',
+        location: '11809 Ustick Rd, Caldwell, ID 83605',
+        coordinates: {
+            lat: 43.646421890050306,
+            lng: -116.62932628416462,
+        },
+        type: 'outdoor',
+        locationName: 'PYRRHIC TACTICAL SPORTS',
+        iconAsset: gun,
+        formality: 'Casual',
+        isPrivate: true,
+    },
+    {
+        uid: '1712020056342-73270',
+        startTime: new Date(2025, 5, 12, 14),
+        endTime: new Date(2025, 5, 12, 16),
+        title: 'White Water Rafting',
+        description: 'wicked waves',
+        location: '7050 ID-55, Horseshoe Bend, ID 83629',
+        coordinates: {
+            lat: 44.005380943667824,
+            lng: -116.18596590588838,
+        },
+        type: 'outdoor',
+        locationName: 'Cascade Raft & Kayak',
+        iconAsset: rafting,
+        formality: 'Casual',
+        isPrivate: false,
+    },
+    {
+        uid: '1712020056342-73268',
+        startTime: new Date(2025, 5, 12, 9),
+        endTime: new Date(2025, 5, 12, 10),
+        title: 'Micron Tour',
+        description: 'tiny tiny chips',
+        location: '8000 S Federal Way, Boise, ID 83716',
+        coordinates: {
+            lat: 43.5241107717883,
+            lng: -116.14565798342704,
+        },
+        type: 'event',
+        locationName: 'Micron',
+        iconAsset: chip,
+        formality: 'Casual',
+        isPrivate: true,
+    },
+    {
+        uid: '1712020056342-73269',
+        startTime: new Date(2025, 5, 12, 12),
+        endTime: new Date(2025, 5, 12, 16),
+        title: 'Golf',
+        description: 'hit the links',
+        location: '4720 N 36th St, Boise, ID 83703',
+        coordinates: {
+            lat: 43.66348783641772,
+            lng: -116.22284372271747,
+        },
+        type: 'outdoor',
+        locationName: 'Quail Hollow Golf Course',
+        iconAsset: golf,
+        formality: 'Semi-Formal',
+        isPrivate: false,
+    },
     {
         uid: '1712020056342-73241',
         startTime: new Date(2025, 5, 13, 10),
