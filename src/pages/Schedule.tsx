@@ -32,8 +32,8 @@ interface ScheduleItem {
 export const SCHEDULE_ITEMS: ScheduleItem[] = [
     {
         uid: '1712020056342-73276',
-        startTime: new Date(2025, 5, 12, 11),
-        endTime: new Date(2025, 5, 12, 13),
+        startTime: new Date(2025, 5, 11, 11),
+        endTime: new Date(2025, 5, 11, 13),
         title: 'Paintball/GoKarting',
         description: 'grow up',
         location: '11809 Ustick Rd, Caldwell, ID 83605',
@@ -49,8 +49,8 @@ export const SCHEDULE_ITEMS: ScheduleItem[] = [
     },
     {
         uid: '1712020056342-73270',
-        startTime: new Date(2025, 5, 12, 14),
-        endTime: new Date(2025, 5, 12, 16),
+        startTime: new Date(2025, 5, 11, 14),
+        endTime: new Date(2025, 5, 11, 16),
         title: 'White Water Rafting',
         description: 'wicked waves',
         location: '7050 ID-55, Horseshoe Bend, ID 83629',
