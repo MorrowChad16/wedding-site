@@ -7,7 +7,6 @@ import NavigationBar from './components/navigation-bar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
-import Rsvp from './pages/RSVP';
 import ChatBot from './components/chatbot';
 import Registry from './pages/Registry';
 
@@ -58,7 +57,6 @@ export default function App() {
                     {pages.map((route) => (
                         <Route key={route.path} path={route.path} element={route.component} />
                     ))}
-                    <Route key={'/rsvp'} path={'/rsvp'} element={<Rsvp />} />
                 </Routes>
             </BrowserRouter>
         </ThemeProvider>

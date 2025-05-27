@@ -37,11 +37,6 @@ export const FAQ_ITEMS: FaqItem[] = [
         answer: 'It will be at Stone Crossing in Boise Idaho. If you need more info head to the "Schedule" tab or feel free to ask our AI assistant in the bottom right.',
     },
     {
-        id: 'q6',
-        question: 'When do I need to RSVP by?',
-        answer: 'May 14th',
-    },
-    {
         id: 'q7',
         question: 'Can I bring a date?',
         answer: "Yes we are allowing +1's. We just ask you be cognizant of who you bring.",

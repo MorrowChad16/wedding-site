@@ -253,7 +253,7 @@ function ChatBot() {
 
     return (
         <div>
-            {!location.pathname.includes('rsvp') && !location.pathname.includes('travel') && (
+            {!location.pathname.includes('travel') && (
                 <Fab
                     color="primary"
                     variant="extended"
