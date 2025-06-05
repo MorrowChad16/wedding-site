@@ -6,6 +6,7 @@ import {
     DialogContentText,
     DialogTitle,
     IconButton,
+    LinearProgress,
     List,
     ListItem,
     ListItemText,
@@ -18,15 +19,22 @@ import PageContainer from '../components/page-container';
 import HorizontalScroll from '../components/horizontal-scroll';
 import { openInNewWindow } from '../utils/utilities';
 import amazon from '../assets/images/registry/amazon.webp';
-import furniture from '../assets/images/registry/furniture.webp';
 import honeymoon from '../assets/images/registry/honeymoon.webp';
+import barAcuda from '../assets/images/registry/barAcuda.webp';
+import helicopter from '../assets/images/registry/helicopter.webp';
+import kayak from '../assets/images/registry/kayak.webp';
+import laua from '../assets/images/registry/laua.webp';
+import massage from '../assets/images/registry/massage.webp';
+import wellings from '../assets/images/registry/wellings.webp';
 import { useRef, useState } from 'react';
 
 interface GiftInfo {
     name?: string;
     image: string;
     description?: string;
-    registryUrl?: string;
+    externalUrl?: string;
+    currentAmount?: number;
+    targetAmount?: number;
 }
 
 interface GiftSection {
@@ -36,21 +44,58 @@ interface GiftSection {
 
 const funds: GiftInfo[] = [
     {
-        name: 'Honeymoon',
-        description: 'Please contribute what you wish',
+        name: 'Honeymoon - General',
+        description: 'Help us create unforgettable memories in Kauai.',
         image: honeymoon,
     },
     {
-        name: 'Furniture',
-        description: 'Please contribute what you wish',
-        image: furniture,
+        name: 'Helicopter Ride',
+        description: "On our honeymoon we'll be taking a helicopter ride along the Nā Pali coast.",
+        image: helicopter,
+        currentAmount: 0,
+        targetAmount: 600,
+    },
+    {
+        name: 'River Kayak Tour',
+        description: "We'll be exploring the hidden interior by kayak during our honeymoon.",
+        image: kayak,
+        currentAmount: 0,
+        targetAmount: 200,
+    },
+    {
+        name: 'Bar Acuda Dinner',
+        description: 'Help us enjoy a romantic beachfront dinner at Bar Acuda.',
+        image: barAcuda,
+        currentAmount: 0,
+        targetAmount: 200,
+    },
+    {
+        name: "Welling's dinner",
+        description: "We'll be celebrating with a special dinner at Welling's restaurant.",
+        image: wellings,
+        currentAmount: 0,
+        targetAmount: 200,
+    },
+    {
+        name: 'Luau',
+        description: "On our honeymoon we'll experience a traditional Hawaiian luau feast.",
+        image: laua,
+        currentAmount: 0,
+        targetAmount: 200,
+    },
+    {
+        name: 'Couples Massage',
+        description: "We'll be unwinding together with a relaxing couples massage at a spa.",
+        image: massage,
+        currentAmount: 0,
+        targetAmount: 300,
     },
 ];
 
 const registries: GiftInfo[] = [
     {
         image: amazon,
-        registryUrl: 'https://www.amazon.com/wedding/registry/35XXOW64VSOEL',
+        externalUrl: 'https://www.amazon.com/wedding/registry/35XXOW64VSOEL',
     },
 ];
 
@@ -94,6 +139,7 @@ export default function Registry() {
                                         }}
                                     >
                                         <Box p={2}>
+                                            {/* Title Section */}
                                             {item.name && (
                                                 <Typography
                                                     variant="h5"
@@ -104,6 +150,8 @@ export default function Registry() {
                                                     {item.name}
                                                 </Typography>
                                             )}
+
+                                            {/* Image Section */}
                                             <Box display="flex" justifyContent="center" mb={2}>
                                                 <img
                                                     src={item.image}
@@ -117,6 +165,8 @@ export default function Registry() {
                                                     }}
                                                 />
                                             </Box>
+
+                                            {/* Description Section */}
                                             {item.description && (
                                                 <Typography
                                                     variant="body2"
@@ -127,20 +177,65 @@ export default function Registry() {
                                                     {item.description}
                                                 </Typography>
                                             )}
-                                            {item.registryUrl ? (
+
+                                            {/* Progress Bar Section */}
+                                            {item.targetAmount && (
+                                                <Box mb={2}>
+                                                    <LinearProgress
+                                                        variant="determinate"
+                                                        value={Math.min(
+                                                            ((item.currentAmount || 0) /
+                                                                item.targetAmount) *
+                                                                100,
+                                                            100
+                                                        )}
+                                                        sx={{
+                                                            height: 8,
+                                                            borderRadius: 4,
+                                                            backgroundColor:
+                                                                theme.palette.grey[200],
+                                                            '& .MuiLinearProgress-bar': {
+                                                                borderRadius: 4,
+                                                                backgroundColor:
+                                                                    theme.palette.primary.main,
+                                                            },
+                                                        }}
+                                                    />
+                                                    <Box
+                                                        display="flex"
+                                                        justifyContent="center"
+                                                        mt={1}
+                                                    >
+                                                        <Typography
+                                                            variant="caption"
+                                                            color="text.secondary"
+                                                        >
+                                                            {Math.round(
+                                                                ((item.currentAmount || 0) /
+                                                                    item.targetAmount) *
+                                                                    100
+                                                            )}
+                                                            % funded
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+                                            )}
+
+                                            {/* Button Section */}
+                                            {item.externalUrl ? (
                                                 <Button
                                                     variant="contained"
                                                     color="primary"
                                                     aria-label="website-link"
                                                     onClick={() =>
-                                                        openInNewWindow(item.registryUrl!)
+                                                        openInNewWindow(item.externalUrl!)
                                                     }
                                                     sx={{
                                                         display: 'block',
                                                         m: '0 auto',
                                                     }}
                                                 >
-                                                    View Registry
+                                                    View
                                                 </Button>
                                             ) : (
                                                 <Button

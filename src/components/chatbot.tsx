@@ -131,8 +131,8 @@ function generateGiftRegistryString(sections: typeof REGISTRY_SECTIONS): string 
                         itemString += `\n  Description: ${item.description}`;
                     }
 
-                    if (item.registryUrl) {
-                        itemString += `\n  Registry URL: ${item.registryUrl}`;
+                    if (item.externalUrl) {
+                        itemString += `\n  Registry URL: ${item.externalUrl}`;
                     }
 
                     return itemString;
