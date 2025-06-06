@@ -52,7 +52,7 @@ const funds: GiftInfo[] = [
         name: 'Helicopter Ride',
         description: "On our honeymoon we'll be taking a helicopter ride along the Nā Pali coast.",
         image: helicopter,
-        currentAmount: 0,
+        currentAmount: 100,
         targetAmount: 600,
     },
     {
@@ -80,7 +80,7 @@ const funds: GiftInfo[] = [
         name: 'Luau',
         description: "On our honeymoon we'll experience a traditional Hawaiian luau feast.",
         image: laua,
-        currentAmount: 0,
+        currentAmount: 200,
         targetAmount: 200,
     },
     {
