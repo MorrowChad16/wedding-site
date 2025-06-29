@@ -8,13 +8,9 @@ import {
     CircularProgress,
     Divider,
     FormControl,
-    FormControlLabel,
-    FormLabel,
     IconButton,
     InputLabel,
     MenuItem,
-    Radio,
-    RadioGroup,
     Select,
     Snackbar,
     Step,
@@ -28,7 +24,6 @@ import PageContainer from '../components/page-container';
 import { useNavigate } from 'react-router-dom';
 import { getGuests, updateGuest } from '../api/use-guests';
 import { FoodChoice, Relationship, Status } from '../utils/types';
-import { PAST_DUE_DATE } from '../utils/constants';
 import { useStore } from '../api/use-store';
 import { Info } from '@mui/icons-material';
 
@@ -122,75 +117,6 @@ const Rsvp = () => {
             {isLoading ? (
                 <Box display="flex" justifyContent="center" alignItems="center">
                     <CircularProgress />
-                </Box>
-            ) : PAST_DUE_DATE ? (
-                <Box>
-                    <Alert severity="warning" variant="filled" sx={{ borderRadius: '10px', mb: 2 }}>
-                        The RSVP window has closed. If you need to change anything last second reach
-                        out to us ASAP!
-                    </Alert>
-
-                    <Typography variant="h3">Guest Information</Typography>
-
-                    <FormControl component="fieldset" sx={{ mt: 2 }}>
-                        <FormLabel component="legend">Attendance</FormLabel>
-                        <RadioGroup
-                            row
-                            aria-label="attendance"
-                            name="attendance"
-                            value={attending === true ? 'yes' : 'no'}
-                        >
-                            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                            <FormControlLabel value="no" control={<Radio />} label="No" />
-                        </RadioGroup>
-                    </FormControl>
-
-                    <Divider sx={{ my: 3 }} />
-
-                    <div>
-                        {foodChoices.map((guest) => (
-                            <Box mb={5}>
-                                <Typography variant="h6">{guest.name}</Typography>
-                                <FormControl component="fieldset" sx={{ mb: 2 }}>
-                                    <FormLabel component="legend">Food Choice</FormLabel>
-                                    <RadioGroup
-                                        row
-                                        aria-label="attendance"
-                                        name="attendance"
-                                        value={guest.choice}
-                                    >
-                                        {Object.values(FoodChoice).map((choice) => (
-                                            <FormControlLabel
-                                                value={choice}
-                                                control={<Radio />}
-                                                label={choice}
-                                            />
-                                        ))}
-                                    </RadioGroup>
-                                </FormControl>
-                                <TextField
-                                    label="Food Allergies"
-                                    defaultValue={guest.allergies}
-                                    variant="outlined"
-                                    fullWidth
-                                    InputProps={{ readOnly: true }}
-                                />
-                            </Box>
-                        ))}
-                    </div>
-
-                    <Divider sx={{ my: 3 }} />
-
-                    <TextField
-                        label="Song Requests"
-                        defaultValue={songs}
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        fullWidth
-                        sx={{ mt: 2 }}
-                        InputProps={{ readOnly: true }}
-                    />
                 </Box>
             ) : (
                 <Box>
