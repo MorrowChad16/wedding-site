@@ -96,7 +96,7 @@ export const isValidEmail = async (email: string) => {
 export const isValidFullName = async (fullName: string) => {
     try {
         const response = await getClient().models.WeddingGuests.listWeddingGuestsByFullName({
-            fullName: fullName.trim(),
+            fullName: fullName.toLowerCase().trim(),
         });
         return response.data && response.data.length > 0;
     } catch (error) {

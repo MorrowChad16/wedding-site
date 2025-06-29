@@ -68,7 +68,7 @@ function NavigationBar() {
 
     const handleLoginClick = async () => {
         if (fullName) {
-            const isValid = await isValidFullName(fullName.trim());
+            const isValid = await isValidFullName(fullName.toLowerCase().trim());
             if (isValid) {
                 try {
                     // Get the email associated with this fullName for backward compatibility
