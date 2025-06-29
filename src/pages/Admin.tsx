@@ -123,7 +123,10 @@ const Admin: React.FC = () => {
 
     // Dietary restrictions
     const dietaryRestrictions = attendingGuests.filter(
-        (g) => g.dietaryRestrictions && g.dietaryRestrictions.trim()
+        (g) =>
+            g.dietaryRestrictions !== 'None' &&
+            g.dietaryRestrictions &&
+            g.dietaryRestrictions.trim()
     );
 
     // Song requests
@@ -368,27 +371,6 @@ const Admin: React.FC = () => {
                             </Grid>
                         )}
                     </Grid>
-
-                    {/* Summary Box */}
-                    <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2 }}>
-                        <Typography variant="h6" gutterBottom>
-                            Quick Summary
-                        </Typography>
-                        <Typography variant="body1">
-                            <strong>{totalAttending}</strong> out of <strong>{totalGuests}</strong>{' '}
-                            guests are attending ({attendanceRate}% attendance rate). This includes{' '}
-                            <strong>{attendingAdults.length}</strong> adults and{' '}
-                            <strong>{attendingChildren.length}</strong> children, with{' '}
-                            <strong>{attendingDrinkingAge.length}</strong> people of drinking age.
-                            {pendingGuests.length > 0 && (
-                                <>
-                                    {' '}
-                                    There are still <strong>{pendingGuests.length}</strong> pending
-                                    RSVPs.
-                                </>
-                            )}
-                        </Typography>
-                    </Box>
                 </Box>
             </Container>
         </PageContainer>
