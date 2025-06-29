@@ -74,7 +74,7 @@ function NavigationBar() {
                     // Get the email associated with this fullName for backward compatibility
                     const response =
                         await getClient().models.WeddingGuests.listWeddingGuestsByFullName({
-                            fullName: fullName.trim(),
+                            fullName: fullName.toLowerCase().trim(),
                         });
 
                     if (response.data && response.data.length > 0) {
