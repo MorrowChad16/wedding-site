@@ -159,19 +159,6 @@ export const updateGuest = async (
 };
 
 /**
- * Remove a guest from the wedding party
- * @param email guest email
- * @param guestId guest id
- * @returns
- */
-export const removeGuest = async (email: string, guestId: string) => {
-    return await getClient().models.Guest.delete({
-        email: email,
-        guestId: guestId,
-    });
-};
-
-/**
  * Get all guests under the party's email id
  * @param email is the party's email
  * @returns all guests under the party's email

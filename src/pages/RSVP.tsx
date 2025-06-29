@@ -24,10 +24,9 @@ import {
     Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import DeleteIcon from '@mui/icons-material/Delete';
 import PageContainer from '../components/page-container';
 import { useNavigate } from 'react-router-dom';
-import { getGuests, updateGuest, removeGuest } from '../api/use-guests';
+import { getGuests, updateGuest } from '../api/use-guests';
 import { FoodChoice, Relationship, Status } from '../utils/types';
 import { PAST_DUE_DATE } from '../utils/constants';
 import { useStore } from '../api/use-store';
@@ -64,27 +63,6 @@ const Rsvp = () => {
         const updatedSongs = [...songs];
         updatedSongs.splice(index, 1);
         setSongs(updatedSongs);
-    };
-
-    const handleRemoveGuest = async (guestId: string) => {
-        try {
-            await removeGuest(storeEmail, guestId);
-            // Remove from local state immediately
-            setFoodChoices((prevChoices) =>
-                prevChoices.filter((choice) => choice.guestId !== guestId)
-            );
-        } catch (error) {
-            console.error('Failed to remove guest:', error);
-        }
-    };
-
-    const canRemoveGuest = (guestId: string) => {
-        const guest = guests?.find((g) => g.guestId === guestId);
-        return (
-            guest &&
-            (guest.relationship === Relationship.CHILD ||
-                guest.relationship === Relationship.PLUS_ONE)
-        );
     };
 
     const handleNext = () => {
@@ -298,30 +276,9 @@ const Rsvp = () => {
                                 </Card>
                                 {foodChoices.map((item, index) => (
                                     <div key={item.guestId}>
-                                        <Box
-                                            display="flex"
-                                            justifyContent="center"
-                                            alignItems="center"
-                                            gap={2}
-                                            mb={2}
-                                        >
-                                            <Typography variant="h4">{item.name}</Typography>
-                                            {canRemoveGuest(item.guestId) && (
-                                                <IconButton
-                                                    aria-label={`Remove ${item.name}`}
-                                                    onClick={() => handleRemoveGuest(item.guestId)}
-                                                    sx={{
-                                                        color: 'error.main',
-                                                        '&:hover': {
-                                                            backgroundColor: 'error.light',
-                                                            color: 'error.contrastText',
-                                                        },
-                                                    }}
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            )}
-                                        </Box>
+                                        <Typography align="center" variant="h4">
+                                            {item.name}
+                                        </Typography>
                                         <Box display="flex" justifyContent="center" my={2}>
                                             <FormControl sx={{ width: '40%' }}>
                                                 <InputLabel>Main Course</InputLabel>
