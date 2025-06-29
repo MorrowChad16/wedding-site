@@ -9,6 +9,7 @@ import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
 import ChatBot from './components/chatbot';
 import Registry from './pages/Registry';
+import SaveTheDate from './pages/SaveTheDate';
 
 export type Page = {
     path: string;
@@ -57,6 +58,11 @@ export default function App() {
                     {pages.map((route) => (
                         <Route key={route.path} path={route.path} element={route.component} />
                     ))}
+                    <Route
+                        key={'/save-the-date'}
+                        path={'/save-the-date'}
+                        element={<SaveTheDate />}
+                    />
                 </Routes>
             </BrowserRouter>
         </ThemeProvider>
