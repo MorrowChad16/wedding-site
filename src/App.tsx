@@ -11,6 +11,7 @@ import Rsvp from './pages/RSVP';
 import ChatBot from './components/chatbot';
 import Registry from './pages/Registry';
 import SaveTheDate from './pages/SaveTheDate';
+import Admin from './pages/Admin';
 
 export type Page = {
     path: string;
@@ -65,6 +66,7 @@ export default function App() {
                         element={<SaveTheDate />}
                     />
                     <Route key={'/rsvp'} path={'/rsvp'} element={<Rsvp />} />
+                    <Route key={'/admin'} path={'/admin'} element={<Admin />} />
                 </Routes>
             </BrowserRouter>
         </ThemeProvider>

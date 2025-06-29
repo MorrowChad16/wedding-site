@@ -42,7 +42,9 @@ function NavigationBar() {
 
     const [open, setOpen] = useState(false);
     const [openSignIn, setOpenSignIn] = useState(
-        storeEmail === '' && location.pathname !== '/save-the-date'
+        storeEmail === '' &&
+            location.pathname !== '/save-the-date' &&
+            location.pathname !== '/admin'
     );
     const [error, setError] = useState('');
 

@@ -1,7 +1,4 @@
 import { Container, Grid, useMediaQuery, useTheme } from '@mui/material';
-import { WEDDING_DATE } from '../utils/constants';
-import { hasSubmittedRsvp } from '../api/use-guests';
-import { useStore } from '../api/use-store';
 
 interface PageContainerProps {
     children: JSX.Element;
@@ -17,19 +14,9 @@ function PageContainer({
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { storeEmail } = useStore();
-    const isWithin30Days = (): boolean => {
-        const timeDiff = Math.abs(WEDDING_DATE.getTime() - new Date().getTime());
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-        return daysDiff > 0 && daysDiff <= 30;
-    };
-    const { hasSubmitted } = hasSubmittedRsvp(storeEmail);
-
     let paddingTop = '100px';
     if (isMobile) {
         paddingTop = '60px';
-    } else if (isWithin30Days() && !hasSubmitted) {
-        paddingTop = isMobile ? '60px' : '80px';
     }
 
     return (

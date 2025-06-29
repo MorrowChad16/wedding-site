@@ -109,34 +109,6 @@ export const isValidFullName = async (fullName: string) => {
 };
 
 /**
- * Checks if the user has submitted RSVP details
- * @param email is the party's email
- * @returns true if the guest has submitted they are coming or not. false if in the default state.
- */
-export const hasSubmittedRsvp = (email: string) => {
-    const { data: hasSubmitted } = useQuery<boolean>({
-        queryKey: ['getRsvpStatus', email],
-        queryFn: async () => {
-            const response = await getClient().models.WeddingGuests.listWeddingGuestsByEmail({
-                email: email.toLowerCase(),
-            });
-
-            if (!response.data || response.data.length === 0) return false;
-
-            // Check if primary guest has submitted RSVP (not in PENDING status)
-            const primaryGuest = response.data.find((guest) => guest.guestType === 'PRIMARY');
-            return primaryGuest?.attendanceStatus !== 'PENDING';
-        },
-        retry: 3,
-        retryDelay: 200,
-    });
-
-    return {
-        hasSubmitted,
-    };
-};
-
-/**
  * Updates a wedding guest's RSVP info
  * @param guestId guest id
  * @param dietaryRestrictions guest dietary restrictions
@@ -227,6 +199,33 @@ export const getWeddingGuestsByEmail = (email: string) => {
         retryDelay: 200,
         staleTime: 86_400_000,
         enabled: email !== '' && email !== undefined,
+    });
+
+    return {
+        isLoading,
+        error,
+        guests,
+    };
+};
+
+/**
+ * Get all wedding guests for admin purposes
+ * @returns all wedding guests in the database
+ */
+export const getAllWeddingGuests = () => {
+    const {
+        isLoading,
+        error,
+        data: guests,
+    } = useQuery<any[] | undefined>({
+        queryKey: ['getAllWeddingGuests'],
+        queryFn: async () => {
+            const response = await getClient().models.WeddingGuests.list();
+            return response.data || [];
+        },
+        retry: 3,
+        retryDelay: 200,
+        staleTime: 300_000, // 5 minutes
     });
 
     return {
