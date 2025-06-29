@@ -7,6 +7,7 @@ import NavigationBar from './components/navigation-bar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import OurStory from './pages/OurStory';
 import Gallery from './pages/Gallery';
+import Rsvp from './pages/RSVP';
 import ChatBot from './components/chatbot';
 import Registry from './pages/Registry';
 import SaveTheDate from './pages/SaveTheDate';
@@ -63,6 +64,7 @@ export default function App() {
                         path={'/save-the-date'}
                         element={<SaveTheDate />}
                     />
+                    <Route key={'/rsvp'} path={'/rsvp'} element={<Rsvp />} />
                 </Routes>
             </BrowserRouter>
         </ThemeProvider>

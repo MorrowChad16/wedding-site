@@ -12,23 +12,68 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Page, pages } from '../App';
 import homeIconUrl from '../assets/icons/home-icon.svg';
-import { useMediaQuery, useTheme } from '@mui/material';
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    TextField,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material';
+import { isValidEmail } from '../api/use-guests';
+import { useStore } from '../api/use-store';
 
 function NavigationBar() {
     const theme = useTheme();
+    // used across screens
+    const { storeEmail, setStoreEmail } = useStore();
+    // used for visualizations
+    const [email, setEmail] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(location.pathname);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const [open, setOpen] = useState(false);
+    const [openSignIn, setOpenSignIn] = useState(storeEmail === '');
+    const [error, setError] = useState('');
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
 
+    // const RsvpButton = (
+    //     <Button
+    //         color="primary"
+    //         variant="contained"
+    //         onClick={() => {
+    //             setCurrentPage('RSVP');
+    //             navigate('/rsvp');
+    //         }}
+    //         fullWidth
+    //     >
+    //         {PAST_DUE_DATE ? 'See Details' : 'RSVP'}
+    //     </Button>
+    // );
+
     const isOnPage = (page: Page) => {
         return currentPage.includes(page.displayName) || currentPage.includes(page.path);
+    };
+
+    const handleLoginClick = async () => {
+        if (email) {
+            const isValid = await isValidEmail(email.toLowerCase());
+            if (isValid) {
+                setStoreEmail(email.toLowerCase());
+                setOpenSignIn(false);
+            } else {
+                setError('Invalid email address');
+            }
+        } else {
+            setError('You must provide an email');
+        }
     };
 
     const toolbarStyle = isMobile
@@ -98,6 +143,9 @@ function NavigationBar() {
                                 ))}
                             </Box>
                         </Box>
+                        {/* <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
+                            {RsvpButton}
+                        </Box> */}
 
                         {/* Only displays for mobile */}
                         <Box display={{ sm: '', md: 'none' }}>
@@ -139,12 +187,58 @@ function NavigationBar() {
                                         </MenuItem>
                                     ))}
                                     <Divider />
+                                    {/* <MenuItem>{RsvpButton}</MenuItem> */}
                                 </Box>
                             </Drawer>
                         </Box>
                     </Toolbar>
                 </Container>
             </AppBar>
+
+            <Dialog
+                open={openSignIn}
+                onClose={(_, reason: string) => {
+                    if (reason !== 'backdropClick') {
+                        setOpenSignIn(false);
+                    }
+                }}
+            >
+                <DialogTitle>Login</DialogTitle>
+                <DialogContent>
+                    <DialogContentText mb={2}>
+                        Please enter the email submitted in the "Save the Date" form. Each "party"
+                        will share the same email across all guests. You will be able to view your
+                        RSVP status, food choices, and song requests. If you have any issues, please
+                        contact us.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        required
+                        margin="dense"
+                        id="email"
+                        label="Email"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value.toLowerCase())}
+                        error={!!error}
+                        helperText={error}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleLoginClick}>Login</Button>
+                </DialogActions>
+                <Button
+                    sx={{
+                        borderRadius: 0,
+                    }}
+                    variant="contained"
+                    onClick={() => setOpenSignIn(false)}
+                >
+                    Continue as Temporary Unknown Guest
+                </Button>
+            </Dialog>
         </div>
     );
 }
