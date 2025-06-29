@@ -144,9 +144,9 @@ export default function SaveTheDate() {
             for (const guest of guests) {
                 await client.models.WeddingGuests.create({
                     guestId: crypto.randomUUID(),
-                    email: email.toLowerCase().trim(),
+                    email: email.toLowerCase().trim(), // GSI, so tight matching
                     guestType: guest.guestType,
-                    fullName: guest.fullName.trim(),
+                    fullName: guest.fullName.toLowerCase().trim(), // GSI, so tight matching
                     address: fullAddress,
                     attendanceStatus: 'PENDING',
                     isBridalParty: false,

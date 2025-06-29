@@ -89,6 +89,23 @@ export const isValidEmail = async (email: string) => {
 };
 
 /**
+ * Validates if a full name exists in the WeddingGuests table using the fullName GSI
+ * @param fullName is the user-submitted full name for login
+ * @returns true if fullName is in database, false otherwise
+ */
+export const isValidFullName = async (fullName: string) => {
+    try {
+        const response = await getClient().models.WeddingGuests.listWeddingGuestsByFullName({
+            fullName: fullName.trim(),
+        });
+        return response.data && response.data.length > 0;
+    } catch (error) {
+        console.error('Error validating full name:', error);
+        return false;
+    }
+};
+
+/**
  * Checks if the user has submitted RSVP details
  * @param email is the party's email
  * @returns true if the guest has submitted they are coming or not. false if in the default state.
@@ -176,6 +193,70 @@ export const getGuests = (email: string) => {
                 songRequests: guest.songRequests,
                 isBridalParty: guest.isBridalParty,
             }));
+        },
+        retry: 3,
+        retryDelay: 200,
+        staleTime: 86_400_000,
+        enabled: email !== '' && email !== undefined,
+    });
+
+    return {
+        isLoading,
+        error,
+        guests,
+    };
+};
+
+/**
+ * Get all wedding guests associated with a full name using the fullName GSI
+ * @param fullName is the guest's full name
+ * @returns all wedding guests associated with the full name
+ */
+export const getWeddingGuestsByFullName = (fullName: string) => {
+    const {
+        isLoading,
+        error,
+        data: guests,
+    } = useQuery<any[] | undefined>({
+        queryKey: ['getWeddingGuestsByFullName', fullName],
+        queryFn: async () => {
+            const response = await getClient().models.WeddingGuests.listWeddingGuestsByFullName({
+                fullName: fullName.trim(),
+            });
+
+            return response.data || [];
+        },
+        retry: 3,
+        retryDelay: 200,
+        staleTime: 86_400_000,
+        enabled: fullName !== '' && fullName !== undefined,
+    });
+
+    return {
+        isLoading,
+        error,
+        guests,
+    };
+};
+
+/**
+ * Get all wedding guests under the same email (party guests)
+ * @param email is the party's email
+ * @returns all wedding guests under the party's email
+ */
+export const getWeddingGuestsByEmail = (email: string) => {
+    const {
+        isLoading,
+        error,
+        data: guests,
+    } = useQuery<any[] | undefined>({
+        queryKey: ['getWeddingGuestsByEmail', email],
+        queryFn: async () => {
+            const response = await getClient().models.WeddingGuests.listWeddingGuestsByEmail({
+                email: email.toLowerCase(),
+            });
+
+            return response.data || [];
         },
         retry: 3,
         retryDelay: 200,

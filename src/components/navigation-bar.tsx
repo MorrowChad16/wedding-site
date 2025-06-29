@@ -22,15 +22,19 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import { isValidEmail } from '../api/use-guests';
+import { isValidFullName } from '../api/use-guests';
 import { useStore } from '../api/use-store';
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '../../amplify/data/resource';
+
+const getClient = () => generateClient<Schema>();
 
 function NavigationBar() {
     const theme = useTheme();
     // used across screens
     const { storeEmail, setStoreEmail } = useStore();
     // used for visualizations
-    const [email, setEmail] = useState('');
+    const [fullName, setFullName] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(location.pathname);
@@ -63,16 +67,32 @@ function NavigationBar() {
     };
 
     const handleLoginClick = async () => {
-        if (email) {
-            const isValid = await isValidEmail(email.toLowerCase());
+        if (fullName) {
+            const isValid = await isValidFullName(fullName.trim());
             if (isValid) {
-                setStoreEmail(email.toLowerCase());
-                setOpenSignIn(false);
+                try {
+                    // Get the email associated with this fullName for backward compatibility
+                    const response =
+                        await getClient().models.WeddingGuests.listWeddingGuestsByFullName({
+                            fullName: fullName.trim(),
+                        });
+
+                    if (response.data && response.data.length > 0) {
+                        const email = response.data[0].email;
+                        setStoreEmail(email);
+                        setOpenSignIn(false);
+                    } else {
+                        setError('Unable to find associated email');
+                    }
+                } catch (error) {
+                    console.error('Error getting email for fullName:', error);
+                    setError('Login failed. Please try again.');
+                }
             } else {
-                setError('Invalid email address');
+                setError('Full name not found. Please check your spelling or contact us.');
             }
         } else {
-            setError('You must provide an email');
+            setError('You must provide your full name');
         }
     };
 
@@ -206,22 +226,26 @@ function NavigationBar() {
                 <DialogTitle>Login</DialogTitle>
                 <DialogContent>
                     <DialogContentText mb={2}>
-                        Please enter the email submitted in the "Save the Date" form. Each "party"
-                        will share the same email across all guests. You will be able to view your
-                        RSVP status, food choices, and song requests. If you have any issues, please
-                        contact us.
+                        Please enter your full name as submitted in the "Save the Date" form. You
+                        will be able to view your RSVP status, food choices, and song requests. If
+                        you have any issues, please contact us.
                     </DialogContentText>
                     <TextField
                         autoFocus
                         required
                         margin="dense"
-                        id="email"
-                        label="Email"
+                        id="fullName"
+                        label="Full Name"
                         type="text"
                         fullWidth
                         variant="outlined"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value.toLowerCase())}
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleLoginClick();
+                            }
+                        }}
                         error={!!error}
                         helperText={error}
                     />
@@ -229,15 +253,6 @@ function NavigationBar() {
                 <DialogActions>
                     <Button onClick={handleLoginClick}>Login</Button>
                 </DialogActions>
-                <Button
-                    sx={{
-                        borderRadius: 0,
-                    }}
-                    variant="contained"
-                    onClick={() => setOpenSignIn(false)}
-                >
-                    Continue as Temporary Unknown Guest
-                </Button>
             </Dialog>
         </div>
     );
