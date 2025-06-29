@@ -1,4 +1,4 @@
-import { Alert, Container, Grid, useMediaQuery, useTheme } from '@mui/material';
+import { Container, Grid, useMediaQuery, useTheme } from '@mui/material';
 import { WEDDING_DATE } from '../utils/constants';
 import { hasSubmittedRsvp } from '../api/use-guests';
 import { useStore } from '../api/use-store';
@@ -44,18 +44,6 @@ function PageContainer({
             }}
         >
             <Grid container direction="column" alignItems={'center'}>
-                {isWithin30Days() && !hasSubmitted && (
-                    <Grid item>
-                        <Alert
-                            severity="warning"
-                            variant="filled"
-                            sx={{ borderRadius: '10px', mb: '20px' }}
-                        >
-                            The RSVP window is closing soon! You have until August 10th to submit
-                            your details.
-                        </Alert>
-                    </Grid>
-                )}
                 <Grid item width={'100%'}>
                     {children}
                 </Grid>
