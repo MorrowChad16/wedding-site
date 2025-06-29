@@ -26,10 +26,10 @@ import { MarkdownTypography } from './markdown-typography';
 import { generateClient } from 'aws-amplify/api';
 import { Schema } from '../../amplify/data/resource';
 import { useLocation } from 'react-router-dom';
-import { getGuests } from '../api/use-guests';
 import { useStore } from '../api/use-store';
 import { LoadingDots } from './loading-dots';
 import { StreamingText } from './streaming-text';
+import { getWeddingGuestsByEmail } from '../api/use-guests';
 
 const getClient = () => generateClient<Schema>();
 
@@ -195,13 +195,13 @@ function ChatBot() {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
     const { storeEmail } = useStore();
-    const { guests } = getGuests(storeEmail);
+    const { guests } = getWeddingGuestsByEmail(storeEmail);
 
     const scheduleString = generateScheduleString(
         SCHEDULE_ITEMS.filter(
             (item) =>
                 item.isPrivate === false ||
-                item.isPrivate === guests?.some((guest) => guest.isBridalParty)
+                item.isPrivate === guests?.some((guest: any) => guest.isBridalParty)
         )
     );
 

@@ -1,91 +1,94 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
-import { FoodChoice, Guest, Relationship, Status } from '../utils/types';
+import { FoodChoice, AttendanceStatus } from '../utils/types';
 import { useQuery } from '@tanstack/react-query';
 
 const getClient = () => generateClient<Schema>();
 
 export const addFakeGuests = async () => {
-    getClient().models.Guest.create({
-        email: 'morrowchad1@proton.me',
-        guestId: '1',
-        relationship: 'PRIMARY_GUEST',
-        phoneNumber: '8157084489',
-        firstName: 'Chad',
-        lastName: 'Morrow',
-        status: 'ATTENDING',
+    const guestEmail = 'morrowchad1@proton.me';
+    const address = '123 Main St, Boise, ID 83706';
+
+    await getClient().models.WeddingGuests.create({
+        guestId: crypto.randomUUID(),
+        email: guestEmail,
+        guestType: 'PRIMARY',
+        fullName: 'Chad Morrow',
+        address: address,
+        attendanceStatus: 'ATTENDING',
         songRequests: 'song1, song2',
         isBridalParty: true,
+        isOfDrinkingAge: true,
     });
 
-    getClient().models.Guest.create({
-        email: 'morrowchad1@proton.me',
-        guestId: '2',
-        relationship: 'PLUS_ONE',
-        phoneNumber: '8157084489',
-        firstName: 'Ciara',
-        lastName: 'McNeley',
-        status: 'ATTENDING',
+    await getClient().models.WeddingGuests.create({
+        guestId: crypto.randomUUID(),
+        email: guestEmail,
+        guestType: 'PLUS_ONE',
+        fullName: 'Ciara McNeley',
+        address: address,
+        attendanceStatus: 'ATTENDING',
         isBridalParty: true,
+        isOfDrinkingAge: true,
     });
 
-    getClient().models.Guest.create({
-        email: 'morrowchad1@proton.me',
-        guestId: '3',
-        relationship: 'CHILD',
-        phoneNumber: '8157084489',
-        firstName: 'Ciara',
-        lastName: 'Morrow',
-        status: 'ATTENDING',
+    await getClient().models.WeddingGuests.create({
+        guestId: crypto.randomUUID(),
+        email: guestEmail,
+        guestType: 'CHILD',
+        fullName: 'Ciara Morrow',
+        address: address,
+        attendanceStatus: 'ATTENDING',
         isBridalParty: true,
+        isOfDrinkingAge: false,
     });
 
-    getClient().models.Guest.create({
-        email: 'morrowchad1@proton.me',
-        guestId: '4',
-        relationship: 'CHILD',
-        phoneNumber: '8157084489',
-        firstName: 'Yohan',
-        lastName: 'Morrow',
-        status: 'ATTENDING',
+    await getClient().models.WeddingGuests.create({
+        guestId: crypto.randomUUID(),
+        email: guestEmail,
+        guestType: 'CHILD',
+        fullName: 'Yohan Morrow',
+        address: address,
+        attendanceStatus: 'ATTENDING',
         isBridalParty: true,
+        isOfDrinkingAge: false,
     });
 };
 
-export const resetTable = () => {
-    getClient().models.Guest.delete({
-        email: 'morrowchad1@proton.me',
-        guestId: '1',
-    });
+export const resetTable = async () => {
+    try {
+        const response = await getClient().models.WeddingGuests.listWeddingGuestsByEmail({
+            email: 'morrowchad1@proton.me',
+        });
 
-    getClient().models.Guest.delete({
-        email: 'morrowchad1@proton.me',
-        guestId: '2',
-    });
-
-    getClient().models.Guest.delete({
-        email: 'morrowchad1@proton.me',
-        guestId: '3',
-    });
-
-    getClient().models.Guest.delete({
-        email: 'morrowchad1@proton.me',
-        guestId: '4',
-    });
+        if (response.data) {
+            for (const guest of response.data) {
+                await getClient().models.WeddingGuests.delete({
+                    guestId: guest.guestId,
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error resetting table:', error);
+    }
 };
 
 /**
  * If we get a non-empty value back from the email submitted on login, then we know it's a valid guest.
- * Otherwise, it's an inalid guest, so we shouldn't permit them.
+ * Otherwise, it's an invalid guest, so we shouldn't permit them.
  * @param email is the user-submitted login email
  * @returns true if email is in database, false otherwise
  */
 export const isValidEmail = async (email: string) => {
-    const response = await getClient().models.Guest.get({
-        email: email,
-        guestId: '1',
-    });
-    return response.data !== null;
+    try {
+        const response = await getClient().models.WeddingGuests.listWeddingGuestsByEmail({
+            email: email.toLowerCase().trim(),
+        });
+        return response.data && response.data.length > 0;
+    } catch (error) {
+        console.error('Error validating email:', error);
+        return false;
+    }
 };
 
 /**
@@ -112,14 +115,17 @@ export const isValidFullName = async (fullName: string) => {
  */
 export const hasSubmittedRsvp = (email: string) => {
     const { data: hasSubmitted } = useQuery<boolean>({
-        queryKey: ['getRsvpStatus'],
+        queryKey: ['getRsvpStatus', email],
         queryFn: async () => {
-            const response = await getClient().models.Guest.get({
-                email: email,
-                guestId: '1',
+            const response = await getClient().models.WeddingGuests.listWeddingGuestsByEmail({
+                email: email.toLowerCase(),
             });
 
-            return response.data?.status !== Status.ATTENDING;
+            if (!response.data || response.data.length === 0) return false;
+
+            // Check if primary guest has submitted RSVP (not in PENDING status)
+            const primaryGuest = response.data.find((guest) => guest.guestType === 'PRIMARY');
+            return primaryGuest?.attendanceStatus !== 'PENDING';
         },
         retry: 3,
         retryDelay: 200,
@@ -131,93 +137,39 @@ export const hasSubmittedRsvp = (email: string) => {
 };
 
 /**
- * updates a guests RSVP info
- * @param email guest email
+ * Updates a wedding guest's RSVP info
  * @param guestId guest id
- * @param foodAllergies guest food allergies
- * @param status guest attendance status
+ * @param dietaryRestrictions guest dietary restrictions
+ * @param attendanceStatus guest attendance status
  * @param foodChoice guest food choice
  * @param songRequests guest song requests
  * @returns
  */
-export const updateGuest = async (
-    email: string,
+export const updateWeddingGuest = async (
     guestId: string,
-    foodAllergies: string,
-    status: Status,
-    foodChoice: FoodChoice,
+    dietaryRestrictions: string,
+    attendanceStatus: AttendanceStatus,
+    foodChoice: FoodChoice | null,
     songRequests?: string
 ) => {
-    return await getClient().models.Guest.update({
-        email: email,
+    return await getClient().models.WeddingGuests.update({
         guestId: guestId,
-        status: status,
+        attendanceStatus: attendanceStatus,
         foodChoice: foodChoice,
-        foodAllergies: foodAllergies,
+        dietaryRestrictions: dietaryRestrictions,
         songRequests: songRequests,
     });
 };
 
 /**
- * Remove a guest from the wedding party
- * @param email guest email
+ * Remove a wedding guest
  * @param guestId guest id
  * @returns
  */
-export const removeGuest = async (email: string, guestId: string) => {
-    return await getClient().models.Guest.delete({
-        email: email,
+export const removeWeddingGuest = async (guestId: string) => {
+    return await getClient().models.WeddingGuests.delete({
         guestId: guestId,
     });
-};
-
-/**
- * Get all guests under the party's email id
- * @param email is the party's email
- * @returns all guests under the party's email
- */
-export const getGuests = (email: string) => {
-    const {
-        isLoading,
-        error,
-        data: guests,
-    } = useQuery<Guest[] | undefined>({
-        queryKey: ['getGuests'],
-        queryFn: async () => {
-            const response = await getClient().models.Guest.list({
-                filter: {
-                    email: {
-                        eq: email.toLowerCase(),
-                    },
-                },
-                limit: 200,
-            });
-
-            return response.data.map<Guest>((guest) => ({
-                email: guest.email,
-                guestId: guest.guestId,
-                relationship: guest.relationship as Relationship,
-                phoneNumber: guest.phoneNumber,
-                firstName: guest.firstName,
-                lastName: guest.lastName,
-                status: guest.status as Status,
-                foodChoice: guest.foodChoice as FoodChoice,
-                foodAllergies: guest.foodAllergies,
-                songRequests: guest.songRequests,
-                isBridalParty: guest.isBridalParty,
-            }));
-        },
-        retry: 3,
-        retryDelay: 200,
-        staleTime: 86_400_000,
-        enabled: email !== '' && email !== undefined,
-    });
-
-    return {
-        isLoading,
-        error,
-        guests,
-    };
 };
 
 /**

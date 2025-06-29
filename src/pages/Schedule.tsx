@@ -10,7 +10,7 @@ import rafting from '../assets/icons/rafting.png';
 import gun from '../assets/icons/gun.png';
 import { CircularProgress, Grid } from '@mui/material';
 import { useStore } from '../api/use-store';
-import { getGuests } from '../api/use-guests';
+import { getWeddingGuestsByEmail } from '../api/use-guests';
 import { LocationType } from './Travel';
 
 type Formailty = 'Casual' | 'Semi-Formal' | 'Formal';
@@ -170,7 +170,7 @@ export const SCHEDULE_ITEMS: ScheduleItem[] = [
 
 export default function Schedule() {
     const { storeEmail } = useStore();
-    const { isLoading, guests } = getGuests(storeEmail);
+    const { isLoading, guests } = getWeddingGuestsByEmail(storeEmail);
 
     return (
         <PageContainer>
@@ -181,7 +181,7 @@ export default function Schedule() {
                     SCHEDULE_ITEMS.filter(
                         (item) =>
                             item.isPrivate === false ||
-                            item.isPrivate === guests?.some((guest) => guest.isBridalParty)
+                            item.isPrivate === guests?.some((guest: any) => guest.isBridalParty)
                     ).map((item) => (
                         <ScheduleIcon
                             key={item.uid}

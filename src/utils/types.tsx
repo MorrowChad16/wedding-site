@@ -4,29 +4,28 @@ export enum FoodChoice {
     Vegetarian = 'VEGETARIAN',
 }
 
-export enum Status {
-    NOT_ATTENDING = 'NOT_ATTENDING',
+export enum AttendanceStatus {
+    DECLINED = 'DECLINED',
+    PENDING = 'PENDING',
     ATTENDING = 'ATTENDING',
-    COMING = 'COMING',
 }
 
-export enum Relationship {
-    PRIMARY_GUEST = 'PRIMARY_GUEST',
-    SECONDARY_GUEST = 'SECONDARY_GUEST',
+export enum GuestType {
+    PRIMARY = 'PRIMARY',
     PLUS_ONE = 'PLUS_ONE',
     CHILD = 'CHILD',
 }
 
-export type Guest = {
-    email: string;
+export type WeddingGuest = {
     guestId: string;
-    relationship: Relationship;
-    phoneNumber: string;
-    firstName: string;
-    lastName: string;
-    status: Status;
-    foodChoice: FoodChoice;
-    foodAllergies: string | null;
+    email: string;
+    guestType: GuestType;
+    fullName: string;
+    address: string;
+    attendanceStatus: AttendanceStatus;
+    foodChoice: FoodChoice | null;
+    dietaryRestrictions: string | null;
     songRequests: string | null;
-    isBridalParty: boolean | null;
+    isBridalParty: boolean;
+    isOfDrinkingAge: boolean;
 };

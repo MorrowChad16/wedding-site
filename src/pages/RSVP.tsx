@@ -28,8 +28,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PageContainer from '../components/page-container';
 import { useNavigate } from 'react-router-dom';
-import { getGuests, updateGuest, removeGuest } from '../api/use-guests';
-import { FoodChoice, Relationship, Status } from '../utils/types';
+import { getWeddingGuestsByEmail, updateWeddingGuest, removeWeddingGuest } from '../api/use-guests';
+import { FoodChoice, AttendanceStatus, GuestType } from '../utils/types';
 import { useStore } from '../api/use-store';
 import { Info } from '@mui/icons-material';
 
@@ -50,7 +50,7 @@ const Rsvp = () => {
     const [removeToastOpen, setRemoveToastOpen] = useState(false);
     const [removedGuestName, setRemovedGuestName] = useState('');
 
-    const { isLoading, error, guests } = getGuests(storeEmail);
+    const { isLoading, error, guests } = getWeddingGuestsByEmail(storeEmail);
     const [attending, setAttending] = useState(false);
     const [foodChoices, setFoodChoices] = useState<DisplayFoodChoice[]>([]);
     const [songs, setSongs] = useState<string[]>([]);
@@ -79,7 +79,7 @@ const Rsvp = () => {
         if (!guestToDelete) return;
 
         try {
-            await removeGuest(storeEmail, guestToDelete.id);
+            await removeWeddingGuest(guestToDelete.id);
             // Remove from local state immediately
             setFoodChoices((prevChoices) =>
                 prevChoices.filter((choice) => choice.guestId !== guestToDelete.id)
@@ -103,9 +103,7 @@ const Rsvp = () => {
     const canRemoveGuest = (guestId: string) => {
         const guest = guests?.find((g) => g.guestId === guestId);
         return (
-            guest &&
-            (guest.relationship === Relationship.CHILD ||
-                guest.relationship === Relationship.PLUS_ONE)
+            guest && (guest.guestType === GuestType.CHILD || guest.guestType === GuestType.PLUS_ONE)
         );
     };
 
@@ -119,11 +117,10 @@ const Rsvp = () => {
 
     const handleSubmit = () => {
         foodChoices.forEach(async (item) => {
-            await updateGuest(
-                storeEmail,
+            await updateWeddingGuest(
                 item.guestId,
                 item.allergies,
-                attending ? Status.COMING : Status.NOT_ATTENDING,
+                attending ? AttendanceStatus.ATTENDING : AttendanceStatus.DECLINED,
                 item.choice,
                 songs.join(',')
             );
@@ -134,17 +131,15 @@ const Rsvp = () => {
 
     useLayoutEffect(() => {
         if (!isLoading && guests) {
-            const primaryGuest = guests.find(
-                (guest) => guest.relationship === Relationship.PRIMARY_GUEST
-            )!;
-            const attendingStatus = primaryGuest.status;
-            setAttending(attendingStatus === Status.COMING ? true : false);
+            const primaryGuest = guests.find((guest) => guest.guestType === GuestType.PRIMARY)!;
+            const attendingStatus = primaryGuest.attendanceStatus;
+            setAttending(attendingStatus === AttendanceStatus.ATTENDING ? true : false);
 
             const displayFoodItems = guests.map<DisplayFoodChoice>((guest) => ({
-                name: `${guest.firstName} ${guest.lastName}`,
+                name: guest.fullName,
                 guestId: guest.guestId,
                 choice: guest.foodChoice as FoodChoice,
-                allergies: guest.foodAllergies || 'None',
+                allergies: guest.dietaryRestrictions || 'None',
             }));
             setFoodChoices(displayFoodItems);
 
@@ -205,51 +200,6 @@ const Rsvp = () => {
                             )}
                             {activeStep === 1 && (
                                 <div>
-                                    <Card
-                                        sx={{
-                                            maxWidth: 800,
-                                            margin: 'auto',
-                                            mt: 2,
-                                            mb: 2,
-                                        }}
-                                        elevation={2}
-                                    >
-                                        <CardContent>
-                                            <Box sx={{ display: 'flex', gap: 2 }}>
-                                                <Info
-                                                    sx={{
-                                                        color: 'primary.main',
-                                                        fontSize: 28,
-                                                        mt: 0.5,
-                                                    }}
-                                                />
-                                                <Box>
-                                                    <Typography
-                                                        variant="h6"
-                                                        component="h3"
-                                                        gutterBottom
-                                                        sx={{
-                                                            fontWeight: 500,
-                                                            color: 'text.primary',
-                                                        }}
-                                                    >
-                                                        Dinner Service Information
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="body1"
-                                                        sx={{ color: 'text.secondary' }}
-                                                    >
-                                                        Dinner will be served buffet-style, offering
-                                                        a variety of dishes for you to enjoy at your
-                                                        own pace. To help us with kitchen planning,
-                                                        please select your preferred main course in
-                                                        advance. Menu details are being finalized
-                                                        and will be shared here soon.
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                        </CardContent>
-                                    </Card>
                                     {foodChoices.map((item, index) => (
                                         <div key={item.guestId}>
                                             <Box
