@@ -41,7 +41,9 @@ function NavigationBar() {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const [open, setOpen] = useState(false);
-    const [openSignIn, setOpenSignIn] = useState(storeEmail === '');
+    const [openSignIn, setOpenSignIn] = useState(
+        storeEmail === '' && location.pathname !== '/save-the-date'
+    );
     const [error, setError] = useState('');
 
     const toggleDrawer = (newOpen: boolean) => () => {
