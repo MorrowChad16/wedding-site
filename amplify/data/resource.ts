@@ -30,6 +30,16 @@ const schema = a.schema({
         ])
         .authorization((allow) => [allow.guest()]),
 
+    FrequentlyAskedQuestions: a
+        .model({
+            id: a.id().required(),
+            question: a.string().required(),
+            answer: a.string().required(),
+            isVisible: a.boolean().default(false),
+        })
+        .identifier(['id'])
+        .authorization((allow) => [allow.guest()]),
+
     askWeddingQuestion: a
         .query()
         .arguments({
