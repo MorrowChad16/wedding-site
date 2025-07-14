@@ -9,20 +9,32 @@ import {
     useMediaQuery,
     useTheme,
     CircularProgress,
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Snackbar,
+    Paper,
 } from '@mui/material';
 import PageContainer from '../components/page-container';
 import CountdownClock from '../components/countdown-clock';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { ArrowBack, ArrowForward, Delete } from '@mui/icons-material';
 import { COUPLE_NAMES, WEDDING_DATE, WEDDING_LOCATION } from '../utils/constants';
-import { list, getUrl } from 'aws-amplify/storage';
+import { list, getUrl, remove } from 'aws-amplify/storage';
+import { useStore } from '../api/use-store';
+import { FileUploader } from '@aws-amplify/ui-react-storage';
+import '@aws-amplify/ui-react/styles.css';
 
 interface ImageWithUrl {
     src: string;
     title: string;
+    fullPath: string;
 }
 
 export default function Home() {
     const theme = useTheme();
+    const { isAdmin } = useStore();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     const formattedDate = new Intl.DateTimeFormat('en-US', {
@@ -36,6 +48,9 @@ export default function Home() {
     const [activeStep, setActiveStep] = useState(0);
     const [imageLoading, setImageLoading] = useState(true);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [imageToDelete, setImageToDelete] = useState<ImageWithUrl | null>(null);
+    const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
 
     const maxSteps = images.length;
 
@@ -68,6 +83,7 @@ export default function Home() {
                                     .split('/')
                                     .pop()
                                     ?.replace(/\.(webp)$/i, '') || '',
+                            fullPath: item.path,
                         };
                     }
                     return null;
@@ -95,6 +111,91 @@ export default function Home() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+
+    const handleDeleteImage = (image: ImageWithUrl) => {
+        setImageToDelete(image);
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDeleteImage = async () => {
+        if (!imageToDelete) return;
+
+        try {
+            // Use the fullPath for reliable deletion
+            await remove({
+                path: imageToDelete.fullPath
+            });
+
+            setSnackbar({ 
+                open: true, 
+                message: 'Image deleted successfully!', 
+                severity: 'success' 
+            });
+
+            // Refresh images
+            await fetchImages();
+            
+            // Reset active step if necessary
+            if (activeStep >= images.length - 1) {
+                setActiveStep(Math.max(0, images.length - 2));
+            }
+            
+        } catch (error) {
+            console.error('Error deleting image:', error);
+            setSnackbar({ 
+                open: true, 
+                message: 'Failed to delete image. Please try again.', 
+                severity: 'error' 
+            });
+        } finally {
+            setDeleteDialogOpen(false);
+            setImageToDelete(null);
+        }
+    };
+
+    const fetchImages = async () => {
+        try {
+            setLoading(true);
+            // List all files in the home/* directory
+            const result = await list({
+                path: 'home/',
+            });
+
+            // Get URLs for each image file
+            const imagePromises = result.items.map(async (item) => {
+                if (item.path) {
+                    const urlResult = await getUrl({
+                        path: item.path,
+                    });
+
+                    return {
+                        src: urlResult.url.toString(),
+                        title:
+                            item.path
+                                .split('/')
+                                .pop()
+                                ?.replace(/\.(webp)$/i, '') || '',
+                        fullPath: item.path,
+                    };
+                }
+                return null;
+            });
+
+            const imageResults = await Promise.all(imagePromises);
+            const validImages = imageResults.filter((img): img is ImageWithUrl => img !== null);
+
+            setImages(validImages);
+        } catch (error) {
+            console.error('Error fetching images from storage:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleCloseSnackbar = () => {
+        setSnackbar(prev => ({ ...prev, open: false }));
+    };
+
     if (loading) {
         return (
             <PageContainer>
@@ -105,7 +206,7 @@ export default function Home() {
         );
     }
 
-    if (images.length === 0) {
+    if (images.length === 0 && !isAdmin) {
         return (
             <PageContainer>
                 <Box textAlign="center" p={4}>
@@ -220,6 +321,103 @@ export default function Home() {
                 <Box mb="40">
                     <CountdownClock />
                 </Box>
+
+                {/* Admin Controls */}
+                {isAdmin && (
+                    <Box width={{ xs: '100%', sm: '100%', md: '650px', lg: '650px' }} mt={4}>
+                        <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+                            <Typography variant="h6" gutterBottom>
+                                Admin Controls
+                            </Typography>
+                            
+                            {/* Upload Section */}
+                            <Box mb={3}>
+                                <Typography variant="subtitle1" gutterBottom>
+                                    Upload New Photo
+                                </Typography>
+                                <FileUploader
+                                    acceptedFileTypes={['image/webp']}
+                                    path="home/"
+                                    maxFileCount={1}
+                                    isResumable
+                                    onUploadSuccess={() => {
+                                        setSnackbar({ 
+                                            open: true, 
+                                            message: 'Image uploaded successfully!', 
+                                            severity: 'success' 
+                                        });
+                                        fetchImages();
+                                    }}
+                                    onUploadError={(error) => {
+                                        console.error('Upload error:', error);
+                                        setSnackbar({ 
+                                            open: true, 
+                                            message: 'Failed to upload image. Please try again.', 
+                                            severity: 'error' 
+                                        });
+                                    }}
+                                />
+                            </Box>
+
+                            {/* Delete Current Image */}
+                            {images.length > 0 && images[activeStep] && (
+                                <Box>
+                                    <Typography variant="subtitle1" gutterBottom>
+                                        Manage Current Photo
+                                    </Typography>
+                                    <Button
+                                        variant="outlined"
+                                        color="error"
+                                        startIcon={<Delete />}
+                                        onClick={() => handleDeleteImage(images[activeStep])}
+                                        sx={{ mt: 1 }}
+                                    >
+                                        Delete Current Image
+                                    </Button>
+                                </Box>
+                            )}
+                        </Paper>
+                    </Box>
+                )}
+
+                {/* Delete Confirmation Dialog */}
+                <Dialog
+                    open={deleteDialogOpen}
+                    onClose={() => setDeleteDialogOpen(false)}
+                >
+                    <DialogTitle>Confirm Delete</DialogTitle>
+                    <DialogContent>
+                        <Typography>
+                            Are you sure you want to delete this image? This action cannot be undone.
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+                        <Button onClick={confirmDeleteImage} color="error" variant="contained">
+                            Delete
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+                {/* Success/Error Snackbar */}
+                <Snackbar
+                    open={snackbar.open}
+                    autoHideDuration={6000}
+                    onClose={handleCloseSnackbar}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: snackbar.severity === 'success' ? 'success.main' : 'error.main',
+                            color: 'white',
+                            px: 2,
+                            py: 1,
+                            borderRadius: 1,
+                        }}
+                    >
+                        {snackbar.message}
+                    </Box>
+                </Snackbar>
             </div>
         </PageContainer>
     );
