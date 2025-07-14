@@ -50,8 +50,7 @@
         "preview": "vite preview",
         "format": "prettier --write .",
         "validate": "npm run build && npm run format && npm ci --cache .npm --prefer-offline",
-        "clean": "rm -rf node_modules dist package-lock.json .vite && rm -rf amplify/node_modules amplify/package-lock.json",
-        "postinstall": "npm rebuild @parcel/watcher"
+        "clean": "rm -rf node_modules dist package-lock.json .vite && rm -rf amplify/node_modules amplify/package-lock.json"
     },
     "eslintConfig": {
         "extends": [
