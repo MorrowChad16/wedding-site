@@ -8,30 +8,18 @@ import {
     Typography,
     useMediaQuery,
     useTheme,
+    CircularProgress,
 } from '@mui/material';
 import PageContainer from '../components/page-container';
 import CountdownClock from '../components/countdown-clock';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { COUPLE_NAMES, WEDDING_DATE, WEDDING_LOCATION } from '../utils/constants';
+import { list, getUrl } from 'aws-amplify/storage';
 
-interface ImageModule {
-    default: string;
+interface ImageWithUrl {
+    src: string;
+    title: string;
 }
-
-// Use import.meta.glob to import all images
-const imageModules = import.meta.glob<ImageModule>('../assets/images/home/*.(webp)', {
-    eager: true,
-});
-
-// Convert the modules object into an array of image objects
-const images = Object.entries(imageModules).map(([path, module]) => ({
-    src: module.default,
-    title:
-        path
-            .split('/')
-            .pop()
-            ?.replace(/\.(webp)$/, '') || '',
-}));
 
 export default function Home() {
     const theme = useTheme();
@@ -42,15 +30,61 @@ export default function Home() {
         month: 'long',
         day: 'numeric',
     }).format(WEDDING_DATE);
+
+    const [images, setImages] = useState<ImageWithUrl[]>([]);
+    const [loading, setLoading] = useState(true);
     const [activeStep, setActiveStep] = useState(0);
-    const maxSteps = images ? Object.entries(images).length : 0;
     const [imageLoading, setImageLoading] = useState(true);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    const maxSteps = images.length;
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize); // Cleanup on unmount
+    }, []);
+
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                setLoading(true);
+                // List all files in the home/* directory
+                const result = await list({
+                    path: 'home/',
+                });
+
+                // Get URLs for each image file
+                const imagePromises = result.items.map(async (item) => {
+                    if (item.path) {
+                        const urlResult = await getUrl({
+                            path: item.path,
+                        });
+
+                        return {
+                            src: urlResult.url.toString(),
+                            title:
+                                item.path
+                                    .split('/')
+                                    .pop()
+                                    ?.replace(/\.(webp)$/i, '') || '',
+                        };
+                    }
+                    return null;
+                });
+
+                const imageResults = await Promise.all(imagePromises);
+                const validImages = imageResults.filter((img): img is ImageWithUrl => img !== null);
+
+                setImages(validImages);
+            } catch (error) {
+                console.error('Error fetching images from storage:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchImages();
     }, []);
 
     const handleNext = () => {
@@ -60,6 +94,28 @@ export default function Home() {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
+
+    if (loading) {
+        return (
+            <PageContainer>
+                <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+                    <CircularProgress />
+                </Box>
+            </PageContainer>
+        );
+    }
+
+    if (images.length === 0) {
+        return (
+            <PageContainer>
+                <Box textAlign="center" p={4}>
+                    <Typography variant="h6" color="text.secondary">
+                        No images available at this time.
+                    </Typography>
+                </Box>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer>
@@ -86,22 +142,24 @@ export default function Home() {
                                 display: imageLoading ? 'block' : 'none',
                             }}
                         />
-                        <img
-                            key={images[activeStep].src}
-                            src={images[activeStep].src}
-                            alt={images[activeStep].src}
-                            style={{
-                                objectFit: 'cover',
-                                aspectRatio: 'auto',
-                                width: '100%',
-                                height: '500px',
-                                borderRadius: '10px',
-                                display: imageLoading ? 'none' : 'block',
-                            }}
-                            loading="eager"
-                            onLoadStart={() => setImageLoading(true)}
-                            onLoad={() => setImageLoading(false)}
-                        />
+                        {images[activeStep] && (
+                            <img
+                                key={images[activeStep].src}
+                                src={images[activeStep].src}
+                                alt={images[activeStep].title}
+                                style={{
+                                    objectFit: 'cover',
+                                    aspectRatio: 'auto',
+                                    width: '100%',
+                                    height: '500px',
+                                    borderRadius: '10px',
+                                    display: imageLoading ? 'none' : 'block',
+                                }}
+                                loading="eager"
+                                onLoadStart={() => setImageLoading(true)}
+                                onLoad={() => setImageLoading(false)}
+                            />
+                        )}
                     </Box>
                     <MobileStepper
                         variant="dots"
