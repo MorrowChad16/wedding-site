@@ -3,7 +3,7 @@ import ScheduleIcon from '../components/schedule-icon';
 import { CircularProgress, Grid } from '@mui/material';
 import { useStore } from '../api/use-store';
 import { getWeddingGuestsByEmail } from '../api/use-guests';
-import { getVisibleScheduleItems } from '../api/use-schedule';
+import { getVisibleScheduleItems, ScheduleItemType } from '../api/use-schedule';
 
 export default function Schedule() {
     const { storeEmail } = useStore();
@@ -24,7 +24,7 @@ export default function Schedule() {
                                 item.isPrivate === false ||
                                 item.isPrivate === guests?.some((guest: any) => guest.isBridalParty)
                         )
-                        .map((item) => (
+                        .map((item: ScheduleItemType) => (
                             <ScheduleIcon
                                 key={item.uid}
                                 uid={item.uid}

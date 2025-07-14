@@ -6,8 +6,8 @@ const schema = a.schema({
     GuestType: a.enum(['PRIMARY', 'PLUS_ONE', 'CHILD']),
     AttendanceStatus: a.enum(['DECLINED', 'PENDING', 'ATTENDING']),
     FoodChoice: a.enum(['BEEF', 'CHICKEN', 'VEGETARIAN']),
-    LocationType: a.enum(['event', 'ceremony', 'reception', 'activity']),
-    Formality: a.enum(['Casual', 'Semi-Formal', 'Formal']),
+    LocationType: a.enum(['EVENT', 'CEREMONY', 'RECEPTION', 'ACTIVITY']),
+    Attire: a.enum(['CASUAL', 'SEMI_FORMAL', 'FORMAL']),
 
     WeddingGuests: a
         .model({
@@ -58,7 +58,7 @@ const schema = a.schema({
             coordinatesLng: a.float().required(),
             type: a.ref('LocationType').required(),
             iconAsset: a.string().required(),
-            formality: a.ref('Formality').required(),
+            formality: a.ref('Attire').required(),
             isPrivate: a.boolean().default(false),
             isVisible: a.boolean().default(true),
         })

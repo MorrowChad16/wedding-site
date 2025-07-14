@@ -4,14 +4,14 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 interface ScheduleIconProps {
     uid: string;
-    startTime?: Date;
-    endTime?: Date;
+    startTime: string;
+    endTime: string;
     title: string;
-    description?: string;
-    location?: string;
-    locationName?: string;
+    description?: string | null;
+    location: string;
+    locationName: string;
     iconAsset: string;
-    formality?: string;
+    formality: 'CASUAL' | 'SEMI_FORMAL' | 'FORMAL';
 }
 
 function ScheduleIcon({
@@ -28,14 +28,20 @@ function ScheduleIcon({
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-    const formattedDate = startTime
-        ? new Intl.DateTimeFormat('en-US', {
-              weekday: 'long',
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric',
-          }).format(startTime)
-        : undefined;
+    // Convert string dates to Date objects
+    const startDate = new Date(startTime);
+    const endDate = new Date(endTime);
+
+    // Convert formality enum to display format
+    const displayFormality =
+        formality === 'CASUAL' ? 'Casual' : formality === 'SEMI_FORMAL' ? 'Semi-Formal' : 'Formal';
+
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+    }).format(startDate);
 
     const generateIcsDate = (date: Date) => {
         const year = date.getFullYear();
@@ -136,16 +142,14 @@ END:VCALENDAR`;
                     p: 4,
                 }}
             >
-                {formattedDate && (
-                    <Typography
-                        variant="h3"
-                        fontSize={isSmallScreen ? '2rem' : '3rem'}
-                        textAlign="center"
-                        mb={1}
-                    >
-                        {formattedDate}
-                    </Typography>
-                )}
+                <Typography
+                    variant="h3"
+                    fontSize={isSmallScreen ? '2rem' : '3rem'}
+                    textAlign="center"
+                    mb={1}
+                >
+                    {formattedDate}
+                </Typography>
                 <Box display="flex" justifyContent="center" mb={1}>
                     {
                         <img
@@ -159,58 +163,48 @@ END:VCALENDAR`;
                 <Typography variant="h4" textAlign="center" mb={1}>
                     {title}
                 </Typography>
-                {locationName && (
-                    <Typography variant="h6" textAlign="center" mb={1}>
-                        {locationName}
-                    </Typography>
-                )}
-                {location && (
+                <Typography variant="h6" textAlign="center" mb={1}>
+                    {locationName}
+                </Typography>
+                <Button
+                    variant="text"
+                    onClick={() => openInNewWindow(generateGoogleMapsLink(location))}
+                    style={{
+                        display: 'flex',
+                        marginBottom: 2,
+                        justifyContent: 'center',
+                        width: '100%',
+                    }}
+                >
+                    <LocationOnIcon fontSize="inherit" />
+                    {location}
+                </Button>
+                <Typography variant="body1" textAlign="center" mb={1}>
+                    {formatTimeRange(startDate, endDate)}
+                </Typography>
+                <Typography variant="body1" textAlign="center" mb={1}>
+                    {displayFormality}
+                </Typography>
+                <Box textAlign={'center'}>
                     <Button
-                        variant="text"
-                        onClick={() => openInNewWindow(generateGoogleMapsLink(location))}
-                        style={{
-                            display: 'flex',
-                            marginBottom: 2,
-                            justifyContent: 'center',
-                            width: '100%',
-                        }}
+                        variant="contained"
+                        color="primary"
+                        aria-label="wedding-event-download"
+                        onClick={() =>
+                            downloadIcsFile(
+                                uid,
+                                `${title.toLowerCase().replace(' ', '-')}.ics`,
+                                startDate,
+                                endDate,
+                                title,
+                                description ?? '',
+                                location
+                            )
+                        }
                     >
-                        <LocationOnIcon fontSize="inherit" />
-                        {location}
+                        Add to calendar
                     </Button>
-                )}
-                {startTime && endTime && (
-                    <Typography variant="body1" textAlign="center" mb={1}>
-                        {formatTimeRange(startTime, endTime)}
-                    </Typography>
-                )}
-                {formality && (
-                    <Typography variant="body1" textAlign="center" mb={1}>
-                        {formality}
-                    </Typography>
-                )}
-                {startTime && endTime && location && (
-                    <Box textAlign={'center'}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            aria-label="wedding-event-download"
-                            onClick={() =>
-                                downloadIcsFile(
-                                    uid,
-                                    `${title.toLowerCase().replace(' ', '-')}.ics`,
-                                    startTime,
-                                    endTime,
-                                    title,
-                                    description ?? '',
-                                    location
-                                )
-                            }
-                        >
-                            Add to calendar
-                        </Button>
-                    </Box>
-                )}
+                </Box>
             </Paper>
         </Grid>
     );
