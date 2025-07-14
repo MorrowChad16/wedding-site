@@ -50,7 +50,11 @@ export default function Home() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [imageToDelete, setImageToDelete] = useState<ImageWithUrl | null>(null);
-    const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: '',
+        severity: 'success' as 'success' | 'error',
+    });
 
     const maxSteps = images.length;
 
@@ -111,7 +115,6 @@ export default function Home() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-
     const handleDeleteImage = (image: ImageWithUrl) => {
         setImageToDelete(image);
         setDeleteDialogOpen(true);
@@ -123,29 +126,28 @@ export default function Home() {
         try {
             // Use the fullPath for reliable deletion
             await remove({
-                path: imageToDelete.fullPath
+                path: imageToDelete.fullPath,
             });
 
-            setSnackbar({ 
-                open: true, 
-                message: 'Image deleted successfully!', 
-                severity: 'success' 
+            setSnackbar({
+                open: true,
+                message: 'Image deleted successfully!',
+                severity: 'success',
             });
 
             // Refresh images
             await fetchImages();
-            
+
             // Reset active step if necessary
             if (activeStep >= images.length - 1) {
                 setActiveStep(Math.max(0, images.length - 2));
             }
-            
         } catch (error) {
             console.error('Error deleting image:', error);
-            setSnackbar({ 
-                open: true, 
-                message: 'Failed to delete image. Please try again.', 
-                severity: 'error' 
+            setSnackbar({
+                open: true,
+                message: 'Failed to delete image. Please try again.',
+                severity: 'error',
             });
         } finally {
             setDeleteDialogOpen(false);
@@ -193,7 +195,7 @@ export default function Home() {
     };
 
     const handleCloseSnackbar = () => {
-        setSnackbar(prev => ({ ...prev, open: false }));
+        setSnackbar((prev) => ({ ...prev, open: false }));
     };
 
     if (loading) {
@@ -228,12 +230,57 @@ export default function Home() {
                     alignItems: 'center',
                 }}
             >
+                {/* Admin Controls - Moved to Top */}
+                {isAdmin && (
+                    <Box width={{ xs: '100%', sm: '100%', md: '650px', lg: '650px' }} mb={4}>
+                        <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+                            <Typography variant="h6" gutterBottom>
+                                Home Admin Controls
+                            </Typography>
+
+                            {/* Upload Section */}
+                            <Box mb={3}>
+                                <Typography variant="subtitle1" gutterBottom>
+                                    Upload New Photo
+                                </Typography>
+                                <FileUploader
+                                    acceptedFileTypes={['image/webp']}
+                                    path="home/"
+                                    maxFileCount={1}
+                                    isResumable
+                                    onUploadSuccess={() => {
+                                        setSnackbar({
+                                            open: true,
+                                            message: 'Image uploaded successfully!',
+                                            severity: 'success',
+                                        });
+                                        fetchImages();
+                                    }}
+                                    onUploadError={(error) => {
+                                        console.error('Upload error:', error);
+                                        setSnackbar({
+                                            open: true,
+                                            message: 'Failed to upload image. Please try again.',
+                                            severity: 'error',
+                                        });
+                                    }}
+                                />
+                            </Box>
+                        </Paper>
+                    </Box>
+                )}
+
                 <Box
                     width={{ xs: '100%', sm: '100%', md: '650px', lg: '650px' }}
                     flexGrow={1}
                     position={'relative'}
                 >
-                    <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <Box
+                        display={'flex'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        position={'relative'}
+                    >
                         <div
                             style={{
                                 width: '100%',
@@ -244,22 +291,43 @@ export default function Home() {
                             }}
                         />
                         {images[activeStep] && (
-                            <img
-                                key={images[activeStep].src}
-                                src={images[activeStep].src}
-                                alt={images[activeStep].title}
-                                style={{
-                                    objectFit: 'cover',
-                                    aspectRatio: 'auto',
-                                    width: '100%',
-                                    height: '500px',
-                                    borderRadius: '10px',
-                                    display: imageLoading ? 'none' : 'block',
-                                }}
-                                loading="eager"
-                                onLoadStart={() => setImageLoading(true)}
-                                onLoad={() => setImageLoading(false)}
-                            />
+                            <>
+                                <img
+                                    key={images[activeStep].src}
+                                    src={images[activeStep].src}
+                                    alt={images[activeStep].title}
+                                    style={{
+                                        objectFit: 'cover',
+                                        aspectRatio: 'auto',
+                                        width: '100%',
+                                        height: '500px',
+                                        borderRadius: '10px',
+                                        display: imageLoading ? 'none' : 'block',
+                                    }}
+                                    loading="eager"
+                                    onLoadStart={() => setImageLoading(true)}
+                                    onLoad={() => setImageLoading(false)}
+                                />
+                                {/* Delete Icon Overlay */}
+                                <IconButton
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 8,
+                                        right: 8,
+                                        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                        },
+                                        zIndex: 2,
+                                        visibility: isAdmin ? 'visible' : 'hidden',
+                                        pointerEvents: isAdmin ? 'auto' : 'none',
+                                    }}
+                                    size="small"
+                                    onClick={() => handleDeleteImage(images[activeStep])}
+                                >
+                                    <Delete fontSize="small" color="error" />
+                                </IconButton>
+                            </>
                         )}
                     </Box>
                     <MobileStepper
@@ -322,73 +390,13 @@ export default function Home() {
                     <CountdownClock />
                 </Box>
 
-                {/* Admin Controls */}
-                {isAdmin && (
-                    <Box width={{ xs: '100%', sm: '100%', md: '650px', lg: '650px' }} mt={4}>
-                        <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
-                            <Typography variant="h6" gutterBottom>
-                                Admin Controls
-                            </Typography>
-                            
-                            {/* Upload Section */}
-                            <Box mb={3}>
-                                <Typography variant="subtitle1" gutterBottom>
-                                    Upload New Photo
-                                </Typography>
-                                <FileUploader
-                                    acceptedFileTypes={['image/webp']}
-                                    path="home/"
-                                    maxFileCount={1}
-                                    isResumable
-                                    onUploadSuccess={() => {
-                                        setSnackbar({ 
-                                            open: true, 
-                                            message: 'Image uploaded successfully!', 
-                                            severity: 'success' 
-                                        });
-                                        fetchImages();
-                                    }}
-                                    onUploadError={(error) => {
-                                        console.error('Upload error:', error);
-                                        setSnackbar({ 
-                                            open: true, 
-                                            message: 'Failed to upload image. Please try again.', 
-                                            severity: 'error' 
-                                        });
-                                    }}
-                                />
-                            </Box>
-
-                            {/* Delete Current Image */}
-                            {images.length > 0 && images[activeStep] && (
-                                <Box>
-                                    <Typography variant="subtitle1" gutterBottom>
-                                        Manage Current Photo
-                                    </Typography>
-                                    <Button
-                                        variant="outlined"
-                                        color="error"
-                                        startIcon={<Delete />}
-                                        onClick={() => handleDeleteImage(images[activeStep])}
-                                        sx={{ mt: 1 }}
-                                    >
-                                        Delete Current Image
-                                    </Button>
-                                </Box>
-                            )}
-                        </Paper>
-                    </Box>
-                )}
-
                 {/* Delete Confirmation Dialog */}
-                <Dialog
-                    open={deleteDialogOpen}
-                    onClose={() => setDeleteDialogOpen(false)}
-                >
+                <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
                     <DialogTitle>Confirm Delete</DialogTitle>
                     <DialogContent>
                         <Typography>
-                            Are you sure you want to delete this image? This action cannot be undone.
+                            Are you sure you want to delete this image? This action cannot be
+                            undone.
                         </Typography>
                     </DialogContent>
                     <DialogActions>
@@ -408,7 +416,8 @@ export default function Home() {
                 >
                     <Box
                         sx={{
-                            backgroundColor: snackbar.severity === 'success' ? 'success.main' : 'error.main',
+                            backgroundColor:
+                                snackbar.severity === 'success' ? 'success.main' : 'error.main',
                             color: 'white',
                             px: 2,
                             py: 1,

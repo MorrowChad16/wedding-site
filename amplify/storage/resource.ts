@@ -5,5 +5,8 @@ export const storage = defineStorage({
     access: (allow) => ({
         'home/*': [allow.guest.to(['read', 'write', 'delete'])],
         'gallery/*': [allow.guest.to(['read', 'write', 'delete'])],
+        'story/*': [allow.guest.to(['read', 'write', 'delete'])],
+        'travel/*': [allow.guest.to(['read', 'write', 'delete'])],
+        'registry/*': [allow.guest.to(['read', 'write', 'delete'])],
     }),
 });
