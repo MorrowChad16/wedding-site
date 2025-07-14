@@ -23,7 +23,7 @@ import { ArrowBack, ArrowForward, Delete } from '@mui/icons-material';
 import { COUPLE_NAMES, WEDDING_DATE, WEDDING_LOCATION } from '../utils/constants';
 import { list, getUrl, remove } from 'aws-amplify/storage';
 import { useStore } from '../api/use-store';
-// import { FileUploader } from '@aws-amplify/ui-react-storage';
+import { FileUploader } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
 
 interface ImageWithUrl {
@@ -243,7 +243,7 @@ export default function Home() {
                                 <Typography variant="subtitle1" gutterBottom>
                                     Upload New Photo
                                 </Typography>
-                                {/* <FileUploader
+                                <FileUploader
                                     acceptedFileTypes={['image/webp']}
                                     path="home/"
                                     maxFileCount={1}
@@ -264,7 +264,7 @@ export default function Home() {
                                             severity: 'error',
                                         });
                                     }}
-                                /> */}
+                                />
                             </Box>
                         </Paper>
                     </Box>

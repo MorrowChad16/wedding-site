@@ -21,7 +21,7 @@ import LazyLoad from 'react-lazyload';
 import { useState, useEffect } from 'react';
 import { list, getUrl, remove } from 'aws-amplify/storage';
 import { useStore } from '../api/use-store';
-// import { FileUploader } from '@aws-amplify/ui-react-storage';
+import { FileUploader } from '@aws-amplify/ui-react-storage';
 import { Delete } from '@mui/icons-material';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -200,7 +200,7 @@ export default function Gallery() {
                                     <Typography variant="subtitle1" gutterBottom>
                                         Upload New Photos
                                     </Typography>
-                                    {/* <FileUploader
+                                    <FileUploader
                                         acceptedFileTypes={['image/webp']}
                                         path="gallery/"
                                         maxFileCount={10}
@@ -222,7 +222,7 @@ export default function Gallery() {
                                                 severity: 'error',
                                             });
                                         }}
-                                    /> */}
+                                    />
                                 </Box>
                             </Paper>
                         </Box>
