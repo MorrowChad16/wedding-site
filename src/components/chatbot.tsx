@@ -18,56 +18,53 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { COUPLE_NAMES, WEDDING_DATE } from '../utils/constants';
-import { SCHEDULE_ITEMS } from '../pages/Schedule';
 import { TRAVEL_SECTIONS } from '../pages/Travel';
 import { REGISTRY_SECTIONS } from '../pages/Registry';
 import { MarkdownTypography } from './markdown-typography';
 import { generateClient } from 'aws-amplify/api';
 import { Schema } from '../../amplify/data/resource';
 import { useLocation } from 'react-router-dom';
-import { useStore } from '../api/use-store';
 import { LoadingDots } from './loading-dots';
 import { StreamingText } from './streaming-text';
-import { getWeddingGuestsByEmail } from '../api/use-guests';
 
 const getClient = () => generateClient<Schema>();
 
-function generateScheduleString(scheduleItems: typeof SCHEDULE_ITEMS): string {
-    return scheduleItems
-        .map((item) => {
-            let itemString = `- ${item.title}`;
+// function generateScheduleString(scheduleItems: typeof SCHEDULE_ITEMS): string {
+//     return scheduleItems
+//         .map((item) => {
+//             let itemString = `- ${item.title}`;
 
-            if (item.startTime) {
-                const startDate = new Date(item.startTime);
-                itemString += `\n  Date: ${startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
-                itemString += `\n  Time: ${startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+//             if (item.startTime) {
+//                 const startDate = new Date(item.startTime);
+//                 itemString += `\n  Date: ${startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+//                 itemString += `\n  Time: ${startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
 
-                if (item.endTime) {
-                    const endDate = new Date(item.endTime);
-                    itemString += ` - ${endDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
-                }
-            }
+//                 if (item.endTime) {
+//                     const endDate = new Date(item.endTime);
+//                     itemString += ` - ${endDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+//                 }
+//             }
 
-            if (item.locationName) {
-                itemString += `\n  Location: ${item.locationName}`;
-            }
+//             if (item.locationName) {
+//                 itemString += `\n  Location: ${item.locationName}`;
+//             }
 
-            if (item.location) {
-                itemString += `\n  Address: ${item.location}`;
-            }
+//             if (item.location) {
+//                 itemString += `\n  Address: ${item.location}`;
+//             }
 
-            if (item.description) {
-                itemString += `\n  Description: ${item.description}`;
-            }
+//             if (item.description) {
+//                 itemString += `\n  Description: ${item.description}`;
+//             }
 
-            if (item.formality) {
-                itemString += `\n  Dress Code: ${item.formality}`;
-            }
+//             if (item.formality) {
+//                 itemString += `\n  Dress Code: ${item.formality}`;
+//             }
 
-            return itemString;
-        })
-        .join('\n\n');
-}
+//             return itemString;
+//         })
+//         .join('\n\n');
+// }
 
 // TODO: update to retrieve all FAQs
 // function generateFaqString(faqItems: typeof FAQ_ITEMS): string {
@@ -193,16 +190,17 @@ function ChatBot() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
-    const { storeEmail } = useStore();
-    const { guests } = getWeddingGuestsByEmail(storeEmail);
+    // const { storeEmail } = useStore();
+    // const { guests } = getWeddingGuestsByEmail(storeEmail);
 
-    const scheduleString = generateScheduleString(
-        SCHEDULE_ITEMS.filter(
-            (item) =>
-                item.isPrivate === false ||
-                item.isPrivate === guests?.some((guest: any) => guest.isBridalParty)
-        )
-    );
+    // TODO: retrieve dynamically
+    // const scheduleString = generateScheduleString(
+    //     SCHEDULE_ITEMS.filter(
+    //         (item) =>
+    //             item.isPrivate === false ||
+    //             item.isPrivate === guests?.some((guest: any) => guest.isBridalParty)
+    //     )
+    // );
 
     const exampleQuestions = [
         'Where is the venue located?',
@@ -222,14 +220,13 @@ function ChatBot() {
         const aggregatedMessages = messages.map((message) => message.text).join('\n');
         setIsLoading(true);
 
+        // - Schedule:
+        // ${scheduleString}
         getClient()
             .queries.askWeddingQuestion({
                 context: `
                 ${WEDDING_CONTEXT} 
-    
-                - Schedule: 
-                ${scheduleString}
-                
+
                 ${aggregatedMessages}`,
                 question: text,
             })

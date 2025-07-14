@@ -6,6 +6,8 @@ const schema = a.schema({
     GuestType: a.enum(['PRIMARY', 'PLUS_ONE', 'CHILD']),
     AttendanceStatus: a.enum(['DECLINED', 'PENDING', 'ATTENDING']),
     FoodChoice: a.enum(['BEEF', 'CHICKEN', 'VEGETARIAN']),
+    LocationType: a.enum(['event', 'ceremony', 'reception', 'activity']),
+    Formality: a.enum(['Casual', 'Semi-Formal', 'Formal']),
 
     WeddingGuests: a
         .model({
@@ -40,6 +42,30 @@ const schema = a.schema({
             isVisible: a.boolean().default(false),
         })
         .identifier(['id'])
+        .authorization((allow) => [allow.guest()]),
+
+    ScheduleItems: a
+        .model({
+            id: a.id().required(),
+            uid: a.string().required(),
+            startTime: a.datetime().required(),
+            endTime: a.datetime().required(),
+            title: a.string().required(),
+            description: a.string(),
+            locationName: a.string().required(),
+            location: a.string().required(),
+            coordinatesLat: a.float().required(),
+            coordinatesLng: a.float().required(),
+            type: a.ref('LocationType').required(),
+            iconAsset: a.string().required(),
+            formality: a.ref('Formality').required(),
+            isPrivate: a.boolean().default(false),
+            isVisible: a.boolean().default(true),
+        })
+        .identifier(['id'])
+        .secondaryIndexes((index) => [
+            index('uid'), // GSI for unique identifier lookup
+        ])
         .authorization((allow) => [allow.guest()]),
 
     askWeddingQuestion: a
