@@ -10,5 +10,5 @@ defineBackend({
     data,
     anthropicFunction,
     adminAuthFunction,
-    storage
+    storage,
 });
