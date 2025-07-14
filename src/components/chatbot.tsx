@@ -19,7 +19,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { COUPLE_NAMES, WEDDING_DATE } from '../utils/constants';
 import { SCHEDULE_ITEMS } from '../pages/Schedule';
-import { FAQ_ITEMS } from '../pages/FAQ';
 import { TRAVEL_SECTIONS } from '../pages/Travel';
 import { REGISTRY_SECTIONS } from '../pages/Registry';
 import { MarkdownTypography } from './markdown-typography';
@@ -70,19 +69,20 @@ function generateScheduleString(scheduleItems: typeof SCHEDULE_ITEMS): string {
         .join('\n\n');
 }
 
-function generateFaqString(faqItems: typeof FAQ_ITEMS): string {
-    return faqItems
-        .map((item) => {
-            let faqString = `Q: ${item.question}\nA: ${item.answer}`;
+// TODO: update to retrieve all FAQs
+// function generateFaqString(faqItems: typeof FAQ_ITEMS): string {
+//     return faqItems
+//         .map((item) => {
+//             let faqString = `Q: ${item.question}\nA: ${item.answer}`;
 
-            if (item.lastUpdated) {
-                faqString += `\n   (Last updated: ${item.lastUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })})`;
-            }
+//             if (item.lastUpdated) {
+//                 faqString += `\n   (Last updated: ${item.lastUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })})`;
+//             }
 
-            return faqString;
-        })
-        .join('\n\n');
-}
+//             return faqString;
+//         })
+//         .join('\n\n');
+// }
 
 function generateTravelInfoString(sections: typeof TRAVEL_SECTIONS): string {
     return sections
@@ -144,19 +144,18 @@ function generateGiftRegistryString(sections: typeof REGISTRY_SECTIONS): string 
         .join('\n\n');
 }
 
-const faqString = generateFaqString(FAQ_ITEMS);
+// const faqString = generateFaqString(FAQ_ITEMS);
 const travelInformation = generateTravelInfoString(TRAVEL_SECTIONS);
 const giftRegistryString = generateGiftRegistryString(REGISTRY_SECTIONS);
 
+//   - Frequently Asked Questions:
+//   ${faqString}
 let WEDDING_CONTEXT = `
   You are an AI assistant for a wedding. Here are the key details about the wedding:
   
-  - Couple: Ciara McNeley and Chad Morrow
+  - Couple: Alyssa Ealy and Jace Warkentien
 
   - Date: ${WEDDING_DATE}
-
-  - Frequently Asked Questions: 
-  ${faqString}
 
   - Travel Information: 
   ${travelInformation}
@@ -165,9 +164,9 @@ let WEDDING_CONTEXT = `
   ${giftRegistryString}
 
   - Contact for questions: 
-    - Name: Chad Morrow
-    - Number: 815-708-4489
-    - Email: morrowchad1@protonmail.com
+    - Name: Jace Warkentien
+    - Number: 815-708-4489 TODO
+    - Email: morrowchad1@protonmail.com TODO
   
   Please answer any questions about the wedding based on this information. If you don't have the specific information requested, politely say so and suggest contacting the provided contact person for more details.
   Please feel free to add new lines and any styling updates necessary to help readers parse the information.

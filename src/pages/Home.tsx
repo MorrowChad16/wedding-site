@@ -12,7 +12,7 @@ import {
 import PageContainer from '../components/page-container';
 import CountdownClock from '../components/countdown-clock';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { COUPLE_NAMES, WEDDING_DATE } from '../utils/constants';
+import { COUPLE_NAMES, WEDDING_DATE, WEDDING_LOCATION } from '../utils/constants';
 
 interface ImageModule {
     default: string;
@@ -133,7 +133,7 @@ export default function Home() {
                     <Box pt={'20px'}>
                         <Grid container spacing={2} alignItems="center" justifyContent="center">
                             <Grid item>
-                                <Typography variant="body2">Boise, Idaho</Typography>
+                                <Typography variant="body2">{WEDDING_LOCATION}</Typography>
                             </Grid>
                             <Grid item>
                                 <Divider

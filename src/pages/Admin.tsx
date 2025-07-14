@@ -29,6 +29,7 @@ import {
 import { getAllWeddingGuests } from '../api/use-guests';
 import { AttendanceStatus, FoodChoice, GuestType } from '../utils/types';
 import PageContainer from '../components/page-container';
+import { useStore } from '../api/use-store';
 
 const StatCard: React.FC<{
     title: string;
@@ -56,7 +57,21 @@ const StatCard: React.FC<{
 };
 
 const Admin: React.FC = () => {
+    const { isAdmin } = useStore();
     const { isLoading, error, guests } = getAllWeddingGuests();
+
+    // Check if user is authenticated as admin
+    if (!isAdmin) {
+        return (
+            <PageContainer>
+                <Container maxWidth="lg">
+                    <Alert severity="error" sx={{ mt: 4 }}>
+                        Access denied. Administrator authentication required to view this page.
+                    </Alert>
+                </Container>
+            </PageContainer>
+        );
+    }
 
     if (isLoading) {
         return (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -32,9 +32,10 @@ const getClient = () => generateClient<Schema>();
 function NavigationBar() {
     const theme = useTheme();
     // used across screens
-    const { storeEmail, setStoreEmail } = useStore();
+    const { storeEmail, setStoreEmail, isAdmin, setIsAdmin } = useStore();
     // used for visualizations
     const [fullName, setFullName] = useState('');
+    const [adminPassword, setAdminPassword] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(location.pathname);
@@ -46,7 +47,11 @@ function NavigationBar() {
             location.pathname !== '/save-the-date' &&
             location.pathname !== '/admin'
     );
+    const [openAdminLogin, setOpenAdminLogin] = useState(
+        !isAdmin && location.pathname === '/admin'
+    );
     const [error, setError] = useState('');
+    const [adminError, setAdminError] = useState('');
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -99,6 +104,40 @@ function NavigationBar() {
             setError('You must provide your full name');
         }
     };
+
+    const handleAdminLogin = async () => {
+        if (!adminPassword) {
+            setAdminError('Please enter the admin password');
+            return;
+        }
+
+        try {
+            const result = await getClient().queries.validateAdminPassword({
+                password: adminPassword,
+            });
+
+            if (result.data) {
+                setIsAdmin(true);
+                setOpenAdminLogin(false);
+                setAdminError('');
+            } else {
+                setAdminError('Invalid admin password');
+            }
+        } catch (error) {
+            console.error('Error during admin login:', error);
+            setAdminError('Admin login failed. Please try again.');
+        }
+    };
+
+    // Handle admin login requirement when navigating to admin page
+    useEffect(() => {
+        if (location.pathname === '/admin' && !isAdmin) {
+            setOpenAdminLogin(true);
+        } else {
+            setOpenAdminLogin(false);
+        }
+        setCurrentPage(location.pathname);
+    }, [location.pathname, isAdmin]);
 
     const toolbarStyle = isMobile
         ? {}
@@ -256,6 +295,57 @@ function NavigationBar() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleLoginClick}>Login</Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Admin Login Dialog */}
+            <Dialog
+                open={openAdminLogin}
+                onClose={(_, reason: string) => {
+                    if (reason !== 'backdropClick') {
+                        setOpenAdminLogin(false);
+                        navigate('/'); // Redirect to home if admin login is cancelled
+                    }
+                }}
+            >
+                <DialogTitle>Admin Login Required</DialogTitle>
+                <DialogContent>
+                    <DialogContentText mb={2}>
+                        This page requires administrator access. Please enter the admin password to
+                        continue.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        required
+                        margin="dense"
+                        id="adminPassword"
+                        label="Admin Password"
+                        type="password"
+                        fullWidth
+                        variant="outlined"
+                        value={adminPassword}
+                        onChange={(e) => setAdminPassword(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleAdminLogin();
+                            }
+                        }}
+                        error={!!adminError}
+                        helperText={adminError}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => {
+                            setOpenAdminLogin(false);
+                            navigate('/');
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                    <Button onClick={handleAdminLogin} variant="contained">
+                        Login
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>

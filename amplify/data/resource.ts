@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { anthropicFunction } from '../anthropic-function/resource';
+import { adminAuthFunction } from '../admin-auth-function/resource';
 
 const schema = a.schema({
     GuestType: a.enum(['PRIMARY', 'PLUS_ONE', 'CHILD']),
@@ -22,6 +23,7 @@ const schema = a.schema({
             songRequests: a.string(),
             isBridalParty: a.boolean().default(false),
             isOfDrinkingAge: a.boolean().default(false),
+            isAdmin: a.boolean().default(false),
         })
         .identifier(['guestId'])
         .secondaryIndexes((index) => [
@@ -48,6 +50,15 @@ const schema = a.schema({
         })
         .returns(a.string())
         .handler(a.handler.function(anthropicFunction))
+        .authorization((allow) => [allow.guest()]),
+
+    validateAdminPassword: a
+        .query()
+        .arguments({
+            password: a.string().required(),
+        })
+        .returns(a.boolean())
+        .handler(a.handler.function(adminAuthFunction))
         .authorization((allow) => [allow.guest()]),
 });
 
