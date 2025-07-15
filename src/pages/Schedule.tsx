@@ -87,7 +87,6 @@ export default function Schedule() {
 
             // Validate required fields
             if (
-                !formData.uid ||
                 !formData.title ||
                 !formData.locationName ||
                 !formData.startTime ||
@@ -98,9 +97,12 @@ export default function Schedule() {
                 return;
             }
 
+            // Auto-generate unique ID for new items
+            const uniqueId = crypto.randomUUID();
+
             // Create schedule item with S3 key
             await createScheduleItem(
-                formData.uid,
+                uniqueId,
                 new Date(formData.startTime),
                 new Date(formData.endTime),
                 formData.title,
@@ -445,14 +447,6 @@ export default function Schedule() {
                     <DialogContent>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
                             {error && <Alert severity="error">{error}</Alert>}
-
-                            <TextField
-                                label="UID *"
-                                value={formData.uid}
-                                onChange={(e) => setFormData({ ...formData, uid: e.target.value })}
-                                fullWidth
-                                helperText="Unique identifier for this schedule item"
-                            />
 
                             <TextField
                                 label="Title *"

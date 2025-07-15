@@ -68,6 +68,21 @@ const schema = a.schema({
         ])
         .authorization((allow) => [allow.guest()]),
 
+    StoryItems: a
+        .model({
+            id: a.id().required(),
+            title: a.string().required(),
+            body: a.string().required(),
+            month: a.integer().required(),
+            year: a.integer().required(),
+            picture: a.string().required(),
+        })
+        .identifier(['id'])
+        .secondaryIndexes((index) => [
+            index('year').sortKeys(['month']), // GSI for chronological ordering
+        ])
+        .authorization((allow) => [allow.guest()]),
+
     askWeddingQuestion: a
         .query()
         .arguments({
