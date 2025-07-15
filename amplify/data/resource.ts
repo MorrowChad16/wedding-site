@@ -8,6 +8,7 @@ const schema = a.schema({
     FoodChoice: a.enum(['BEEF', 'CHICKEN', 'VEGETARIAN']),
     LocationType: a.enum(['EVENT', 'CEREMONY', 'RECEPTION', 'ACTIVITY']),
     Attire: a.enum(['CASUAL', 'SEMI_FORMAL', 'FORMAL']),
+    RegistrySection: a.enum(['FUNDS', 'REGISTRIES']),
 
     WeddingGuests: a
         .model({
@@ -80,6 +81,23 @@ const schema = a.schema({
         .identifier(['id'])
         .secondaryIndexes((index) => [
             index('year').sortKeys(['month']), // GSI for chronological ordering
+        ])
+        .authorization((allow) => [allow.guest()]),
+
+    RegistryItems: a
+        .model({
+            id: a.id().required(),
+            name: a.string().required(),
+            description: a.string(),
+            image: a.string().required(),
+            externalUrl: a.string(),
+            currentAmount: a.integer(),
+            targetAmount: a.integer(),
+            section: a.ref('RegistrySection').required(),
+        })
+        .identifier(['id'])
+        .secondaryIndexes((index) => [
+            index('section'), // GSI for section-based queries
         ])
         .authorization((allow) => [allow.guest()]),
 

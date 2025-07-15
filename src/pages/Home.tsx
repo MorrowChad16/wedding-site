@@ -138,11 +138,7 @@ export default function Home() {
 
                     return {
                         src: urlResult.url.toString(),
-                        title:
-                            item.path
-                                .split('/')
-                                .pop()
-                                ?.replace(/\.(webp)$/i, '') || '',
+                        title: item.eTag,
                         fullPath: item.path,
                     };
                 }

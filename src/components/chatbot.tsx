@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { COUPLE_NAMES, WEDDING_DATE } from '../utils/constants';
 import { TRAVEL_SECTIONS } from '../pages/Travel';
-import { REGISTRY_SECTIONS } from '../pages/Registry';
+// import { REGISTRY_SECTIONS } from '../pages/Registry';
 import { MarkdownTypography } from './markdown-typography';
 import { generateClient } from 'aws-amplify/api';
 import { Schema } from '../../amplify/data/resource';
@@ -115,38 +115,40 @@ function generateTravelInfoString(sections: typeof TRAVEL_SECTIONS): string {
         .join('\n\n');
 }
 
-function generateGiftRegistryString(sections: typeof REGISTRY_SECTIONS): string {
-    return sections
-        .map((section) => {
-            let sectionString = `${section.title}:\n`;
+// function generateGiftRegistryString(sections: typeof REGISTRY_SECTIONS): string {
+//     return sections
+//         .map((section) => {
+//             let sectionString = `${section.title}:\n`;
 
-            sectionString += section.info
-                .map((item) => {
-                    let itemString = item.name ? `- ${item.name}` : '- Registry';
+//             sectionString += section.info
+//                 .map((item) => {
+//                     let itemString = item.name ? `- ${item.name}` : '- Registry';
 
-                    if (item.description) {
-                        itemString += `\n  Description: ${item.description}`;
-                    }
+//                     if (item.description) {
+//                         itemString += `\n  Description: ${item.description}`;
+//                     }
 
-                    if (item.externalUrl) {
-                        itemString += `\n  Registry URL: ${item.externalUrl}`;
-                    }
+//                     if (item.externalUrl) {
+//                         itemString += `\n  Registry URL: ${item.externalUrl}`;
+//                     }
 
-                    return itemString;
-                })
-                .join('\n\n');
+//                     return itemString;
+//                 })
+//                 .join('\n\n');
 
-            return sectionString;
-        })
-        .join('\n\n');
-}
+//             return sectionString;
+//         })
+//         .join('\n\n');
+// }
 
 // const faqString = generateFaqString(FAQ_ITEMS);
 const travelInformation = generateTravelInfoString(TRAVEL_SECTIONS);
-const giftRegistryString = generateGiftRegistryString(REGISTRY_SECTIONS);
+// const giftRegistryString = generateGiftRegistryString(REGISTRY_SECTIONS);
 
 //   - Frequently Asked Questions:
 //   ${faqString}
+// Gift Registry Information:
+//  ${giftRegistryString}
 let WEDDING_CONTEXT = `
   You are an AI assistant for a wedding. Here are the key details about the wedding:
   
@@ -156,9 +158,6 @@ let WEDDING_CONTEXT = `
 
   - Travel Information: 
   ${travelInformation}
-
-  Gift Registry Information:
-  ${giftRegistryString}
 
   - Contact for questions: 
     - Name: Jace Warkentien
