@@ -87,11 +87,16 @@ export default function Gallery() {
                 path: 'gallery/',
             });
 
-            // Get URLs for each image file
+            // Get URLs for each image file using AWS Amplify's built-in caching options
             const imagePromises = result.items.map(async (item) => {
                 if (item.path) {
+                    // Use AWS Amplify's built-in caching and performance options
                     const urlResult = await getUrl({
                         path: item.path,
+                        options: {
+                            validateObjectExistence: false, // Skip validation for faster loading
+                            expiresIn: 3600, // 1 hour expiration (default but explicit)
+                        },
                     });
 
                     return {

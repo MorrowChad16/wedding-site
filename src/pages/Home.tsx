@@ -65,45 +65,6 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                setLoading(true);
-                // List all files in the home/* directory
-                const result = await list({
-                    path: 'home/',
-                });
-
-                // Get URLs for each image file
-                const imagePromises = result.items.map(async (item) => {
-                    if (item.path) {
-                        const urlResult = await getUrl({
-                            path: item.path,
-                        });
-
-                        return {
-                            src: urlResult.url.toString(),
-                            title:
-                                item.path
-                                    .split('/')
-                                    .pop()
-                                    ?.replace(/\.(webp)$/i, '') || '',
-                            fullPath: item.path,
-                        };
-                    }
-                    return null;
-                });
-
-                const imageResults = await Promise.all(imagePromises);
-                const validImages = imageResults.filter((img): img is ImageWithUrl => img !== null);
-
-                setImages(validImages);
-            } catch (error) {
-                console.error('Error fetching images from storage:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchImages();
     }, []);
 
@@ -163,11 +124,16 @@ export default function Home() {
                 path: 'home/',
             });
 
-            // Get URLs for each image file
+            // Get URLs for each image file using AWS Amplify's built-in caching options
             const imagePromises = result.items.map(async (item) => {
                 if (item.path) {
+                    // Use AWS Amplify's built-in caching and performance options
                     const urlResult = await getUrl({
                         path: item.path,
+                        options: {
+                            validateObjectExistence: false, // Skip validation for faster loading
+                            expiresIn: 3600, // 1 hour expiration (default but explicit)
+                        },
                     });
 
                     return {

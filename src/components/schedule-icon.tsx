@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { generateGoogleMapsLink, openInNewWindow } from '../utils/utilities';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 interface ScheduleIconProps {
     uid: string;
@@ -151,14 +152,16 @@ END:VCALENDAR`;
                     {formattedDate}
                 </Typography>
                 <Box display="flex" justifyContent="center" mb={1}>
-                    {
-                        <img
-                            src={iconAsset}
-                            width={isSmallScreen ? 40 : 60}
-                            height={isSmallScreen ? 40 : 60}
-                            alt="Image Description"
-                        />
-                    }
+                    <StorageImage
+                        alt={`${title} icon`}
+                        path={iconAsset}
+                        style={{
+                            width: isSmallScreen ? 40 : 60,
+                            height: isSmallScreen ? 40 : 60,
+                        }}
+                        loading="lazy"
+                        validateObjectExistence={false}
+                    />
                 </Box>
                 <Typography variant="h4" textAlign="center" mb={1}>
                     {title}
