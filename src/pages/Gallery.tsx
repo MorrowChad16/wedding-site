@@ -100,7 +100,7 @@ export default function Gallery() {
                             item.path
                                 .split('/')
                                 .pop()
-                                ?.replace(/\.(webp|jpg|jpeg|png)$/i, '') || '',
+                                ?.replace(/\.(webp)$/i, '') || '',
                         fullPath: item.path,
                     };
                 }

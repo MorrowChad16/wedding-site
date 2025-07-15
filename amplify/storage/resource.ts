@@ -8,5 +8,6 @@ export const storage = defineStorage({
         'story/*': [allow.guest.to(['read', 'write', 'delete'])],
         'travel/*': [allow.guest.to(['read', 'write', 'delete'])],
         'registry/*': [allow.guest.to(['read', 'write', 'delete'])],
+        'schedule/*': [allow.guest.to(['read', 'write', 'delete'])],
     }),
 });

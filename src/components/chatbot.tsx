@@ -162,8 +162,7 @@ let WEDDING_CONTEXT = `
 
   - Contact for questions: 
     - Name: Jace Warkentien
-    - Number: 815-708-4489 TODO
-    - Email: morrowchad1@protonmail.com TODO
+    - Number: 815-289-1606
   
   Please answer any questions about the wedding based on this information. If you don't have the specific information requested, politely say so and suggest contacting the provided contact person for more details.
   Please feel free to add new lines and any styling updates necessary to help readers parse the information.

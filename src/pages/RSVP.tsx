@@ -325,8 +325,7 @@ const Rsvp = () => {
                                                         sx={{ color: 'text.secondary' }}
                                                     >
                                                         Not seeing everybody in your party? Feel
-                                                        free to contact us at
-                                                        morrowchad1@protonmail.com.
+                                                        free to contact us.
                                                     </Typography>
                                                 </Box>
                                             </Box>

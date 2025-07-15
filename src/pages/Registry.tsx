@@ -288,7 +288,7 @@ export default function Registry() {
                                                                 component="span"
                                                                 fontWeight="bold"
                                                             >
-                                                                Chad-Morrow-6
+                                                                TODO
                                                             </Typography>
                                                         </Typography>
                                                     }
