@@ -15,8 +15,6 @@ import {
     FormControlLabel,
     Switch,
     Snackbar,
-    Accordion,
-    AccordionSummary,
 } from '@mui/material';
 import {
     Add as AddIcon,
@@ -315,49 +313,39 @@ export default function FAQ(): JSX.Element {
                             </Box>
                         ))}
 
-                    {/* Add FAQ Button styled as QuestionAnswerBox - Only visible to admins */}
+                    {/* Add FAQ Button styled as Box - Only visible to admins */}
                     {isAdmin && (
                         <Box mb={2}>
-                            <Accordion
+                            <Box
                                 onClick={handleDialogOpen}
                                 sx={{
                                     border: `2px dashed ${theme.palette.primary.main}`,
                                     backgroundColor: 'transparent',
                                     cursor: 'pointer',
+                                    borderRadius: 1,
                                     '&:hover': {
                                         backgroundColor: theme.palette.action.hover,
                                     },
-                                    '&::before': {
-                                        display: 'none',
-                                    },
                                 }}
                             >
-                                <AccordionSummary
-                                    sx={{
-                                        '& .MuiAccordionSummary-expandIconWrapper': {
-                                            display: 'none',
-                                        },
-                                    }}
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    width="100%"
+                                    py={2}
                                 >
-                                    <Box
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="center"
-                                        width="100%"
-                                        py={2}
-                                    >
-                                        <AddIcon
-                                            sx={{
-                                                color: theme.palette.primary.main,
-                                                mr: 1,
-                                            }}
-                                        />
-                                        <Typography variant="h6" color="primary" textAlign="center">
-                                            Click to add a new FAQ
-                                        </Typography>
-                                    </Box>
-                                </AccordionSummary>
-                            </Accordion>
+                                    <AddIcon
+                                        sx={{
+                                            color: theme.palette.primary.main,
+                                            mr: 1,
+                                        }}
+                                    />
+                                    <Typography variant="h6" color="primary" textAlign="center">
+                                        Click to add a new FAQ
+                                    </Typography>
+                                </Box>
+                            </Box>
                         </Box>
                     )}
                 </Box>

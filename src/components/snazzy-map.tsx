@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import { LocationCategory } from '../pages/Travel';
 import { getTravelItems } from '../api/use-travel';
+import { getVisibleScheduleItems } from '../api/use-schedule';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import LocalBarIcon from '@mui/icons-material/LocalBar';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
@@ -107,30 +108,44 @@ interface MapTravelItem {
 const TravelMap = () => {
     const [selectedLocation, setSelectedLocation] = React.useState<MapTravelItem | null>(null);
     const { isLoading, error, travelItems } = getTravelItems();
+    const {
+        isLoading: isScheduleLoading,
+        error: scheduleError,
+        scheduleItems,
+    } = getVisibleScheduleItems();
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY || '',
     });
 
-    const schedule: MapTravelItem[] = [
-        {
-            name: 'Welcome Party',
-            type: 'EVENT_VENUE',
-            coordinatesLat: 43.61706109262501,
-            coordinatesLng: -116.20200166581762,
-            description: 'Come celebrate with us!',
-            address: '280 N 8th St Suite 104, Boise, ID 83702',
-        },
-        {
-            name: 'Wedding Ceremony',
-            type: 'CEREMONY_VENUE',
-            coordinatesLat: 43.73675347623313,
-            coordinatesLng: -116.29977025186639,
-            description: 'have fun',
-            address: '9600 W Brookside Ln, Boise, ID 83714',
-        },
-    ];
+    // Map schedule item types to location categories
+    const mapScheduleTypeToLocationCategory = (type: string): LocationCategory => {
+        switch (type) {
+            case 'CEREMONY':
+                return 'CEREMONY_VENUE';
+            case 'RECEPTION':
+                return 'EVENT_VENUE';
+            case 'EVENT':
+                return 'EVENT_VENUE';
+            case 'ACTIVITY':
+                return 'OUTDOOR_ACTIVITY';
+            default:
+                return 'EVENT_VENUE';
+        }
+    };
+
+    // Convert schedule items to MapTravelItem format
+    const scheduleLocations: MapTravelItem[] = (scheduleItems || [])
+        .filter((item) => item.coordinatesLat && item.coordinatesLng)
+        .map((item) => ({
+            name: item.title,
+            type: mapScheduleTypeToLocationCategory(item.type),
+            address: item.location || item.locationName || undefined,
+            description: item.description || undefined,
+            coordinatesLat: item.coordinatesLat!,
+            coordinatesLng: item.coordinatesLng!,
+        }));
 
     // Filter travel items that have coordinates and convert to MapTravelItem format
     const dbLocations: MapTravelItem[] = (travelItems || [])
@@ -145,10 +160,10 @@ const TravelMap = () => {
             coordinatesLng: item.coordinatesLng!,
         }));
 
-    const locations = [...dbLocations, ...schedule];
+    const locations = [...dbLocations, ...scheduleLocations];
 
     // Show loading spinner while data is loading
-    if (isLoading || !isLoaded) {
+    if (isLoading || isScheduleLoading || !isLoaded) {
         return (
             <Box
                 sx={{
@@ -169,7 +184,7 @@ const TravelMap = () => {
     }
 
     // Show error message if there's an error loading data
-    if (error) {
+    if (error || scheduleError) {
         return (
             <Box
                 sx={{

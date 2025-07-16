@@ -17,148 +17,211 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { COUPLE_NAMES, WEDDING_DATE } from '../utils/constants';
+import {
+    BRIDE_FIRST_NAME,
+    BRIDE_LAST_NAME,
+    BRIDE_PHONE_NUMBER,
+    COUPLE_NAMES,
+    GROOM_FIRST_NAME,
+    GROOM_LAST_NAME,
+    GROOM_PHONE_NUMBER,
+    WEDDING_DATE,
+} from '../utils/constants';
 import { MarkdownTypography } from './markdown-typography';
 import { generateClient } from 'aws-amplify/api';
 import { Schema } from '../../amplify/data/resource';
 import { useLocation } from 'react-router-dom';
 import { LoadingDots } from './loading-dots';
 import { StreamingText } from './streaming-text';
+import { getVisibleScheduleItems } from '../api/use-schedule';
+import { getVisibleFAQs } from '../api/use-faqs';
+import { getTravelItems } from '../api/use-travel';
+import { getRegistryItems } from '../api/use-registry';
+import { useStore } from '../api/use-store';
+import { getWeddingGuestsByEmail } from '../api/use-guests';
 
 const getClient = () => generateClient<Schema>();
 
-// function generateScheduleString(scheduleItems: typeof SCHEDULE_ITEMS): string {
-//     return scheduleItems
-//         .map((item) => {
-//             let itemString = `- ${item.title}`;
+function generateScheduleString(scheduleItems: any[]): string {
+    return scheduleItems
+        .map((item) => {
+            let itemString = `- ${item.title}`;
 
-//             if (item.startTime) {
-//                 const startDate = new Date(item.startTime);
-//                 itemString += `\n  Date: ${startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
-//                 itemString += `\n  Time: ${startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+            if (item.startTime) {
+                const startDate = new Date(item.startTime);
+                itemString += `\n  Date: ${startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+                itemString += `\n  Time: ${startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
 
-//                 if (item.endTime) {
-//                     const endDate = new Date(item.endTime);
-//                     itemString += ` - ${endDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
-//                 }
-//             }
+                if (item.endTime) {
+                    const endDate = new Date(item.endTime);
+                    itemString += ` - ${endDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+                }
+            }
 
-//             if (item.locationName) {
-//                 itemString += `\n  Location: ${item.locationName}`;
-//             }
+            if (item.locationName) {
+                itemString += `\n  Location: ${item.locationName}`;
+            }
 
-//             if (item.location) {
-//                 itemString += `\n  Address: ${item.location}`;
-//             }
+            if (item.location) {
+                itemString += `\n  Address: ${item.location}`;
+            }
 
-//             if (item.description) {
-//                 itemString += `\n  Description: ${item.description}`;
-//             }
+            if (item.description) {
+                itemString += `\n  Description: ${item.description}`;
+            }
 
-//             if (item.formality) {
-//                 itemString += `\n  Dress Code: ${item.formality}`;
-//             }
+            if (item.formality) {
+                itemString += `\n  Dress Code: ${item.formality}`;
+            }
 
-//             return itemString;
-//         })
-//         .join('\n\n');
-// }
+            return itemString;
+        })
+        .join('\n\n');
+}
 
-// TODO: update to retrieve all FAQs
-// function generateFaqString(faqItems: typeof FAQ_ITEMS): string {
-//     return faqItems
-//         .map((item) => {
-//             let faqString = `Q: ${item.question}\nA: ${item.answer}`;
+function generateFaqString(faqItems: any[]): string {
+    return faqItems
+        .map((item) => {
+            let faqString = `Q: ${item.question}\nA: ${item.answer}`;
 
-//             if (item.lastUpdated) {
-//                 faqString += `\n   (Last updated: ${item.lastUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })})`;
-//             }
+            if (item.updatedAt) {
+                const updatedDate = new Date(item.updatedAt);
+                faqString += `\n   (Last updated: ${updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })})`;
+            }
 
-//             return faqString;
-//         })
-//         .join('\n\n');
-// }
+            return faqString;
+        })
+        .join('\n\n');
+}
 
-// function generateTravelInfoString(sections: typeof TRAVEL_SECTIONS): string {
-//     return sections
-//         .map((section) => {
-//             let sectionString = `${section.title}:\n`;
+function generateTravelInfoString(travelItems: any[]): string {
+    // Group items by category
+    const categorizedItems: { [key: string]: any[] } = {};
 
-//             sectionString += section.info
-//                 .map((item) => {
-//                     let itemString = `- ${item.name}`;
+    travelItems.forEach((item) => {
+        const category = item.category || 'OTHER';
+        if (!categorizedItems[category]) {
+            categorizedItems[category] = [];
+        }
+        categorizedItems[category].push(item);
+    });
 
-//                     if (item.address) {
-//                         itemString += `\n  Address: ${item.address}`;
-//                     }
+    // Convert categories to readable titles
+    const categoryTitles: { [key: string]: string } = {
+        HOTEL: 'Hotels & Accommodations',
+        AIRPORT: 'Airport Information',
+        TRANSPORTATION: 'Transportation',
+        RESTAURANT: 'Restaurants',
+        BAR: 'Bars & Nightlife',
+        BREWERY: 'Breweries',
+        PARK: 'Parks & Nature',
+        GOLF: 'Golf',
+        OUTDOOR_ACTIVITY: 'Outdoor Activities',
+        CEREMONY_VENUE: 'Ceremony Venues',
+        EVENT_VENUE: 'Event Venues',
+        OTHER: 'Other',
+    };
 
-//                     if (item.phone) {
-//                         itemString += `\n  Phone: ${item.phone}`;
-//                     }
+    return Object.entries(categorizedItems)
+        .map(([category, items]) => {
+            const title = categoryTitles[category] || category;
+            let sectionString = `${title}:\n`;
 
-//                     if (item.description) {
-//                         itemString += `\n  Description: ${item.description}`;
-//                     }
+            sectionString += items
+                .map((item) => {
+                    let itemString = `- ${item.name}`;
 
-//                     if (item.websiteUrl) {
-//                         itemString += `\n  Website: ${item.websiteUrl}`;
-//                     }
+                    if (item.address) {
+                        itemString += `\n  Address: ${item.address}`;
+                    }
 
-//                     return itemString;
-//                 })
-//                 .join('\n\n');
+                    if (item.phone) {
+                        itemString += `\n  Phone: ${item.phone}`;
+                    }
 
-//             return sectionString;
-//         })
-//         .join('\n\n');
-// }
+                    if (item.description) {
+                        itemString += `\n  Description: ${item.description}`;
+                    }
 
-// function generateGiftRegistryString(sections: typeof REGISTRY_SECTIONS): string {
-//     return sections
-//         .map((section) => {
-//             let sectionString = `${section.title}:\n`;
+                    if (item.websiteUrl) {
+                        itemString += `\n  Website: ${item.websiteUrl}`;
+                    }
 
-//             sectionString += section.info
-//                 .map((item) => {
-//                     let itemString = item.name ? `- ${item.name}` : '- Registry';
+                    return itemString;
+                })
+                .join('\n\n');
 
-//                     if (item.description) {
-//                         itemString += `\n  Description: ${item.description}`;
-//                     }
+            return sectionString;
+        })
+        .join('\n\n');
+}
 
-//                     if (item.externalUrl) {
-//                         itemString += `\n  Registry URL: ${item.externalUrl}`;
-//                     }
+function generateGiftRegistryString(registryItems: any[]): string {
+    // Group items by section
+    const sectionedItems: { [key: string]: any[] } = {};
 
-//                     return itemString;
-//                 })
-//                 .join('\n\n');
+    registryItems.forEach((item) => {
+        const section = item.section || 'OTHER';
+        if (!sectionedItems[section]) {
+            sectionedItems[section] = [];
+        }
+        sectionedItems[section].push(item);
+    });
 
-//             return sectionString;
-//         })
-//         .join('\n\n');
-// }
+    // Convert sections to readable titles
+    const sectionTitles: { [key: string]: string } = {
+        FUNDS: 'Honeymoon Fund',
+        REGISTRIES: 'Gift Registries',
+        OTHER: 'Other Registry Items',
+    };
 
-// const faqString = generateFaqString(FAQ_ITEMS);
-// const travelInformation = generateTravelInfoString(TRAVEL_SECTIONS);
-// const giftRegistryString = generateGiftRegistryString(REGISTRY_SECTIONS);
+    return Object.entries(sectionedItems)
+        .map(([section, items]) => {
+            const title = sectionTitles[section] || section;
+            let sectionString = `${title}:\n`;
 
-//   - Frequently Asked Questions:
-//   ${faqString}
-// Gift Registry Information:
-//  ${giftRegistryString}
-// - Travel Information:
-//  ${travelInformation}
+            sectionString += items
+                .map((item) => {
+                    let itemString = item.name ? `- ${item.name}` : '- Registry';
+
+                    if (item.description) {
+                        itemString += `\n  Description: ${item.description}`;
+                    }
+
+                    if (item.externalUrl) {
+                        itemString += `\n  Registry URL: ${item.externalUrl}`;
+                    }
+
+                    if (item.targetAmount && item.currentAmount !== undefined) {
+                        const progress = ((item.currentAmount / item.targetAmount) * 100).toFixed(
+                            1
+                        );
+                        itemString += `\n  Progress: $${item.currentAmount} / $${item.targetAmount} (${progress}%)`;
+                    } else if (item.targetAmount) {
+                        itemString += `\n  Target Amount: $${item.targetAmount}`;
+                    }
+
+                    return itemString;
+                })
+                .join('\n\n');
+
+            return sectionString;
+        })
+        .join('\n\n');
+}
+
 let WEDDING_CONTEXT = `
   You are an AI assistant for a wedding. Here are the key details about the wedding:
   
-  - Couple: Alyssa Ealy and Jace Warkentien
+  - Couple: ${BRIDE_FIRST_NAME} ${BRIDE_LAST_NAME} and ${GROOM_FIRST_NAME} ${GROOM_LAST_NAME}
 
   - Date: ${WEDDING_DATE}
 
   - Contact for questions: 
-    - Name: Jace Warkentien
-    - Number: 815-289-1606
+    - Name: ${GROOM_FIRST_NAME} ${GROOM_LAST_NAME}
+    - Number: ${GROOM_PHONE_NUMBER}
+    - Name: ${BRIDE_FIRST_NAME} ${BRIDE_LAST_NAME}
+    - Number: ${BRIDE_PHONE_NUMBER}
   
   Please answer any questions about the wedding based on this information. If you don't have the specific information requested, politely say so and suggest contacting the provided contact person for more details.
   Please feel free to add new lines and any styling updates necessary to help readers parse the information.
@@ -185,17 +248,29 @@ function ChatBot() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
-    // const { storeEmail } = useStore();
-    // const { guests } = getWeddingGuestsByEmail(storeEmail);
+    const { storeEmail } = useStore();
+    const { guests } = getWeddingGuestsByEmail(storeEmail);
 
-    // TODO: retrieve dynamically
-    // const scheduleString = generateScheduleString(
-    //     SCHEDULE_ITEMS.filter(
-    //         (item) =>
-    //             item.isPrivate === false ||
-    //             item.isPrivate === guests?.some((guest: any) => guest.isBridalParty)
-    //     )
-    // );
+    // Fetch remote data
+    const { scheduleItems } = getVisibleScheduleItems();
+    const { faqs } = getVisibleFAQs();
+    const { travelItems } = getTravelItems();
+    const { registryItems } = getRegistryItems();
+
+    // Generate strings from remote data
+    const scheduleString = scheduleItems
+        ? generateScheduleString(
+              scheduleItems.filter(
+                  (item) =>
+                      item.isPrivate === false ||
+                      item.isPrivate === guests?.some((guest: any) => guest.isBridalParty)
+              )
+          )
+        : '';
+
+    const faqString = faqs ? generateFaqString(faqs) : '';
+    const travelInformation = travelItems ? generateTravelInfoString(travelItems) : '';
+    const giftRegistryString = registryItems ? generateGiftRegistryString(registryItems) : '';
 
     const exampleQuestions = [
         'Where is the venue located?',
@@ -215,14 +290,43 @@ function ChatBot() {
         const aggregatedMessages = messages.map((message) => message.text).join('\n');
         setIsLoading(true);
 
-        // - Schedule:
-        // ${scheduleString}
+        // Build dynamic context with remote data
+        const dynamicContext = `
+        ${WEDDING_CONTEXT}
+
+        ${
+            scheduleString
+                ? `- Schedule:
+        ${scheduleString}`
+                : ''
+        }
+
+        ${
+            faqString
+                ? `- Frequently Asked Questions:
+        ${faqString}`
+                : ''
+        }
+
+        ${
+            travelInformation
+                ? `- Travel Information:
+        ${travelInformation}`
+                : ''
+        }
+
+        ${
+            giftRegistryString
+                ? `- Gift Registry Information:
+        ${giftRegistryString}`
+                : ''
+        }
+
+        ${aggregatedMessages}`;
+
         getClient()
             .queries.askWeddingQuestion({
-                context: `
-                ${WEDDING_CONTEXT} 
-
-                ${aggregatedMessages}`,
+                context: dynamicContext,
                 question: text,
             })
             .then((response) => {
