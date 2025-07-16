@@ -7,7 +7,6 @@ import {
     useTheme,
     CircularProgress,
     Box,
-    Paper,
     Typography,
     Button,
     Dialog,
@@ -21,7 +20,6 @@ import LazyLoad from 'react-lazyload';
 import { useState, useEffect } from 'react';
 import { list, getUrl, remove } from 'aws-amplify/storage';
 import { useStore } from '../api/use-store';
-import { FileUploader } from '@aws-amplify/ui-react-storage';
 import { Delete } from '@mui/icons-material';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -187,16 +185,15 @@ export default function Gallery() {
     return (
         <>
             <PageContainer>
-                <>
-                    {/* Admin Controls */}
-                    {isAdmin && (
+                {/* <> */}
+                {/* Admin Controls */}
+                {/* {isAdmin && (
                         <Box mb={3}>
                             <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
                                 <Typography variant="h6" gutterBottom>
                                     Gallery Admin Controls
                                 </Typography>
 
-                                {/* Upload Section */}
                                 <Box>
                                     <Typography variant="subtitle1" gutterBottom>
                                         Upload New Photos
@@ -227,47 +224,47 @@ export default function Gallery() {
                                 </Box>
                             </Paper>
                         </Box>
-                    )}
+                    )} */}
 
-                    {/* Image Gallery */}
-                    <ImageList variant="masonry" cols={cols} gap={8}>
-                        {images.map((item) => (
-                            <StyledImageListItem key={item.src}>
-                                <LazyLoad height={200} offset={100}>
-                                    <Box sx={{ position: 'relative', width: '100%' }}>
-                                        <AnimatedImg
-                                            src={item.src}
-                                            alt={item.title}
-                                            loading="lazy"
-                                            className={
-                                                loadedImages.has(item.src) ? 'loaded' : 'loading'
-                                            }
-                                            onLoad={() => handleImageLoad(item.src)}
-                                        />
-                                        <IconButton
-                                            sx={{
-                                                position: 'absolute',
-                                                top: 8,
-                                                right: 8,
-                                                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                                                '&:hover': {
-                                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                                                },
-                                                zIndex: 2,
-                                                visibility: isAdmin ? 'visible' : 'hidden',
-                                                pointerEvents: isAdmin ? 'auto' : 'none',
-                                            }}
-                                            size="small"
-                                            onClick={() => handleDeleteImage(item)}
-                                        >
-                                            <Delete fontSize="small" color="error" />
-                                        </IconButton>
-                                    </Box>
-                                </LazyLoad>
-                            </StyledImageListItem>
-                        ))}
-                    </ImageList>
-                </>
+                {/* Image Gallery */}
+                <ImageList variant="masonry" cols={cols} gap={8}>
+                    {images.map((item) => (
+                        <StyledImageListItem key={item.src}>
+                            <LazyLoad height={200} offset={100}>
+                                <Box sx={{ position: 'relative', width: '100%' }}>
+                                    <AnimatedImg
+                                        src={item.src}
+                                        alt={item.title}
+                                        loading="lazy"
+                                        className={
+                                            loadedImages.has(item.src) ? 'loaded' : 'loading'
+                                        }
+                                        onLoad={() => handleImageLoad(item.src)}
+                                    />
+                                    <IconButton
+                                        sx={{
+                                            position: 'absolute',
+                                            top: 8,
+                                            right: 8,
+                                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                                            '&:hover': {
+                                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                            },
+                                            zIndex: 2,
+                                            visibility: isAdmin ? 'visible' : 'hidden',
+                                            pointerEvents: isAdmin ? 'auto' : 'none',
+                                        }}
+                                        size="small"
+                                        onClick={() => handleDeleteImage(item)}
+                                    >
+                                        <Delete fontSize="small" color="error" />
+                                    </IconButton>
+                                </Box>
+                            </LazyLoad>
+                        </StyledImageListItem>
+                    ))}
+                </ImageList>
+                {/* </> */}
             </PageContainer>
 
             {/* Delete Confirmation Dialog */}
