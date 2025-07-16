@@ -3,7 +3,6 @@ import ScheduleIcon from '../components/schedule-icon';
 import {
     CircularProgress,
     Grid,
-    Fab,
     Dialog,
     DialogTitle,
     DialogContent,
@@ -29,6 +28,7 @@ import {
     VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 import { FileUploader } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
 import { useStore } from '../api/use-store';
@@ -50,6 +50,7 @@ export default function Schedule() {
         ? getAllScheduleItems()
         : getVisibleScheduleItems();
     const queryClient = useQueryClient();
+    const theme = useTheme();
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -420,20 +421,40 @@ export default function Schedule() {
                     )}
                 </Grid>
 
-                {/* Admin FAB */}
+                {/* Add Schedule Item Button styled as Box - Only visible to admins */}
                 {isAdmin && (
-                    <Fab
-                        color="primary"
-                        aria-label="add schedule item"
-                        sx={{
-                            position: 'fixed',
-                            bottom: 16,
-                            left: 16,
-                        }}
-                        onClick={() => setDialogOpen(true)}
-                    >
-                        <AddIcon />
-                    </Fab>
+                    <Box mb={2} mt={3}>
+                        <Box
+                            onClick={() => setDialogOpen(true)}
+                            sx={{
+                                border: `2px dashed ${theme.palette.primary.main}`,
+                                backgroundColor: 'transparent',
+                                cursor: 'pointer',
+                                borderRadius: 1,
+                                '&:hover': {
+                                    backgroundColor: theme.palette.action.hover,
+                                },
+                            }}
+                        >
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                                py={2}
+                            >
+                                <AddIcon
+                                    sx={{
+                                        color: theme.palette.primary.main,
+                                        mr: 1,
+                                    }}
+                                />
+                                <Typography variant="h6" color="primary" textAlign="center">
+                                    Click to add a new schedule item
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
                 )}
 
                 {/* Admin Dialog */}

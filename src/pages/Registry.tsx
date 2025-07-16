@@ -38,6 +38,7 @@ import { FileUploader, StorageImage } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
 import { useQueryClient } from '@tanstack/react-query';
 import { useStore } from '../api/use-store';
+import { GROOM_PHONE_NUMBER } from '../utils/constants';
 
 interface GiftSection {
     title: string;
@@ -581,7 +582,7 @@ export default function Registry() {
                                             <Typography component="span">
                                                 Venmo:{' '}
                                                 <Typography component="span" fontWeight="bold">
-                                                    TODO
+                                                    Jace-Warkentien
                                                 </Typography>
                                             </Typography>
                                         }
@@ -593,7 +594,7 @@ export default function Registry() {
                                             <Typography component="span">
                                                 Zelle:{' '}
                                                 <Typography component="span" fontWeight="bold">
-                                                    815-708-4489
+                                                    {GROOM_PHONE_NUMBER}
                                                 </Typography>
                                             </Typography>
                                         }

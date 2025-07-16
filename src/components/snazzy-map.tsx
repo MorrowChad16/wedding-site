@@ -74,7 +74,6 @@ export const LOCATION_ICONS: Record<
 const createMarkerIcon = (type: LocationCategory): google.maps.Icon => {
     const iconConfig = LOCATION_ICONS[type];
     const IconComponent = iconConfig.icon;
-    console.log(type, iconConfig.color, IconComponent);
 
     const svgString = renderToString(
         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
@@ -88,8 +87,10 @@ const createMarkerIcon = (type: LocationCategory): google.maps.Icon => {
         </svg>
     );
 
+    const encodedSvg = window.btoa(unescape(encodeURIComponent(svgString)));
+
     return {
-        url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgString)}`,
+        url: `data:image/svg+xml;base64,${encodedSvg}`,
         scaledSize: new google.maps.Size(36, 36),
         anchor: new google.maps.Point(18, 18),
     };
@@ -317,6 +318,7 @@ const TravelMap = () => {
                             width: '100%',
                             height: '100%', // Takes full height of Paper
                         }}
+                        // TODO: update center of map
                         center={{
                             lat: 43.61725313860506,
                             lng: -116.20628518469191,

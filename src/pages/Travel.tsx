@@ -69,8 +69,8 @@ export default function Travel() {
     const [newPhone, setNewPhone] = useState('');
     const [newDescription, setNewDescription] = useState('');
     const [newWebsiteUrl, setNewWebsiteUrl] = useState('');
-    const [newCoordinatesLat, setNewCoordinatesLat] = useState<number | ''>('');
-    const [newCoordinatesLng, setNewCoordinatesLng] = useState<number | ''>('');
+    const [newCoordinatesLat, setNewCoordinatesLat] = useState<number>(0);
+    const [newCoordinatesLng, setNewCoordinatesLng] = useState<number>(0);
     const [editingItem, setEditingItem] = useState<TravelItemType | null>(null);
     const [deletingItem, setDeletingItem] = useState<TravelItemType | null>(null);
     const [submitting, setSubmitting] = useState(false);
@@ -113,8 +113,8 @@ export default function Travel() {
         setNewPhone('');
         setNewDescription('');
         setNewWebsiteUrl('');
-        setNewCoordinatesLat('');
-        setNewCoordinatesLng('');
+        setNewCoordinatesLat(0);
+        setNewCoordinatesLng(0);
     };
 
     const handleSubmit = async () => {
@@ -171,8 +171,8 @@ export default function Travel() {
         setNewPhone(item.phone || '');
         setNewDescription(item.description || '');
         setNewWebsiteUrl(item.websiteUrl || '');
-        setNewCoordinatesLat(item.coordinatesLat || '');
-        setNewCoordinatesLng(item.coordinatesLng || '');
+        setNewCoordinatesLat(item.coordinatesLat || 0);
+        setNewCoordinatesLng(item.coordinatesLng || 0);
         setEditDialogOpen(true);
     };
 
@@ -186,8 +186,8 @@ export default function Travel() {
         setNewPhone('');
         setNewDescription('');
         setNewWebsiteUrl('');
-        setNewCoordinatesLat('');
-        setNewCoordinatesLng('');
+        setNewCoordinatesLat(0);
+        setNewCoordinatesLng(0);
     };
 
     const handleEditSubmit = async () => {
@@ -665,26 +665,22 @@ export default function Travel() {
                         />
                         <Box display="flex" gap={2} sx={{ mb: 2 }}>
                             <TextField
-                                label="Latitude (optional)"
+                                label="Latitude *"
                                 type="number"
                                 value={newCoordinatesLat}
                                 onChange={(e) =>
-                                    setNewCoordinatesLat(
-                                        e.target.value ? Number(e.target.value) : ''
-                                    )
+                                    setNewCoordinatesLat(parseFloat(e.target.value) || 0)
                                 }
-                                sx={{ flex: 1 }}
+                                fullWidth
                             />
                             <TextField
-                                label="Longitude (optional)"
+                                label="Longitude *"
                                 type="number"
                                 value={newCoordinatesLng}
                                 onChange={(e) =>
-                                    setNewCoordinatesLng(
-                                        e.target.value ? Number(e.target.value) : ''
-                                    )
+                                    setNewCoordinatesLng(parseFloat(e.target.value) || 0)
                                 }
-                                sx={{ flex: 1 }}
+                                fullWidth
                             />
                         </Box>
                         <Box sx={{ mb: 2 }}>
@@ -797,26 +793,22 @@ export default function Travel() {
                         />
                         <Box display="flex" gap={2} sx={{ mb: 2 }}>
                             <TextField
-                                label="Latitude (optional)"
+                                label="Latitude *"
                                 type="number"
                                 value={newCoordinatesLat}
                                 onChange={(e) =>
-                                    setNewCoordinatesLat(
-                                        e.target.value ? Number(e.target.value) : ''
-                                    )
+                                    setNewCoordinatesLat(parseFloat(e.target.value) || 0)
                                 }
-                                sx={{ flex: 1 }}
+                                fullWidth
                             />
                             <TextField
-                                label="Longitude (optional)"
+                                label="Longitude *"
                                 type="number"
                                 value={newCoordinatesLng}
                                 onChange={(e) =>
-                                    setNewCoordinatesLng(
-                                        e.target.value ? Number(e.target.value) : ''
-                                    )
+                                    setNewCoordinatesLng(parseFloat(e.target.value) || 0)
                                 }
-                                sx={{ flex: 1 }}
+                                fullWidth
                             />
                         </Box>
                         <Box sx={{ mb: 2 }}>
