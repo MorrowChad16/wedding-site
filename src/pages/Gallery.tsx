@@ -244,24 +244,24 @@ export default function Gallery() {
                                             }
                                             onLoad={() => handleImageLoad(item.src)}
                                         />
-                                        <IconButton
-                                            sx={{
-                                                position: 'absolute',
-                                                top: 8,
-                                                right: 8,
-                                                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                                                '&:hover': {
-                                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                                                },
-                                                zIndex: 2,
-                                                visibility: isAdmin ? 'visible' : 'hidden',
-                                                pointerEvents: isAdmin ? 'auto' : 'none',
-                                            }}
-                                            size="small"
-                                            onClick={() => handleDeleteImage(item)}
-                                        >
-                                            <Delete fontSize="small" color="error" />
-                                        </IconButton>
+                                        {isAdmin && (
+                                            <IconButton
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: 8,
+                                                    right: 8,
+                                                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                                                    '&:hover': {
+                                                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                                    },
+                                                    zIndex: 2,
+                                                }}
+                                                size="small"
+                                                onClick={() => handleDeleteImage(item)}
+                                            >
+                                                <Delete fontSize="small" color="error" />
+                                            </IconButton>
+                                        )}
                                     </Box>
                                 </LazyLoad>
                             </StyledImageListItem>
