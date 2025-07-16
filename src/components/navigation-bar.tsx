@@ -72,7 +72,7 @@ function NavigationBar() {
     // );
 
     const isOnPage = (page: Page) => {
-        return currentPage.includes(page.displayName) || currentPage.includes(page.path);
+        return currentPage === page.path;
     };
 
     const handleLoginClick = async () => {
@@ -175,7 +175,6 @@ function NavigationBar() {
                                     <MenuItem
                                         key={page.displayName}
                                         onClick={() => {
-                                            setCurrentPage(page.displayName);
                                             navigate(page.path);
                                         }}
                                         sx={{
@@ -232,8 +231,8 @@ function NavigationBar() {
                                         <MenuItem
                                             key={page.displayName}
                                             onClick={() => {
-                                                setCurrentPage(page.displayName);
                                                 navigate(page.path);
+                                                setOpen(false);
                                             }}
                                         >
                                             <Typography
