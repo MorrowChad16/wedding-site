@@ -162,6 +162,40 @@ const Admin: React.FC = () => {
         }
     };
 
+    const handleCopyPendingEmails = async () => {
+        try {
+            if (!guests) {
+                alert('No guest data available.');
+                return;
+            }
+
+            // Filter for pending guests and get unique emails
+            const pendingGuestEmails = pendingGuests
+                .map((guest) => guest.email)
+                .filter((email) => email && email.trim());
+
+            const uniquePendingEmails = [...new Set(pendingGuestEmails)];
+
+            if (uniquePendingEmails.length === 0) {
+                alert('No pending guests with email addresses found.');
+                return;
+            }
+
+            // Join emails with commas and spaces for mass email format
+            const emailString = uniquePendingEmails.join(', ');
+
+            // Copy to clipboard
+            await navigator.clipboard.writeText(emailString);
+
+            alert(
+                `Copied ${uniquePendingEmails.length} pending guest email addresses to clipboard!`
+            );
+        } catch (error) {
+            console.error('Error copying pending emails:', error);
+            alert('Failed to copy pending emails to clipboard. Please try again.');
+        }
+    };
+
     const handleDownloadCSV = () => {
         try {
             if (!guests) {
@@ -945,7 +979,7 @@ const Admin: React.FC = () => {
                         Utilities
                     </Typography>
                     <Grid container spacing={3} sx={{ mb: 4 }}>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={6}>
                             <Paper sx={{ p: 3 }}>
                                 <Typography variant="h6" gutterBottom>
                                     <Box display="flex" alignItems="center" gap={1}>
@@ -954,20 +988,31 @@ const Admin: React.FC = () => {
                                     </Box>
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                                    Copy all unique email addresses to clipboard for mass email
-                                    campaigns
+                                    Copy email addresses to clipboard for mass email campaigns
                                 </Typography>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<ContentCopy />}
-                                    onClick={handleCopyEmails}
-                                    color="primary"
-                                >
-                                    Copy All Email Addresses
-                                </Button>
+                                <Box display="flex" flexDirection="column" gap={1}>
+                                    <Button
+                                        variant="contained"
+                                        startIcon={<ContentCopy />}
+                                        onClick={handleCopyEmails}
+                                        color="primary"
+                                        size="small"
+                                    >
+                                        Copy All Email Addresses
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        startIcon={<PendingActions />}
+                                        onClick={handleCopyPendingEmails}
+                                        color="warning"
+                                        size="small"
+                                    >
+                                        Copy Pending Emails Only
+                                    </Button>
+                                </Box>
                             </Paper>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={6}>
                             <Paper sx={{ p: 3 }}>
                                 <Typography variant="h6" gutterBottom>
                                     <Box display="flex" alignItems="center" gap={1}>
@@ -976,38 +1021,28 @@ const Admin: React.FC = () => {
                                     </Box>
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                                    Download complete guest database as CSV file for external
-                                    analysis
+                                    Download guest data in different formats for analysis or import
                                 </Typography>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<FileDownload />}
-                                    onClick={handleDownloadCSV}
-                                    color="secondary"
-                                >
-                                    Download Guest Data CSV
-                                </Button>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <Paper sx={{ p: 3 }}>
-                                <Typography variant="h6" gutterBottom>
-                                    <Box display="flex" alignItems="center" gap={1}>
-                                        <FileDownload color="error" />
-                                        Zola Import
-                                    </Box>
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                                    Download guest data formatted for Zola wedding website import
-                                </Typography>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<FileDownload />}
-                                    onClick={handleDownloadZolaCSV}
-                                    color="error"
-                                >
-                                    Download Zola CSV
-                                </Button>
+                                <Box display="flex" flexDirection="column" gap={1}>
+                                    <Button
+                                        variant="contained"
+                                        startIcon={<FileDownload />}
+                                        onClick={handleDownloadCSV}
+                                        color="secondary"
+                                        size="small"
+                                    >
+                                        Download Guest Data CSV
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        startIcon={<FileDownload />}
+                                        onClick={handleDownloadZolaCSV}
+                                        color="error"
+                                        size="small"
+                                    >
+                                        Download Zola Import CSV
+                                    </Button>
+                                </Box>
                             </Paper>
                         </Grid>
                     </Grid>
