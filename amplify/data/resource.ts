@@ -9,6 +9,19 @@ const schema = a.schema({
     LocationType: a.enum(['EVENT', 'CEREMONY', 'RECEPTION', 'ACTIVITY']),
     Attire: a.enum(['CASUAL', 'SEMI_FORMAL', 'FORMAL']),
     RegistrySection: a.enum(['FUNDS', 'REGISTRIES']),
+    TravelCategory: a.enum([
+        'HOTEL',
+        'AIRPORT',
+        'TRANSPORTATION',
+        'RESTAURANT',
+        'BAR',
+        'BREWERY',
+        'PARK',
+        'GOLF',
+        'OUTDOOR_ACTIVITY',
+        'CEREMONY_VENUE',
+        'EVENT_VENUE',
+    ]),
 
     WeddingGuests: a
         .model({
@@ -98,6 +111,25 @@ const schema = a.schema({
         .identifier(['id'])
         .secondaryIndexes((index) => [
             index('section'), // GSI for section-based queries
+        ])
+        .authorization((allow) => [allow.guest()]),
+
+    TravelItems: a
+        .model({
+            id: a.id().required(),
+            name: a.string().required(),
+            category: a.ref('TravelCategory').required(),
+            image: a.string(),
+            address: a.string(),
+            phone: a.string(),
+            description: a.string(),
+            websiteUrl: a.string(),
+            coordinatesLat: a.float(),
+            coordinatesLng: a.float(),
+        })
+        .identifier(['id'])
+        .secondaryIndexes((index) => [
+            index('category'), // GSI for category-based queries
         ])
         .authorization((allow) => [allow.guest()]),
 

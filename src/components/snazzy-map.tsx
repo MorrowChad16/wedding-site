@@ -3,7 +3,9 @@ import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-map
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { LocationType, TRAVEL_SECTIONS, TravelInfo } from '../pages/Travel';
+import CircularProgress from '@mui/material/CircularProgress';
+import { LocationCategory } from '../pages/Travel';
+import { getTravelItems } from '../api/use-travel';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import LocalBarIcon from '@mui/icons-material/LocalBar';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
@@ -13,59 +15,65 @@ import ParkIcon from '@mui/icons-material/Park';
 import FlightIcon from '@mui/icons-material/Flight';
 import { renderToString } from 'react-dom/server';
 import { Celebration, Landscape, People } from '@mui/icons-material';
+import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 export const LOCATION_ICONS: Record<
-    LocationType,
+    LocationCategory,
     {
         icon: typeof RestaurantIcon;
         color: string;
     }
 > = {
-    restaurant: {
+    RESTAURANT: {
         icon: RestaurantIcon,
         color: '#6F4E37', // coffee
     },
-    bar: {
+    BAR: {
         icon: LocalBarIcon,
         color: '#990012', // wine red
     },
-    brewery: {
+    BREWERY: {
         icon: SportsBarIcon,
         color: '#dc7633', // dark orange
     },
-    golf: {
+    GOLF: {
         icon: SportsGolfIcon,
-        color: '#7dcea0', // light reen
+        color: '#7dcea0', // light green
     },
-    hotel: {
+    HOTEL: {
         icon: HotelIcon,
         color: '#36454F', // charcoal
     },
-    airport: {
+    AIRPORT: {
         icon: FlightIcon,
         color: '#000000', // black
     },
-    park: {
+    PARK: {
         icon: ParkIcon,
         color: '#229954', // light green
     },
-    outdoor: {
+    OUTDOOR_ACTIVITY: {
         icon: Landscape,
         color: '#0E87CC', // forest green
     },
-    event: {
+    EVENT_VENUE: {
         icon: People,
         color: '#d2b4de', // light purple
     },
-    ceremony: {
+    CEREMONY_VENUE: {
         icon: Celebration,
         color: '#FFD700', // gold
     },
+    TRANSPORTATION: {
+        icon: FlightIcon,
+        color: '#666666', // grey
+    },
 };
 
-const createMarkerIcon = (type: LocationType): google.maps.Icon => {
+const createMarkerIcon = (type: LocationCategory): google.maps.Icon => {
     const iconConfig = LOCATION_ICONS[type];
     const IconComponent = iconConfig.icon;
+    console.log(type, iconConfig.color, IconComponent);
 
     const svgString = renderToString(
         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
@@ -79,50 +87,109 @@ const createMarkerIcon = (type: LocationType): google.maps.Icon => {
         </svg>
     );
 
-    const encodedSvg = window.btoa(unescape(encodeURIComponent(svgString)));
-
     return {
-        url: `data:image/svg+xml;base64,${encodedSvg}`,
+        url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgString)}`,
         scaledSize: new google.maps.Size(36, 36),
         anchor: new google.maps.Point(18, 18),
     };
 };
 
+interface MapTravelItem {
+    name: string;
+    type?: LocationCategory;
+    image?: string;
+    address?: string;
+    description?: string;
+    coordinatesLat?: number;
+    coordinatesLng?: number;
+}
+
 const TravelMap = () => {
-    const [selectedLocation, setSelectedLocation] = React.useState<TravelInfo | null>(null);
+    const [selectedLocation, setSelectedLocation] = React.useState<MapTravelItem | null>(null);
+    const { isLoading, error, travelItems } = getTravelItems();
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY || '',
     });
 
-    const schedule: TravelInfo[] = [
+    const schedule: MapTravelItem[] = [
         {
             name: 'Welcome Party',
-            type: 'event',
-            coordinates: {
-                lat: 43.61706109262501,
-                lng: -116.20200166581762,
-            },
+            type: 'EVENT_VENUE',
+            coordinatesLat: 43.61706109262501,
+            coordinatesLng: -116.20200166581762,
             description: 'Come celebrate with us!',
             address: '280 N 8th St Suite 104, Boise, ID 83702',
         },
         {
             name: 'Wedding Ceremony',
-            type: 'ceremony',
-            coordinates: {
-                lat: 43.73675347623313,
-                lng: -116.29977025186639,
-            },
+            type: 'CEREMONY_VENUE',
+            coordinatesLat: 43.73675347623313,
+            coordinatesLng: -116.29977025186639,
             description: 'have fun',
             address: '9600 W Brookside Ln, Boise, ID 83714',
         },
     ];
 
-    const locations = TRAVEL_SECTIONS.map((section) =>
-        section.info.filter((location) => location.coordinates !== undefined)
-    ).flat();
-    locations.push(...schedule);
+    // Filter travel items that have coordinates and convert to MapTravelItem format
+    const dbLocations: MapTravelItem[] = (travelItems || [])
+        .filter((item) => item.coordinatesLat && item.coordinatesLng)
+        .map((item) => ({
+            name: item.name,
+            type: item.category as LocationCategory,
+            image: item.image || undefined,
+            address: item.address || undefined,
+            description: item.description || undefined,
+            coordinatesLat: item.coordinatesLat!,
+            coordinatesLng: item.coordinatesLng!,
+        }));
+
+    const locations = [...dbLocations, ...schedule];
+
+    // Show loading spinner while data is loading
+    if (isLoading || !isLoaded) {
+        return (
+            <Box
+                sx={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    zIndex: 1000,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    // Show error message if there's an error loading data
+    if (error) {
+        return (
+            <Box
+                sx={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    zIndex: 1000,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Typography variant="h6" color="error">
+                    Error loading map data
+                </Typography>
+            </Box>
+        );
+    }
 
     const mapStyles = [
         {
@@ -242,45 +309,71 @@ const TravelMap = () => {
                         zoom={14}
                         options={options}
                     >
-                        {locations.map((location, index) => (
-                            <Marker
-                                key={index}
-                                position={location.coordinates!}
-                                onClick={() => setSelectedLocation(location)}
-                                icon={createMarkerIcon(location.type!)}
-                            />
-                        ))}
+                        {locations
+                            .filter(
+                                (location) =>
+                                    location.coordinatesLat &&
+                                    location.coordinatesLng &&
+                                    location.type
+                            )
+                            .map((location, index) => (
+                                <Marker
+                                    key={index}
+                                    position={{
+                                        lat: Number(location.coordinatesLat!),
+                                        lng: Number(location.coordinatesLng!),
+                                    }}
+                                    onClick={() => setSelectedLocation(location)}
+                                    title={location.name}
+                                    icon={createMarkerIcon(location.type!)}
+                                />
+                            ))}
 
-                        {selectedLocation && (
-                            <InfoWindow
-                                position={selectedLocation.coordinates}
-                                onCloseClick={() => setSelectedLocation(null)}
-                            >
-                                <Box sx={{ p: 1 }}>
-                                    {selectedLocation.image && (
-                                        <img
-                                            src={selectedLocation.image}
-                                            alt={selectedLocation.name}
-                                            style={{
-                                                width: '100%',
-                                                height: 150,
-                                                objectFit: 'cover',
-                                                borderRadius: 4,
-                                            }}
-                                        />
-                                    )}
-                                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                                        {selectedLocation.name}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {selectedLocation.address}
-                                    </Typography>
-                                    <Typography variant="body2" sx={{ mt: 1 }}>
-                                        {selectedLocation.description}
-                                    </Typography>
-                                </Box>
-                            </InfoWindow>
-                        )}
+                        {selectedLocation &&
+                            selectedLocation.coordinatesLat &&
+                            selectedLocation.coordinatesLng && (
+                                <InfoWindow
+                                    position={{
+                                        lat: selectedLocation.coordinatesLat,
+                                        lng: selectedLocation.coordinatesLng,
+                                    }}
+                                    onCloseClick={() => setSelectedLocation(null)}
+                                >
+                                    <Box sx={{ p: 1, maxWidth: 250 }}>
+                                        {selectedLocation.image && (
+                                            <Box sx={{ mb: 1 }}>
+                                                <StorageImage
+                                                    alt={selectedLocation.name}
+                                                    path={selectedLocation.image}
+                                                    style={{
+                                                        width: '100%',
+                                                        height: 150,
+                                                        objectFit: 'cover',
+                                                        borderRadius: 4,
+                                                    }}
+                                                    validateObjectExistence={false}
+                                                />
+                                            </Box>
+                                        )}
+                                        <Typography
+                                            variant="subtitle1"
+                                            sx={{ fontWeight: 'bold', mb: 0.5 }}
+                                        >
+                                            {selectedLocation.name}
+                                        </Typography>
+                                        {selectedLocation.address && (
+                                            <Typography variant="body2" sx={{ mb: 0.5 }}>
+                                                {selectedLocation.address}
+                                            </Typography>
+                                        )}
+                                        {selectedLocation.description && (
+                                            <Typography variant="body2">
+                                                {selectedLocation.description}
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                </InfoWindow>
+                            )}
                     </GoogleMap>
                 </Paper>
             </Box>
