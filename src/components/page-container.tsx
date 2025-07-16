@@ -16,7 +16,7 @@ function PageContainer({
 
     let paddingTop = '100px';
     if (isMobile) {
-        paddingTop = '0px';
+        paddingTop = '60px';
     }
 
     return (
