@@ -26,10 +26,11 @@ import { useStore } from '../api/use-store';
 import { FileUploader } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
 
-interface ImageWithUrl {
+interface MediaWithUrl {
     src: string;
     title: string;
     fullPath: string;
+    type: 'image' | 'video';
 }
 
 export default function Home() {
@@ -43,13 +44,13 @@ export default function Home() {
         day: 'numeric',
     }).format(WEDDING_DATE);
 
-    const [images, setImages] = useState<ImageWithUrl[]>([]);
+    const [images, setImages] = useState<MediaWithUrl[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeStep, setActiveStep] = useState(0);
     const [imageLoading, setImageLoading] = useState(true);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [imageToDelete, setImageToDelete] = useState<ImageWithUrl | null>(null);
+    const [imageToDelete, setImageToDelete] = useState<MediaWithUrl | null>(null);
     const [snackbar, setSnackbar] = useState({
         open: false,
         message: '',
@@ -76,7 +77,7 @@ export default function Home() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleDeleteImage = (image: ImageWithUrl) => {
+    const handleDeleteImage = (image: MediaWithUrl) => {
         setImageToDelete(image);
         setDeleteDialogOpen(true);
     };
@@ -92,7 +93,7 @@ export default function Home() {
 
             setSnackbar({
                 open: true,
-                message: 'Image deleted successfully!',
+                message: 'Media deleted successfully!',
                 severity: 'success',
             });
 
@@ -107,7 +108,7 @@ export default function Home() {
             console.error('Error deleting image:', error);
             setSnackbar({
                 open: true,
-                message: 'Failed to delete image. Please try again.',
+                message: 'Failed to delete media. Please try again.',
                 severity: 'error',
             });
         } finally {
@@ -124,7 +125,7 @@ export default function Home() {
                 path: 'home/',
             });
 
-            // Get URLs for each image file using AWS Amplify's built-in caching options
+            // Get URLs for each media file using AWS Amplify's built-in caching options
             const imagePromises = result.items.map(async (item) => {
                 if (item.path) {
                     // Use AWS Amplify's built-in caching and performance options
@@ -136,17 +137,21 @@ export default function Home() {
                         },
                     });
 
+                    // Determine if it's a video or image based on file extension
+                    const isVideo = item.path.toLowerCase().endsWith('.mp4');
+
                     return {
                         src: urlResult.url.toString(),
                         title: item.eTag,
                         fullPath: item.path,
-                    };
+                        type: isVideo ? 'video' : 'image',
+                    } as MediaWithUrl;
                 }
                 return null;
             });
 
             const imageResults = await Promise.all(imagePromises);
-            const validImages = imageResults.filter((img): img is ImageWithUrl => img !== null);
+            const validImages = imageResults.filter((img): img is MediaWithUrl => img !== null);
 
             setImages(validImages);
         } catch (error) {
@@ -175,7 +180,7 @@ export default function Home() {
             <PageContainer>
                 <Box textAlign="center" p={4}>
                     <Typography variant="h6" color="text.secondary">
-                        No images available at this time.
+                        No media available at this time.
                     </Typography>
                 </Box>
             </PageContainer>
@@ -203,17 +208,17 @@ export default function Home() {
                             {/* Upload Section */}
                             <Box mb={3}>
                                 <Typography variant="subtitle1" gutterBottom>
-                                    Upload New Photo
+                                    Upload New Photo or Video (WebP images or MP4 videos)
                                 </Typography>
                                 <FileUploader
-                                    acceptedFileTypes={['image/webp']}
+                                    acceptedFileTypes={['image/webp', 'video/mp4']}
                                     path="home/"
                                     maxFileCount={1}
                                     isResumable
                                     onUploadSuccess={() => {
                                         setSnackbar({
                                             open: true,
-                                            message: 'Image uploaded successfully!',
+                                            message: 'Media uploaded successfully!',
                                             severity: 'success',
                                         });
                                         fetchImages();
@@ -222,7 +227,7 @@ export default function Home() {
                                         console.error('Upload error:', error);
                                         setSnackbar({
                                             open: true,
-                                            message: 'Failed to upload image. Please try again.',
+                                            message: 'Failed to upload media. Please try again.',
                                             severity: 'error',
                                         });
                                     }}
@@ -254,22 +259,42 @@ export default function Home() {
                         />
                         {images[activeStep] && (
                             <>
-                                <img
-                                    key={images[activeStep].src}
-                                    src={images[activeStep].src}
-                                    alt={images[activeStep].title}
-                                    style={{
-                                        objectFit: 'cover',
-                                        aspectRatio: 'auto',
-                                        width: '100%',
-                                        height: '500px',
-                                        borderRadius: '10px',
-                                        display: imageLoading ? 'none' : 'block',
-                                    }}
-                                    loading="eager"
-                                    onLoadStart={() => setImageLoading(true)}
-                                    onLoad={() => setImageLoading(false)}
-                                />
+                                {images[activeStep].type === 'video' ? (
+                                    <video
+                                        key={images[activeStep].src}
+                                        src={images[activeStep].src}
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
+                                        style={{
+                                            objectFit: 'cover',
+                                            width: '100%',
+                                            height: '500px',
+                                            borderRadius: '10px',
+                                            display: imageLoading ? 'none' : 'block',
+                                        }}
+                                        onLoadStart={() => setImageLoading(true)}
+                                        onLoadedData={() => setImageLoading(false)}
+                                    />
+                                ) : (
+                                    <img
+                                        key={images[activeStep].src}
+                                        src={images[activeStep].src}
+                                        alt={images[activeStep].title}
+                                        style={{
+                                            objectFit: 'cover',
+                                            aspectRatio: 'auto',
+                                            width: '100%',
+                                            height: '500px',
+                                            borderRadius: '10px',
+                                            display: imageLoading ? 'none' : 'block',
+                                        }}
+                                        loading="eager"
+                                        onLoadStart={() => setImageLoading(true)}
+                                        onLoad={() => setImageLoading(false)}
+                                    />
+                                )}
                                 {/* Delete Icon Overlay */}
                                 <IconButton
                                     sx={{
@@ -357,8 +382,9 @@ export default function Home() {
                     <DialogTitle>Confirm Delete</DialogTitle>
                     <DialogContent>
                         <Typography>
-                            Are you sure you want to delete this image? This action cannot be
-                            undone.
+                            Are you sure you want to delete this{' '}
+                            {imageToDelete?.type === 'video' ? 'video' : 'image'}? This action
+                            cannot be undone.
                         </Typography>
                     </DialogContent>
                     <DialogActions>
