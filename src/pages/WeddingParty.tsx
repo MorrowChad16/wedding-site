@@ -342,7 +342,7 @@ export default function WeddingParty() {
                                     key={member.guestId}
                                     sx={{
                                         background: 'white',
-                                        padding: '16px 16px 60px 16px',
+                                        padding: '16px',
                                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                                         transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                                         cursor: 'pointer',
@@ -461,10 +461,8 @@ export default function WeddingParty() {
                                     <Box
                                         sx={{
                                             textAlign: 'center',
-                                            position: 'absolute',
-                                            bottom: '16px',
-                                            left: '16px',
-                                            right: '16px',
+                                            paddingTop: '12px',
+                                            minHeight: '60px',
                                         }}
                                     >
                                         <Typography
