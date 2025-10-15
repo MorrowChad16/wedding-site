@@ -6,4 +6,4 @@ export const BRIDE_FIRST_NAME = 'Alyssa' as const;
 export const BRIDE_LAST_NAME = 'Ealy' as const;
 export const BRIDE_PHONE_NUMBER = '309-373-7482' as const;
 export const COUPLE_NAMES = `${BRIDE_FIRST_NAME} and ${GROOM_FIRST_NAME}` as const;
-export const WEDDING_LOCATION = 'Winnebago, IL' as const;
+export const WEDDING_LOCATION = 'Quad Cities, IL' as const;
