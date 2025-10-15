@@ -46,6 +46,7 @@ const schema = a.schema({
             songRequests: a.string(),
             bridalPartyRole: a.ref('BridalPartyRole'),
             image: a.string(),
+            description: a.string(),
             isOfDrinkingAge: a.boolean().default(false),
             isAdmin: a.boolean().default(false),
         })

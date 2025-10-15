@@ -16,6 +16,15 @@ export enum GuestType {
     CHILD = 'CHILD',
 }
 
+export enum BridalPartyRole {
+    GROOM = 'GROOM',
+    BRIDE = 'BRIDE',
+    BEST_MAN = 'BEST_MAN',
+    MAID_OF_HONOR = 'MAID_OF_HONOR',
+    BRIDESMAID = 'BRIDESMAID',
+    GROOMSMAN = 'GROOMSMAN',
+}
+
 export type WeddingGuest = {
     guestId: string;
     email: string;
@@ -26,6 +35,6 @@ export type WeddingGuest = {
     foodChoice: FoodChoice | null;
     dietaryRestrictions: string | null;
     songRequests: string | null;
-    isBridalParty: boolean;
+    bridalPartyRole: BridalPartyRole | null;
     isOfDrinkingAge: boolean;
 };

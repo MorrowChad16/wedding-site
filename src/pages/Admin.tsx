@@ -78,7 +78,7 @@ type SortableKeys =
     | 'dietaryRestrictions'
     | 'songRequests'
     | 'isOfDrinkingAge'
-    | 'isBridalParty';
+    | 'bridalPartyRole';
 
 const Admin: React.FC = () => {
     const { isAdmin } = useStore();
@@ -203,7 +203,7 @@ const Admin: React.FC = () => {
                 'Dietary Restrictions',
                 'Song Requests',
                 'Is of Drinking Age',
-                'Is Bridal Party',
+                'Bridal Party Role',
                 'Created At',
                 'Updated At',
             ];
@@ -220,7 +220,7 @@ const Admin: React.FC = () => {
                 guest.dietaryRestrictions || '',
                 guest.songRequests || '',
                 guest.isOfDrinkingAge ? 'Yes' : 'No',
-                guest.isBridalParty ? 'Yes' : 'No',
+                guest.bridalPartyRole || '',
                 guest.createdAt || '',
                 guest.updatedAt || '',
             ]);
@@ -549,7 +549,7 @@ const Admin: React.FC = () => {
     const drinkingAge = guests.filter((g) => g.isOfDrinkingAge);
     const attendingDrinkingAge = attendingGuests.filter((g) => g.isOfDrinkingAge);
 
-    const bridalParty = guests.filter((g) => g.isBridalParty);
+    const bridalParty = guests.filter((g) => g.bridalPartyRole);
 
     // Food choices
     const beefChoice = attendingGuests.filter((g) => g.foodChoice === FoodChoice.Beef);
@@ -1125,11 +1125,13 @@ const Admin: React.FC = () => {
                                     </TableCell>
                                     <TableCell>
                                         <TableSortLabel
-                                            active={orderBy === 'isBridalParty'}
-                                            direction={orderBy === 'isBridalParty' ? order : 'asc'}
-                                            onClick={() => handleRequestSort('isBridalParty')}
+                                            active={orderBy === 'bridalPartyRole'}
+                                            direction={
+                                                orderBy === 'bridalPartyRole' ? order : 'asc'
+                                            }
+                                            onClick={() => handleRequestSort('bridalPartyRole')}
                                         >
-                                            Bridal Party
+                                            Bridal Party Role
                                         </TableSortLabel>
                                     </TableCell>
                                 </TableRow>
@@ -1151,15 +1153,7 @@ const Admin: React.FC = () => {
                                             <Chip
                                                 label={guest.attendanceStatus}
                                                 size="small"
-                                                color={
-                                                    guest.attendanceStatus ===
-                                                    AttendanceStatus.ATTENDING
-                                                        ? 'success'
-                                                        : guest.attendanceStatus ===
-                                                            AttendanceStatus.PENDING
-                                                          ? 'warning'
-                                                          : 'default'
-                                                }
+                                                color="primary"
                                             />
                                         </TableCell>
                                         <TableCell>
@@ -1210,6 +1204,19 @@ const Admin: React.FC = () => {
                                                     guest.isOfDrinkingAge ? 'success' : 'default'
                                                 }
                                             />
+                                        </TableCell>
+                                        <TableCell>
+                                            {guest.bridalPartyRole ? (
+                                                <Chip
+                                                    label={guest.bridalPartyRole.replace(/_/g, ' ')}
+                                                    size="small"
+                                                    color="primary"
+                                                />
+                                            ) : (
+                                                <Typography variant="body2" color="text.secondary">
+                                                    -
+                                                </Typography>
+                                            )}
                                         </TableCell>
                                     </TableRow>
                                 ))}
