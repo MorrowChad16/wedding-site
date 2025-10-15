@@ -42,11 +42,7 @@ function NavigationBar() {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const [open, setOpen] = useState(false);
-    const [openSignIn, setOpenSignIn] = useState(
-        storeEmail === '' &&
-            location.pathname !== '/save-the-date' &&
-            location.pathname !== '/admin'
-    );
+    const [openSignIn, setOpenSignIn] = useState(false); // Disabled for non-admin users
     const [openAdminLogin, setOpenAdminLogin] = useState(
         !isAdmin && location.pathname === '/admin'
     );
