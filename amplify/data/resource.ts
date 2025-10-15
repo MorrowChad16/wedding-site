@@ -23,15 +23,11 @@ const schema = a.schema({
     ]),
     BridalPartyRole: a.enum([
         'GROOM',
-        'BRIDGE',
+        'BRIDE',
         'BEST_MAN',
         'MAID_OF_HONOR',
         'BRIDESMAID',
         'GROOMSMAN',
-        'FLOWER_GIRL',
-        'RING_BEARER',
-        'USHER',
-        'OFFICIANT',
     ]),
 
     WeddingGuests: a
@@ -49,6 +45,7 @@ const schema = a.schema({
             dietaryRestrictions: a.string(),
             songRequests: a.string(),
             bridalPartyRole: a.ref('BridalPartyRole'),
+            image: a.string(),
             isOfDrinkingAge: a.boolean().default(false),
             isAdmin: a.boolean().default(false),
         })

@@ -683,7 +683,7 @@ export default function Travel() {
                         </Box>
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="subtitle2" gutterBottom>
-                                Image (optional)
+                                Image (WebP only)
                             </Typography>
                             <FileUploader
                                 acceptedFileTypes={['image/webp']}
@@ -811,7 +811,7 @@ export default function Travel() {
                         </Box>
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="subtitle2" gutterBottom>
-                                Image (optional)
+                                Image (WebP only)
                             </Typography>
                             <FileUploader
                                 acceptedFileTypes={['image/webp']}

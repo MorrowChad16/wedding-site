@@ -28,15 +28,11 @@ export const getWeddingPartyMembers = () => {
             // Sort by role hierarchy: GROOM, BRIDGE, BEST_MAN, MAID_OF_HONOR, then alphabetically
             const roleOrder: Record<string, number> = {
                 GROOM: 1,
-                BRIDGE: 2,
+                BRIDE: 2,
                 BEST_MAN: 3,
                 MAID_OF_HONOR: 4,
                 BRIDESMAID: 5,
                 GROOMSMAN: 6,
-                FLOWER_GIRL: 7,
-                RING_BEARER: 8,
-                USHER: 9,
-                OFFICIANT: 10,
             };
 
             return partyMembers.sort((a, b) => {
@@ -73,6 +69,16 @@ export const updateBridalPartyRole = async (
     return await getClient().models.WeddingGuests.update({
         guestId,
         bridalPartyRole,
+    });
+};
+
+/**
+ * Update a wedding guest's profile image
+ */
+export const updateGuestImage = async (guestId: string, imageUrl: string) => {
+    return await getClient().models.WeddingGuests.update({
+        guestId,
+        image: imageUrl,
     });
 };
 

@@ -20,14 +20,22 @@ import {
     Avatar,
     Chip,
 } from '@mui/material';
-import { Add as AddIcon, Edit as EditIcon, Person as PersonIcon } from '@mui/icons-material';
+import {
+    Add as AddIcon,
+    Edit as EditIcon,
+    Person as PersonIcon,
+    PhotoCamera as PhotoCameraIcon,
+} from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { useQueryClient } from '@tanstack/react-query';
+import { FileUploader, StorageImage } from '@aws-amplify/ui-react-storage';
+import '@aws-amplify/ui-react/styles.css';
 import { useStore } from '../api/use-store';
 import { getAllWeddingGuests } from '../api/use-guests';
 import {
     getWeddingPartyMembers,
     updateBridalPartyRole,
+    updateGuestImage,
     getBridalPartyRoleDisplayName,
     type WeddingGuestType,
     type BridalPartyRole,
@@ -36,8 +44,10 @@ import {
 export default function WeddingParty() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [imageDialogOpen, setImageDialogOpen] = useState(false);
     const [selectedGuest, setSelectedGuest] = useState<WeddingGuestType | null>(null);
     const [selectedRole, setSelectedRole] = useState<BridalPartyRole | ''>('');
+    const [newImage, setNewImage] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -162,6 +172,43 @@ export default function WeddingParty() {
         setSnackbarOpen(false);
     };
 
+    const handleImageDialogOpen = (member: WeddingGuestType) => {
+        setSelectedGuest(member);
+        setNewImage(member.image || '');
+        setImageDialogOpen(true);
+    };
+
+    const handleImageDialogClose = () => {
+        setImageDialogOpen(false);
+        setSelectedGuest(null);
+        setNewImage('');
+    };
+
+    const handleImageUpdate = async () => {
+        if (!selectedGuest) return;
+
+        setSubmitting(true);
+        try {
+            await updateGuestImage(selectedGuest.guestId, newImage);
+
+            // Refresh data
+            queryClient.invalidateQueries({ queryKey: ['getWeddingPartyMembers'] });
+            queryClient.invalidateQueries({ queryKey: ['getAllWeddingGuests'] });
+
+            setSnackbarMessage('Profile image updated successfully!');
+            setSnackbarSeverity('success');
+            setSnackbarOpen(true);
+            handleImageDialogClose();
+        } catch (error) {
+            console.error('Error updating image:', error);
+            setSnackbarMessage('Failed to update image. Please try again.');
+            setSnackbarSeverity('error');
+            setSnackbarOpen(true);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     const getRoleColor = (
         role: BridalPartyRole | null
     ): 'primary' | 'secondary' | 'success' | 'warning' | 'info' => {
@@ -259,7 +306,25 @@ export default function WeddingParty() {
                                 >
                                     {/* Admin controls */}
                                     {isAdmin && (
-                                        <Box position="absolute" top={8} right={8} zIndex={1}>
+                                        <Box
+                                            position="absolute"
+                                            top={8}
+                                            right={8}
+                                            zIndex={1}
+                                            display="flex"
+                                            gap={1}
+                                        >
+                                            <IconButton
+                                                size="small"
+                                                onClick={() => handleImageDialogOpen(member)}
+                                                color="secondary"
+                                                sx={{
+                                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                                    '&:hover': { backgroundColor: 'white' },
+                                                }}
+                                            >
+                                                <PhotoCameraIcon fontSize="small" />
+                                            </IconButton>
                                             <IconButton
                                                 size="small"
                                                 onClick={() => handleEditDialogOpen(member)}
@@ -275,17 +340,66 @@ export default function WeddingParty() {
                                     )}
 
                                     <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
-                                        <Avatar
-                                            sx={{
-                                                width: 80,
-                                                height: 80,
-                                                margin: '0 auto 16px auto',
-                                                backgroundColor: theme.palette.primary.main,
-                                                fontSize: '2rem',
-                                            }}
-                                        >
-                                            <PersonIcon fontSize="large" />
-                                        </Avatar>
+                                        <Box position="relative" display="inline-block">
+                                            {member.image ? (
+                                                <Box
+                                                    sx={{
+                                                        width: 80,
+                                                        height: 80,
+                                                        margin: '0 auto 16px auto',
+                                                        borderRadius: '50%',
+                                                        overflow: 'hidden',
+                                                        backgroundColor: theme.palette.primary.main,
+                                                    }}
+                                                >
+                                                    <StorageImage
+                                                        alt={member.fullName}
+                                                        path={member.image}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                        }}
+                                                        loading="lazy"
+                                                        validateObjectExistence={false}
+                                                    />
+                                                </Box>
+                                            ) : (
+                                                <Avatar
+                                                    sx={{
+                                                        width: 80,
+                                                        height: 80,
+                                                        margin: '0 auto 16px auto',
+                                                        backgroundColor: theme.palette.primary.main,
+                                                        fontSize: '2rem',
+                                                    }}
+                                                >
+                                                    <PersonIcon fontSize="large" />
+                                                </Avatar>
+                                            )}
+                                            {isAdmin && !member.image && (
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() => handleImageDialogOpen(member)}
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        bottom: 12,
+                                                        right: -4,
+                                                        backgroundColor:
+                                                            theme.palette.secondary.main,
+                                                        color: 'white',
+                                                        width: 24,
+                                                        height: 24,
+                                                        '&:hover': {
+                                                            backgroundColor:
+                                                                theme.palette.secondary.dark,
+                                                        },
+                                                    }}
+                                                >
+                                                    <PhotoCameraIcon sx={{ fontSize: 14 }} />
+                                                </IconButton>
+                                            )}
+                                        </Box>
 
                                         <Typography variant="h6" component="h2" gutterBottom>
                                             {member.fullName}
@@ -430,6 +544,107 @@ export default function WeddingParty() {
                             disabled={submitting}
                         >
                             {submitting ? 'Updating...' : 'Update Member'}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+                {/* Image Upload Dialog */}
+                <Dialog
+                    open={imageDialogOpen}
+                    onClose={handleImageDialogClose}
+                    maxWidth="sm"
+                    fullWidth
+                >
+                    <DialogTitle>Update Profile Image</DialogTitle>
+                    <DialogContent>
+                        {selectedGuest && (
+                            <Box sx={{ mt: 1 }}>
+                                <Typography variant="body1" sx={{ mb: 2 }}>
+                                    <strong>Member:</strong> {selectedGuest.fullName}
+                                </Typography>
+
+                                {/* Current Image Preview */}
+                                {selectedGuest.image && (
+                                    <Box sx={{ mb: 3, textAlign: 'center' }}>
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            sx={{ mb: 1 }}
+                                        >
+                                            Current Image:
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                width: 120,
+                                                height: 120,
+                                                margin: '0 auto',
+                                                borderRadius: '50%',
+                                                overflow: 'hidden',
+                                                backgroundColor: theme.palette.primary.main,
+                                            }}
+                                        >
+                                            <StorageImage
+                                                alt={selectedGuest.fullName}
+                                                path={selectedGuest.image}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'cover',
+                                                }}
+                                                loading="lazy"
+                                                validateObjectExistence={false}
+                                            />
+                                        </Box>
+                                    </Box>
+                                )}
+
+                                {/* File Uploader */}
+                                <Box sx={{ mb: 2 }}>
+                                    <Typography variant="subtitle2" gutterBottom>
+                                        Image (WebP only)
+                                    </Typography>
+                                    <FileUploader
+                                        acceptedFileTypes={['image/webp']}
+                                        path="wedding-party/"
+                                        maxFileCount={1}
+                                        isResumable
+                                        onUploadSuccess={(result) => {
+                                            if (result && result.key) {
+                                                setNewImage(result.key);
+                                            }
+                                        }}
+                                        onUploadError={(error) => {
+                                            console.error('Upload error:', error);
+                                            setSnackbarMessage(
+                                                'Failed to upload image. Please try again.'
+                                            );
+                                            setSnackbarSeverity('error');
+                                            setSnackbarOpen(true);
+                                            setNewImage('');
+                                        }}
+                                    />
+                                    {newImage && newImage !== selectedGuest.image && (
+                                        <Typography
+                                            variant="body2"
+                                            color="success.main"
+                                            sx={{ mt: 1 }}
+                                        >
+                                            New image uploaded successfully! Click "Update Image" to
+                                            save.
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Box>
+                        )}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleImageDialogClose}>Cancel</Button>
+                        <Button
+                            onClick={handleImageUpdate}
+                            variant="contained"
+                            disabled={submitting || !newImage || newImage === selectedGuest?.image}
+                        >
+                            {submitting ? 'Updating...' : 'Update Image'}
                         </Button>
                     </DialogActions>
                 </Dialog>
