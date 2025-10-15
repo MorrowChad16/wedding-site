@@ -109,6 +109,7 @@ function generateTravelInfoString(travelItems: any[]): string {
     // Convert categories to readable titles
     const categoryTitles: { [key: string]: string } = {
         HOTEL: 'Hotels & Accommodations',
+        AIRBNB: 'Airbnb',
         AIRPORT: 'Airport Information',
         TRANSPORTATION: 'Transportation',
         RESTAURANT: 'Restaurants',
@@ -116,9 +117,7 @@ function generateTravelInfoString(travelItems: any[]): string {
         BREWERY: 'Breweries',
         PARK: 'Parks & Nature',
         GOLF: 'Golf',
-        OUTDOOR_ACTIVITY: 'Outdoor Activities',
         CEREMONY_VENUE: 'Ceremony Venues',
-        EVENT_VENUE: 'Event Venues',
         OTHER: 'Other',
     };
 

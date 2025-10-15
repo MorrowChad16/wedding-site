@@ -50,6 +50,7 @@ export const createTravelItem = async (
     name: string,
     category:
         | 'HOTEL'
+        | 'AIRBNB'
         | 'AIRPORT'
         | 'TRANSPORTATION'
         | 'RESTAURANT'
@@ -57,9 +58,7 @@ export const createTravelItem = async (
         | 'BREWERY'
         | 'PARK'
         | 'GOLF'
-        | 'OUTDOOR_ACTIVITY'
-        | 'CEREMONY_VENUE'
-        | 'EVENT_VENUE',
+        | 'CEREMONY_VENUE',
     image: string | undefined,
     address: string | undefined,
     phone: string | undefined,
@@ -89,6 +88,7 @@ export const updateTravelItem = async (
     name: string,
     category:
         | 'HOTEL'
+        | 'AIRBNB'
         | 'AIRPORT'
         | 'TRANSPORTATION'
         | 'RESTAURANT'
@@ -96,9 +96,7 @@ export const updateTravelItem = async (
         | 'BREWERY'
         | 'PARK'
         | 'GOLF'
-        | 'OUTDOOR_ACTIVITY'
-        | 'CEREMONY_VENUE'
-        | 'EVENT_VENUE',
+        | 'CEREMONY_VENUE',
     image: string | undefined,
     address: string | undefined,
     phone: string | undefined,

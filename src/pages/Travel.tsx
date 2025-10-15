@@ -40,6 +40,7 @@ import { useStore } from '../api/use-store';
 
 export type LocationCategory =
     | 'HOTEL'
+    | 'AIRBNB'
     | 'AIRPORT'
     | 'TRANSPORTATION'
     | 'RESTAURANT'
@@ -47,9 +48,7 @@ export type LocationCategory =
     | 'BREWERY'
     | 'PARK'
     | 'GOLF'
-    | 'OUTDOOR_ACTIVITY'
-    | 'CEREMONY_VENUE'
-    | 'EVENT_VENUE';
+    | 'CEREMONY_VENUE';
 
 interface TravelSection {
     title: string;
@@ -85,6 +84,7 @@ export default function Travel() {
     // Use the schema's TravelCategory enum values
     const locationCategories: LocationCategory[] = [
         'HOTEL',
+        'AIRBNB',
         'AIRPORT',
         'TRANSPORTATION',
         'RESTAURANT',
@@ -92,9 +92,7 @@ export default function Travel() {
         'BREWERY',
         'PARK',
         'GOLF',
-        'OUTDOOR_ACTIVITY',
         'CEREMONY_VENUE',
-        'EVENT_VENUE',
     ];
 
     const handleDialogOpen = (category?: LocationCategory) => {

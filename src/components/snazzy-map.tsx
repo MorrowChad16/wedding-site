@@ -12,10 +12,11 @@ import LocalBarIcon from '@mui/icons-material/LocalBar';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import SportsGolfIcon from '@mui/icons-material/SportsGolf';
 import HotelIcon from '@mui/icons-material/Hotel';
+import VillaIcon from '@mui/icons-material/HolidayVillage';
 import ParkIcon from '@mui/icons-material/Park';
 import FlightIcon from '@mui/icons-material/Flight';
 import { renderToString } from 'react-dom/server';
-import { Celebration, Landscape, People } from '@mui/icons-material';
+import { Celebration } from '@mui/icons-material';
 import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 export const LOCATION_ICONS: Record<
@@ -45,6 +46,10 @@ export const LOCATION_ICONS: Record<
         icon: HotelIcon,
         color: '#36454F', // charcoal
     },
+    AIRBNB: {
+        icon: VillaIcon,
+        color: '#FF5A5F', // Airbnb red
+    },
     AIRPORT: {
         icon: FlightIcon,
         color: '#000000', // black
@@ -52,14 +57,6 @@ export const LOCATION_ICONS: Record<
     PARK: {
         icon: ParkIcon,
         color: '#229954', // light green
-    },
-    OUTDOOR_ACTIVITY: {
-        icon: Landscape,
-        color: '#0E87CC', // forest green
-    },
-    EVENT_VENUE: {
-        icon: People,
-        color: '#d2b4de', // light purple
     },
     CEREMONY_VENUE: {
         icon: Celebration,
@@ -123,16 +120,8 @@ const TravelMap = () => {
     // Map schedule item types to location categories
     const mapScheduleTypeToLocationCategory = (type: string): LocationCategory => {
         switch (type) {
-            case 'CEREMONY':
-                return 'CEREMONY_VENUE';
-            case 'RECEPTION':
-                return 'EVENT_VENUE';
-            case 'EVENT':
-                return 'EVENT_VENUE';
-            case 'ACTIVITY':
-                return 'OUTDOOR_ACTIVITY';
             default:
-                return 'EVENT_VENUE';
+                return 'CEREMONY_VENUE';
         }
     };
 

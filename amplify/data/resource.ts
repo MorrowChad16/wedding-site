@@ -11,6 +11,7 @@ const schema = a.schema({
     RegistrySection: a.enum(['FUNDS', 'REGISTRIES']),
     TravelCategory: a.enum([
         'HOTEL',
+        'AIRBNB',
         'AIRPORT',
         'TRANSPORTATION',
         'RESTAURANT',
@@ -18,9 +19,7 @@ const schema = a.schema({
         'BREWERY',
         'PARK',
         'GOLF',
-        'OUTDOOR_ACTIVITY',
         'CEREMONY_VENUE',
-        'EVENT_VENUE',
     ]),
 
     WeddingGuests: a
