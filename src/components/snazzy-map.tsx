@@ -307,10 +307,9 @@ const TravelMap = () => {
                             width: '100%',
                             height: '100%', // Takes full height of Paper
                         }}
-                        // TODO: update center of map
                         center={{
-                            lat: 43.61725313860506,
-                            lng: -116.20628518469191,
+                            lat: 41.52317338430981, 
+                            lng: -90.5770939950775,
                         }}
                         zoom={14}
                         options={options}

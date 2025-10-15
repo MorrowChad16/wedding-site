@@ -69,15 +69,11 @@ export default function WeddingParty() {
 
     const bridalPartyRoles: { value: BridalPartyRole; label: string }[] = [
         { value: 'GROOM', label: 'Groom' },
-        { value: 'BRIDGE', label: 'Bride' },
+        { value: 'BRIDE', label: 'Bride' },
         { value: 'BEST_MAN', label: 'Best Man' },
         { value: 'MAID_OF_HONOR', label: 'Maid of Honor' },
         { value: 'BRIDESMAID', label: 'Bridesmaid' },
         { value: 'GROOMSMAN', label: 'Groomsman' },
-        { value: 'FLOWER_GIRL', label: 'Flower Girl' },
-        { value: 'RING_BEARER', label: 'Ring Bearer' },
-        { value: 'USHER', label: 'Usher' },
-        { value: 'OFFICIANT', label: 'Officiant' },
     ];
 
     // Get guests that are not already in the wedding party
@@ -209,30 +205,6 @@ export default function WeddingParty() {
         }
     };
 
-    const getRoleColor = (
-        role: BridalPartyRole | null
-    ): 'primary' | 'secondary' | 'success' | 'warning' | 'info' => {
-        switch (role) {
-            case 'GROOM':
-            case 'BRIDGE':
-                return 'primary';
-            case 'BEST_MAN':
-            case 'MAID_OF_HONOR':
-                return 'secondary';
-            case 'BRIDESMAID':
-            case 'GROOMSMAN':
-                return 'info';
-            case 'FLOWER_GIRL':
-            case 'RING_BEARER':
-                return 'success';
-            case 'USHER':
-            case 'OFFICIANT':
-                return 'warning';
-            default:
-                return 'primary';
-        }
-    };
-
     if (partyLoading || guestsLoading) {
         return (
             <PageContainer>
@@ -287,171 +259,364 @@ export default function WeddingParty() {
                         </Box>
                     )}
 
-                    {/* Wedding Party Members Grid */}
-                    <Grid container spacing={3}>
-                        {(weddingPartyMembers || []).map((member) => (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={member.guestId}>
-                                <Card
-                                    sx={{
-                                        height: '100%',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        position: 'relative',
-                                        '&:hover': isAdmin
-                                            ? {
-                                                  boxShadow: theme.shadows[8],
-                                              }
-                                            : {},
-                                    }}
-                                >
-                                    {/* Admin controls */}
-                                    {isAdmin && (
-                                        <Box
-                                            position="absolute"
-                                            top={8}
-                                            right={8}
-                                            zIndex={1}
-                                            display="flex"
-                                            gap={1}
-                                        >
-                                            <IconButton
-                                                size="small"
-                                                onClick={() => handleImageDialogOpen(member)}
-                                                color="secondary"
-                                                sx={{
-                                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                                                    '&:hover': { backgroundColor: 'white' },
-                                                }}
-                                            >
-                                                <PhotoCameraIcon fontSize="small" />
-                                            </IconButton>
-                                            <IconButton
-                                                size="small"
-                                                onClick={() => handleEditDialogOpen(member)}
-                                                color="primary"
-                                                sx={{
-                                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                                                    '&:hover': { backgroundColor: 'white' },
-                                                }}
-                                            >
-                                                <EditIcon fontSize="small" />
-                                            </IconButton>
-                                        </Box>
-                                    )}
-
-                                    <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
-                                        <Box position="relative" display="inline-block">
-                                            {member.image ? (
-                                                <Box
-                                                    sx={{
-                                                        width: 80,
-                                                        height: 80,
-                                                        margin: '0 auto 16px auto',
-                                                        borderRadius: '50%',
-                                                        overflow: 'hidden',
-                                                        backgroundColor: theme.palette.primary.main,
-                                                    }}
-                                                >
-                                                    <StorageImage
-                                                        alt={member.fullName}
-                                                        path={member.image}
-                                                        style={{
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            objectFit: 'cover',
-                                                        }}
-                                                        loading="lazy"
-                                                        validateObjectExistence={false}
-                                                    />
-                                                </Box>
-                                            ) : (
-                                                <Avatar
-                                                    sx={{
-                                                        width: 80,
-                                                        height: 80,
-                                                        margin: '0 auto 16px auto',
-                                                        backgroundColor: theme.palette.primary.main,
-                                                        fontSize: '2rem',
-                                                    }}
-                                                >
-                                                    <PersonIcon fontSize="large" />
-                                                </Avatar>
-                                            )}
-                                            {isAdmin && !member.image && (
-                                                <IconButton
-                                                    size="small"
-                                                    onClick={() => handleImageDialogOpen(member)}
-                                                    sx={{
-                                                        position: 'absolute',
-                                                        bottom: 12,
-                                                        right: -4,
-                                                        backgroundColor:
-                                                            theme.palette.secondary.main,
-                                                        color: 'white',
-                                                        width: 24,
-                                                        height: 24,
-                                                        '&:hover': {
-                                                            backgroundColor:
-                                                                theme.palette.secondary.dark,
-                                                        },
-                                                    }}
-                                                >
-                                                    <PhotoCameraIcon sx={{ fontSize: 14 }} />
-                                                </IconButton>
-                                            )}
-                                        </Box>
-
-                                        <Typography variant="h6" component="h2" gutterBottom>
-                                            {member.fullName}
-                                        </Typography>
-
-                                        <Chip
-                                            label={getBridalPartyRoleDisplayName(
-                                                member.bridalPartyRole ?? null
-                                            )}
-                                            color={getRoleColor(member.bridalPartyRole ?? null)}
-                                            variant="filled"
-                                            sx={{ mb: 1 }}
-                                        />
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-
-                        {/* Empty state for admins */}
-                        {isAdmin && (!weddingPartyMembers || weddingPartyMembers.length === 0) && (
-                            <Grid item xs={12}>
-                                <Card
-                                    onClick={handleDialogOpen}
-                                    sx={{
-                                        border: `2px dashed ${theme.palette.primary.main}`,
-                                        backgroundColor: 'transparent',
-                                        cursor: 'pointer',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        minHeight: 200,
-                                        '&:hover': {
-                                            backgroundColor: theme.palette.action.hover,
-                                        },
-                                    }}
-                                >
-                                    <Box textAlign="center">
-                                        <AddIcon
+                    {/* Wedding Party Members - Two Column Layout */}
+                    <Grid container spacing={4}>
+                        {/* Groom's Side */}
+                        <Grid item xs={12} md={6}>
+                            <Typography
+                                variant="h5"
+                                component="h2"
+                                gutterBottom
+                                textAlign="center"
+                                mb={3}
+                            >
+                                Groom's Party
+                            </Typography>
+                            <Box display="flex" flexDirection="column" gap={3}>
+                                {(weddingPartyMembers || [])
+                                    .filter((member) =>
+                                        [
+                                            'GROOM',
+                                            'BEST_MAN',
+                                            'GROOMSMAN',
+                                            'RING_BEARER',
+                                            'USHER',
+                                        ].includes(member.bridalPartyRole ?? '')
+                                    )
+                                    .map((member) => (
+                                        <Card
+                                            key={member.guestId}
                                             sx={{
-                                                color: theme.palette.primary.main,
-                                                fontSize: 48,
-                                                mb: 1,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                position: 'relative',
+                                                '&:hover': isAdmin
+                                                    ? {
+                                                          boxShadow: theme.shadows[8],
+                                                      }
+                                                    : {},
                                             }}
-                                        />
-                                        <Typography variant="h6" color="primary">
-                                            Add First Wedding Party Member
-                                        </Typography>
-                                    </Box>
-                                </Card>
-                            </Grid>
-                        )}
+                                        >
+                                            {/* Admin controls */}
+                                            {isAdmin && (
+                                                <Box
+                                                    position="absolute"
+                                                    top={8}
+                                                    right={8}
+                                                    zIndex={1}
+                                                    display="flex"
+                                                    gap={1}
+                                                >
+                                                    <IconButton
+                                                        size="small"
+                                                        onClick={() =>
+                                                            handleImageDialogOpen(member)
+                                                        }
+                                                        sx={{
+                                                            backgroundColor:
+                                                                'rgba(255, 255, 255, 0.9)',
+                                                            color: 'black',
+                                                            '&:hover': { backgroundColor: 'white' },
+                                                        }}
+                                                    >
+                                                        <PhotoCameraIcon fontSize="small" />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        size="small"
+                                                        onClick={() => handleEditDialogOpen(member)}
+                                                        color="primary"
+                                                        sx={{
+                                                            backgroundColor:
+                                                                'rgba(255, 255, 255, 0.9)',
+                                                            '&:hover': { backgroundColor: 'white' },
+                                                        }}
+                                                    >
+                                                        <EditIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Box>
+                                            )}
+
+                                            <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
+                                                <Box position="relative" display="inline-block">
+                                                    {member.image ? (
+                                                        <Box
+                                                            sx={{
+                                                                width: 80,
+                                                                height: 80,
+                                                                margin: '0 auto 16px auto',
+                                                                borderRadius: '50%',
+                                                                overflow: 'hidden',
+                                                                backgroundColor:
+                                                                    theme.palette.primary.main,
+                                                            }}
+                                                        >
+                                                            <StorageImage
+                                                                alt={member.fullName}
+                                                                path={member.image}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    height: '100%',
+                                                                    objectFit: 'cover',
+                                                                }}
+                                                                loading="lazy"
+                                                                validateObjectExistence={false}
+                                                            />
+                                                        </Box>
+                                                    ) : (
+                                                        <Avatar
+                                                            sx={{
+                                                                width: 80,
+                                                                height: 80,
+                                                                margin: '0 auto 16px auto',
+                                                                backgroundColor:
+                                                                    theme.palette.primary.main,
+                                                                fontSize: '2rem',
+                                                            }}
+                                                        >
+                                                            <PersonIcon fontSize="large" />
+                                                        </Avatar>
+                                                    )}
+                                                    {isAdmin && !member.image && (
+                                                        <IconButton
+                                                            size="small"
+                                                            onClick={() =>
+                                                                handleImageDialogOpen(member)
+                                                            }
+                                                            sx={{
+                                                                position: 'absolute',
+                                                                bottom: 12,
+                                                                right: -4,
+                                                                backgroundColor: 'black',
+                                                                color: 'white',
+                                                                width: 24,
+                                                                height: 24,
+                                                                '&:hover': {
+                                                                    backgroundColor: '#333',
+                                                                },
+                                                            }}
+                                                        >
+                                                            <PhotoCameraIcon
+                                                                sx={{ fontSize: 14 }}
+                                                            />
+                                                        </IconButton>
+                                                    )}
+                                                </Box>
+
+                                                <Typography
+                                                    variant="h6"
+                                                    component="h2"
+                                                    gutterBottom
+                                                >
+                                                    {member.fullName}
+                                                </Typography>
+
+                                                <Chip
+                                                    label={getBridalPartyRoleDisplayName(
+                                                        member.bridalPartyRole ?? null
+                                                    )}
+                                                    color={'primary'}
+                                                    variant="filled"
+                                                    sx={{ mb: 1 }}
+                                                />
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                            </Box>
+                        </Grid>
+
+                        {/* Bride's Side */}
+                        <Grid item xs={12} md={6}>
+                            <Typography
+                                variant="h5"
+                                component="h2"
+                                gutterBottom
+                                textAlign="center"
+                                mb={3}
+                            >
+                                Bride's Party
+                            </Typography>
+                            <Box display="flex" flexDirection="column" gap={3}>
+                                {(weddingPartyMembers || [])
+                                    .filter((member) =>
+                                        ['BRIDE', 'MAID_OF_HONOR', 'BRIDESMAID'].includes(
+                                            member.bridalPartyRole ?? ''
+                                        )
+                                    )
+                                    .map((member) => (
+                                        <Card
+                                            key={member.guestId}
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                position: 'relative',
+                                                '&:hover': isAdmin
+                                                    ? {
+                                                          boxShadow: theme.shadows[8],
+                                                      }
+                                                    : {},
+                                            }}
+                                        >
+                                            {/* Admin controls */}
+                                            {isAdmin && (
+                                                <Box
+                                                    position="absolute"
+                                                    top={8}
+                                                    right={8}
+                                                    zIndex={1}
+                                                    display="flex"
+                                                    gap={1}
+                                                >
+                                                    <IconButton
+                                                        size="small"
+                                                        onClick={() =>
+                                                            handleImageDialogOpen(member)
+                                                        }
+                                                        sx={{
+                                                            backgroundColor:
+                                                                'rgba(255, 255, 255, 0.9)',
+                                                            color: 'black',
+                                                            '&:hover': { backgroundColor: 'white' },
+                                                        }}
+                                                    >
+                                                        <PhotoCameraIcon fontSize="small" />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        size="small"
+                                                        onClick={() => handleEditDialogOpen(member)}
+                                                        color="primary"
+                                                        sx={{
+                                                            backgroundColor:
+                                                                'rgba(255, 255, 255, 0.9)',
+                                                            '&:hover': { backgroundColor: 'white' },
+                                                        }}
+                                                    >
+                                                        <EditIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Box>
+                                            )}
+
+                                            <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
+                                                <Box position="relative" display="inline-block">
+                                                    {member.image ? (
+                                                        <Box
+                                                            sx={{
+                                                                width: 80,
+                                                                height: 80,
+                                                                margin: '0 auto 16px auto',
+                                                                borderRadius: '50%',
+                                                                overflow: 'hidden',
+                                                                backgroundColor:
+                                                                    theme.palette.primary.main,
+                                                            }}
+                                                        >
+                                                            <StorageImage
+                                                                alt={member.fullName}
+                                                                path={member.image}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    height: '100%',
+                                                                    objectFit: 'cover',
+                                                                }}
+                                                                loading="lazy"
+                                                                validateObjectExistence={false}
+                                                            />
+                                                        </Box>
+                                                    ) : (
+                                                        <Avatar
+                                                            sx={{
+                                                                width: 80,
+                                                                height: 80,
+                                                                margin: '0 auto 16px auto',
+                                                                backgroundColor:
+                                                                    theme.palette.primary.main,
+                                                                fontSize: '2rem',
+                                                            }}
+                                                        >
+                                                            <PersonIcon fontSize="large" />
+                                                        </Avatar>
+                                                    )}
+                                                    {isAdmin && !member.image && (
+                                                        <IconButton
+                                                            size="small"
+                                                            onClick={() =>
+                                                                handleImageDialogOpen(member)
+                                                            }
+                                                            sx={{
+                                                                position: 'absolute',
+                                                                bottom: 12,
+                                                                right: -4,
+                                                                backgroundColor: 'black',
+                                                                color: 'white',
+                                                                width: 24,
+                                                                height: 24,
+                                                                '&:hover': {
+                                                                    backgroundColor: '#333',
+                                                                },
+                                                            }}
+                                                        >
+                                                            <PhotoCameraIcon
+                                                                sx={{ fontSize: 14 }}
+                                                            />
+                                                        </IconButton>
+                                                    )}
+                                                </Box>
+
+                                                <Typography
+                                                    variant="h6"
+                                                    component="h2"
+                                                    gutterBottom
+                                                >
+                                                    {member.fullName}
+                                                </Typography>
+
+                                                <Chip
+                                                    label={getBridalPartyRoleDisplayName(
+                                                        member.bridalPartyRole ?? null
+                                                    )}
+                                                    color={'primary'}
+                                                    variant="filled"
+                                                    sx={{ mb: 1 }}
+                                                />
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                            </Box>
+                        </Grid>
                     </Grid>
+
+                    {/* Empty state for admins */}
+                    {isAdmin && (!weddingPartyMembers || weddingPartyMembers.length === 0) && (
+                        <Box mt={4}>
+                            <Card
+                                onClick={handleDialogOpen}
+                                sx={{
+                                    border: `2px dashed ${theme.palette.primary.main}`,
+                                    backgroundColor: 'transparent',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    minHeight: 200,
+                                    '&:hover': {
+                                        backgroundColor: theme.palette.action.hover,
+                                    },
+                                }}
+                            >
+                                <Box textAlign="center">
+                                    <AddIcon
+                                        sx={{
+                                            color: theme.palette.primary.main,
+                                            fontSize: 48,
+                                            mb: 1,
+                                        }}
+                                    />
+                                    <Typography variant="h6" color="primary">
+                                        Add First Wedding Party Member
+                                    </Typography>
+                                </Box>
+                            </Card>
+                        </Box>
+                    )}
                 </Box>
 
                 {/* Add Member Dialog */}
