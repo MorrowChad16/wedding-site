@@ -83,6 +83,16 @@ export const updateGuestImage = async (guestId: string, imageUrl: string) => {
 };
 
 /**
+ * Update a wedding guest's description
+ */
+export const updateGuestDescription = async (guestId: string, description: string) => {
+    return await getClient().models.WeddingGuests.update({
+        guestId,
+        description,
+    });
+};
+
+/**
  * Helper function to get display name for bridal party roles
  */
 export const getBridalPartyRoleDisplayName = (role: BridalPartyRole | null): string => {

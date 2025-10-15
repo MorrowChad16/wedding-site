@@ -2,8 +2,6 @@ import { useState } from 'react';
 import PageContainer from '../components/page-container';
 import {
     Box,
-    Card,
-    CardContent,
     CircularProgress,
     Alert,
     Dialog,
@@ -16,14 +14,10 @@ import {
     Typography,
     IconButton,
     MenuItem,
-    Grid,
-    Avatar,
-    Chip,
 } from '@mui/material';
 import {
     Add as AddIcon,
     Edit as EditIcon,
-    Person as PersonIcon,
     PhotoCamera as PhotoCameraIcon,
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
@@ -36,6 +30,7 @@ import {
     getWeddingPartyMembers,
     updateBridalPartyRole,
     updateGuestImage,
+    updateGuestDescription,
     getBridalPartyRoleDisplayName,
     type WeddingGuestType,
     type BridalPartyRole,
@@ -47,6 +42,7 @@ export default function WeddingParty() {
     const [imageDialogOpen, setImageDialogOpen] = useState(false);
     const [selectedGuest, setSelectedGuest] = useState<WeddingGuestType | null>(null);
     const [selectedRole, setSelectedRole] = useState<BridalPartyRole | ''>('');
+    const [selectedDescription, setSelectedDescription] = useState('');
     const [newImage, setNewImage] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -76,9 +72,15 @@ export default function WeddingParty() {
         { value: 'GROOMSMAN', label: 'Groomsman' },
     ];
 
-    // Get guests that are not already in the wedding party
     const availableGuests = allGuests || [];
-    console.log(availableGuests);
+
+    // Capitalize first letter of each word in a name
+    const capitalizeName = (name: string) => {
+        return name
+            .split(' ')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+    };
 
     const handleDialogOpen = () => {
         setDialogOpen(true);
@@ -93,6 +95,7 @@ export default function WeddingParty() {
     const handleEditDialogOpen = (member: WeddingGuestType) => {
         setSelectedGuest(member);
         setSelectedRole(member.bridalPartyRole ?? '');
+        setSelectedDescription(member.description || '');
         setEditDialogOpen(true);
     };
 
@@ -100,6 +103,7 @@ export default function WeddingParty() {
         setEditDialogOpen(false);
         setSelectedGuest(null);
         setSelectedRole('');
+        setSelectedDescription('');
     };
 
     const handleAddMember = async () => {
@@ -114,7 +118,6 @@ export default function WeddingParty() {
         try {
             await updateBridalPartyRole(selectedGuest.guestId, selectedRole);
 
-            // Refetch the data to update the lists
             queryClient.invalidateQueries({ queryKey: ['getWeddingPartyMembers'] });
             queryClient.invalidateQueries({ queryKey: ['getAllWeddingGuests'] });
 
@@ -137,12 +140,17 @@ export default function WeddingParty() {
 
         setSubmitting(true);
         try {
+            // Update role
             await updateBridalPartyRole(
                 selectedGuest.guestId,
                 selectedRole === '' ? null : (selectedRole as BridalPartyRole)
             );
 
-            // Refetch the data to update the lists
+            // Update description if it has changed
+            if (selectedDescription !== (selectedGuest.description || '')) {
+                await updateGuestDescription(selectedGuest.guestId, selectedDescription);
+            }
+
             queryClient.invalidateQueries({ queryKey: ['getWeddingPartyMembers'] });
             queryClient.invalidateQueries({ queryKey: ['getAllWeddingGuests'] });
 
@@ -187,7 +195,6 @@ export default function WeddingParty() {
         try {
             await updateGuestImage(selectedGuest.guestId, newImage);
 
-            // Refresh data
             queryClient.invalidateQueries({ queryKey: ['getWeddingPartyMembers'] });
             queryClient.invalidateQueries({ queryKey: ['getAllWeddingGuests'] });
 
@@ -204,6 +211,40 @@ export default function WeddingParty() {
             setSubmitting(false);
         }
     };
+
+    const getRoleGradient = (role: BridalPartyRole | undefined) => {
+        switch (role) {
+            case 'BRIDE':
+                return 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+            case 'GROOM':
+                return 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+            case 'MAID_OF_HONOR':
+                return 'linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%)';
+            case 'BEST_MAN':
+                return 'linear-gradient(135deg, #2af598 0%, #009efd 100%)';
+            case 'BRIDESMAID':
+                return 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)';
+            case 'GROOMSMAN':
+                return 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)';
+            default:
+                return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        }
+    };
+
+    const polaroidPositions = [
+        { transform: 'rotate(-8deg)', top: '20px', left: '3%' },
+        { transform: 'rotate(5deg)', top: '40px', right: '15%' },
+        { transform: 'rotate(-12deg)', top: '280px', left: '25%' },
+        { transform: 'rotate(7deg)', top: '320px', right: '5%' },
+        { transform: 'rotate(-5deg)', top: '620px', left: '10%' },
+        { transform: 'rotate(9deg)', top: '650px', right: '20%' },
+        { transform: 'rotate(-15deg)', top: '980px', left: '18%' },
+        { transform: 'rotate(4deg)', top: '940px', right: '8%' },
+        { transform: 'rotate(-6deg)', top: '1300px', left: '12%' },
+        { transform: 'rotate(11deg)', top: '1280px', right: '12%' },
+        { transform: 'rotate(-9deg)', top: '1640px', left: '22%' },
+        { transform: 'rotate(6deg)', top: '1620px', right: '18%' },
+    ];
 
     if (partyLoading || guestsLoading) {
         return (
@@ -240,383 +281,264 @@ export default function WeddingParty() {
     return (
         <PageContainer>
             <>
-                <Box m={'0 auto'} width={{ xs: '100%', sm: '100%', md: '80%', lg: '80%' }}>
-                    <Typography variant="h4" component="h1" gutterBottom textAlign="center" mb={4}>
-                        Wedding Party
-                    </Typography>
+                <Box
+                    sx={{
+                        minHeight: '100vh',
+                        padding: { xs: '20px', md: '40px 20px' },
+                    }}
+                >
+                    <Box m={'0 auto'} maxWidth="1200px">
+                        <Typography
+                            variant="h2"
+                            component="h1"
+                            sx={{
+                                textAlign: 'center',
+                                fontSize: { xs: '2.2em', md: '3em' },
+                                color: '#6b5d54',
+                                marginBottom: '20px',
+                            }}
+                        >
+                            Our Wedding Party
+                        </Typography>
 
-                    {/* Add Member Button - Only visible to admins */}
-                    {isAdmin && (
-                        <Box mb={4} display="flex" justifyContent="center">
-                            <Button
-                                variant="contained"
-                                startIcon={<AddIcon />}
-                                onClick={handleDialogOpen}
-                                disabled={availableGuests.length === 0}
-                            >
-                                Add Wedding Party Member
-                            </Button>
-                        </Box>
-                    )}
+                        <Typography
+                            sx={{
+                                textAlign: 'center',
+                                fontSize: '1.2em',
+                                color: '#8a7a6d',
+                                marginBottom: '60px',
+                            }}
+                        >
+                            The incredible people who brought us to this day
+                        </Typography>
 
-                    {/* Wedding Party Members - Two Column Layout */}
-                    <Grid container spacing={4}>
-                        {/* Groom's Side */}
-                        <Grid item xs={12} md={6}>
-                            <Typography
-                                variant="h5"
-                                component="h2"
-                                gutterBottom
-                                textAlign="center"
-                                mb={3}
-                            >
-                                Groom's Party
-                            </Typography>
-                            <Box display="flex" flexDirection="column" gap={3}>
-                                {(weddingPartyMembers || [])
-                                    .filter((member) =>
-                                        [
-                                            'GROOM',
-                                            'BEST_MAN',
-                                            'GROOMSMAN',
-                                            'RING_BEARER',
-                                            'USHER',
-                                        ].includes(member.bridalPartyRole ?? '')
-                                    )
-                                    .map((member) => (
-                                        <Card
-                                            key={member.guestId}
+                        {/* Add Member Button - Only visible to admins */}
+                        {isAdmin && (
+                            <Box mb={4} display="flex" justifyContent="center">
+                                <Button
+                                    variant="contained"
+                                    startIcon={<AddIcon />}
+                                    onClick={handleDialogOpen}
+                                    disabled={availableGuests.length === 0}
+                                >
+                                    Add Wedding Party Member
+                                </Button>
+                            </Box>
+                        )}
+
+                        {/* Polaroid Gallery */}
+                        <Box
+                            sx={{
+                                position: 'relative',
+                                minHeight: { xs: 'auto', md: '1400px' },
+                                padding: '20px',
+                                display: { xs: 'flex', md: 'block' },
+                                flexDirection: { xs: 'column', md: 'unset' },
+                                gap: { xs: '30px', md: 0 },
+                            }}
+                        >
+                            {(weddingPartyMembers || []).map((member, index) => (
+                                <Box
+                                    key={member.guestId}
+                                    sx={{
+                                        background: 'white',
+                                        padding: '16px 16px 60px 16px',
+                                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                        cursor: 'pointer',
+                                        position: { xs: 'relative', md: 'absolute' },
+                                        width: { xs: '100%', sm: '280px', md: '312px' },
+                                        maxWidth: { xs: '280px', md: '312px' },
+                                        margin: { xs: '0 auto', md: '0' },
+                                        transform: {
+                                            xs: 'none',
+                                            md: polaroidPositions[index % polaroidPositions.length]
+                                                ?.transform,
+                                        },
+                                        top: {
+                                            xs: 'auto',
+                                            md: polaroidPositions[index % polaroidPositions.length]
+                                                ?.top,
+                                        },
+                                        left: {
+                                            xs: 'auto',
+                                            md: polaroidPositions[index % polaroidPositions.length]
+                                                ?.left,
+                                        },
+                                        right: {
+                                            xs: 'auto',
+                                            md: polaroidPositions[index % polaroidPositions.length]
+                                                ?.right,
+                                        },
+                                        '&:hover': {
+                                            transform: {
+                                                xs: 'translateY(-5px) scale(1.02) !important',
+                                                md: 'rotate(0deg) translateY(-5px) scale(1.05) !important',
+                                            },
+                                            boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
+                                            zIndex: 10,
+                                        },
+                                    }}
+                                >
+                                    {/* Admin controls */}
+                                    {isAdmin && (
+                                        <Box
                                             sx={{
+                                                position: 'absolute',
+                                                top: 8,
+                                                right: 8,
+                                                zIndex: 1,
                                                 display: 'flex',
-                                                flexDirection: 'column',
-                                                position: 'relative',
-                                                '&:hover': isAdmin
-                                                    ? {
-                                                          boxShadow: theme.shadows[8],
-                                                      }
-                                                    : {},
+                                                gap: 1,
                                             }}
                                         >
-                                            {/* Admin controls */}
-                                            {isAdmin && (
-                                                <Box
-                                                    position="absolute"
-                                                    top={8}
-                                                    right={8}
-                                                    zIndex={1}
-                                                    display="flex"
-                                                    gap={1}
-                                                >
-                                                    <IconButton
-                                                        size="small"
-                                                        onClick={() =>
-                                                            handleImageDialogOpen(member)
-                                                        }
-                                                        sx={{
-                                                            backgroundColor:
-                                                                'rgba(255, 255, 255, 0.9)',
-                                                            color: 'black',
-                                                            '&:hover': { backgroundColor: 'white' },
-                                                        }}
-                                                    >
-                                                        <PhotoCameraIcon fontSize="small" />
-                                                    </IconButton>
-                                                    <IconButton
-                                                        size="small"
-                                                        onClick={() => handleEditDialogOpen(member)}
-                                                        color="primary"
-                                                        sx={{
-                                                            backgroundColor:
-                                                                'rgba(255, 255, 255, 0.9)',
-                                                            '&:hover': { backgroundColor: 'white' },
-                                                        }}
-                                                    >
-                                                        <EditIcon fontSize="small" />
-                                                    </IconButton>
-                                                </Box>
-                                            )}
+                                            <IconButton
+                                                size="small"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleImageDialogOpen(member);
+                                                }}
+                                                sx={{
+                                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                                    color: 'black',
+                                                    '&:hover': { backgroundColor: 'white' },
+                                                }}
+                                            >
+                                                <PhotoCameraIcon fontSize="small" />
+                                            </IconButton>
+                                            <IconButton
+                                                size="small"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleEditDialogOpen(member);
+                                                }}
+                                                color="primary"
+                                                sx={{
+                                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                                    '&:hover': { backgroundColor: 'white' },
+                                                }}
+                                            >
+                                                <EditIcon fontSize="small" />
+                                            </IconButton>
+                                        </Box>
+                                    )}
 
-                                            <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
-                                                <Box position="relative" display="inline-block">
-                                                    {member.image ? (
-                                                        <Box
-                                                            sx={{
-                                                                width: 80,
-                                                                height: 80,
-                                                                margin: '0 auto 16px auto',
-                                                                borderRadius: '50%',
-                                                                overflow: 'hidden',
-                                                                backgroundColor:
-                                                                    theme.palette.primary.main,
-                                                            }}
-                                                        >
-                                                            <StorageImage
-                                                                alt={member.fullName}
-                                                                path={member.image}
-                                                                style={{
-                                                                    width: '100%',
-                                                                    height: '100%',
-                                                                    objectFit: 'cover',
-                                                                }}
-                                                                loading="lazy"
-                                                                validateObjectExistence={false}
-                                                            />
-                                                        </Box>
-                                                    ) : (
-                                                        <Avatar
-                                                            sx={{
-                                                                width: 80,
-                                                                height: 80,
-                                                                margin: '0 auto 16px auto',
-                                                                backgroundColor:
-                                                                    theme.palette.primary.main,
-                                                                fontSize: '2rem',
-                                                            }}
-                                                        >
-                                                            <PersonIcon fontSize="large" />
-                                                        </Avatar>
-                                                    )}
-                                                    {isAdmin && !member.image && (
-                                                        <IconButton
-                                                            size="small"
-                                                            onClick={() =>
-                                                                handleImageDialogOpen(member)
-                                                            }
-                                                            sx={{
-                                                                position: 'absolute',
-                                                                bottom: 12,
-                                                                right: -4,
-                                                                backgroundColor: 'black',
-                                                                color: 'white',
-                                                                width: 24,
-                                                                height: 24,
-                                                                '&:hover': {
-                                                                    backgroundColor: '#333',
-                                                                },
-                                                            }}
-                                                        >
-                                                            <PhotoCameraIcon
-                                                                sx={{ fontSize: 14 }}
-                                                            />
-                                                        </IconButton>
-                                                    )}
-                                                </Box>
-
-                                                <Typography
-                                                    variant="h6"
-                                                    component="h2"
-                                                    gutterBottom
-                                                >
-                                                    {member.fullName}
-                                                </Typography>
-
-                                                <Chip
-                                                    label={getBridalPartyRoleDisplayName(
-                                                        member.bridalPartyRole ?? null
-                                                    )}
-                                                    color={'primary'}
-                                                    variant="filled"
-                                                    sx={{ mb: 1 }}
-                                                />
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                            </Box>
-                        </Grid>
-
-                        {/* Bride's Side */}
-                        <Grid item xs={12} md={6}>
-                            <Typography
-                                variant="h5"
-                                component="h2"
-                                gutterBottom
-                                textAlign="center"
-                                mb={3}
-                            >
-                                Bride's Party
-                            </Typography>
-                            <Box display="flex" flexDirection="column" gap={3}>
-                                {(weddingPartyMembers || [])
-                                    .filter((member) =>
-                                        ['BRIDE', 'MAID_OF_HONOR', 'BRIDESMAID'].includes(
-                                            member.bridalPartyRole ?? ''
-                                        )
-                                    )
-                                    .map((member) => (
-                                        <Card
-                                            key={member.guestId}
-                                            sx={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                position: 'relative',
-                                                '&:hover': isAdmin
-                                                    ? {
-                                                          boxShadow: theme.shadows[8],
-                                                      }
-                                                    : {},
-                                            }}
-                                        >
-                                            {/* Admin controls */}
-                                            {isAdmin && (
-                                                <Box
-                                                    position="absolute"
-                                                    top={8}
-                                                    right={8}
-                                                    zIndex={1}
-                                                    display="flex"
-                                                    gap={1}
-                                                >
-                                                    <IconButton
-                                                        size="small"
-                                                        onClick={() =>
-                                                            handleImageDialogOpen(member)
-                                                        }
-                                                        sx={{
-                                                            backgroundColor:
-                                                                'rgba(255, 255, 255, 0.9)',
-                                                            color: 'black',
-                                                            '&:hover': { backgroundColor: 'white' },
-                                                        }}
-                                                    >
-                                                        <PhotoCameraIcon fontSize="small" />
-                                                    </IconButton>
-                                                    <IconButton
-                                                        size="small"
-                                                        onClick={() => handleEditDialogOpen(member)}
-                                                        color="primary"
-                                                        sx={{
-                                                            backgroundColor:
-                                                                'rgba(255, 255, 255, 0.9)',
-                                                            '&:hover': { backgroundColor: 'white' },
-                                                        }}
-                                                    >
-                                                        <EditIcon fontSize="small" />
-                                                    </IconButton>
-                                                </Box>
-                                            )}
-
-                                            <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
-                                                <Box position="relative" display="inline-block">
-                                                    {member.image ? (
-                                                        <Box
-                                                            sx={{
-                                                                width: 80,
-                                                                height: 80,
-                                                                margin: '0 auto 16px auto',
-                                                                borderRadius: '50%',
-                                                                overflow: 'hidden',
-                                                                backgroundColor:
-                                                                    theme.palette.primary.main,
-                                                            }}
-                                                        >
-                                                            <StorageImage
-                                                                alt={member.fullName}
-                                                                path={member.image}
-                                                                style={{
-                                                                    width: '100%',
-                                                                    height: '100%',
-                                                                    objectFit: 'cover',
-                                                                }}
-                                                                loading="lazy"
-                                                                validateObjectExistence={false}
-                                                            />
-                                                        </Box>
-                                                    ) : (
-                                                        <Avatar
-                                                            sx={{
-                                                                width: 80,
-                                                                height: 80,
-                                                                margin: '0 auto 16px auto',
-                                                                backgroundColor:
-                                                                    theme.palette.primary.main,
-                                                                fontSize: '2rem',
-                                                            }}
-                                                        >
-                                                            <PersonIcon fontSize="large" />
-                                                        </Avatar>
-                                                    )}
-                                                    {isAdmin && !member.image && (
-                                                        <IconButton
-                                                            size="small"
-                                                            onClick={() =>
-                                                                handleImageDialogOpen(member)
-                                                            }
-                                                            sx={{
-                                                                position: 'absolute',
-                                                                bottom: 12,
-                                                                right: -4,
-                                                                backgroundColor: 'black',
-                                                                color: 'white',
-                                                                width: 24,
-                                                                height: 24,
-                                                                '&:hover': {
-                                                                    backgroundColor: '#333',
-                                                                },
-                                                            }}
-                                                        >
-                                                            <PhotoCameraIcon
-                                                                sx={{ fontSize: 14 }}
-                                                            />
-                                                        </IconButton>
-                                                    )}
-                                                </Box>
-
-                                                <Typography
-                                                    variant="h6"
-                                                    component="h2"
-                                                    gutterBottom
-                                                >
-                                                    {member.fullName}
-                                                </Typography>
-
-                                                <Chip
-                                                    label={getBridalPartyRoleDisplayName(
-                                                        member.bridalPartyRole ?? null
-                                                    )}
-                                                    color={'primary'}
-                                                    variant="filled"
-                                                    sx={{ mb: 1 }}
-                                                />
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                            </Box>
-                        </Grid>
-                    </Grid>
-
-                    {/* Empty state for admins */}
-                    {isAdmin && (!weddingPartyMembers || weddingPartyMembers.length === 0) && (
-                        <Box mt={4}>
-                            <Card
-                                onClick={handleDialogOpen}
-                                sx={{
-                                    border: `2px dashed ${theme.palette.primary.main}`,
-                                    backgroundColor: 'transparent',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    minHeight: 200,
-                                    '&:hover': {
-                                        backgroundColor: theme.palette.action.hover,
-                                    },
-                                }}
-                            >
-                                <Box textAlign="center">
-                                    <AddIcon
+                                    {/* Photo */}
+                                    <Box
                                         sx={{
-                                            color: theme.palette.primary.main,
-                                            fontSize: 48,
-                                            mb: 1,
+                                            width: '100%',
+                                            aspectRatio: '7/8',
+                                            background: getRoleGradient(
+                                                member.bridalPartyRole ?? undefined
+                                            ),
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            color: 'white',
+                                            fontSize: '1.2em',
+                                            marginBottom: '12px',
+                                            overflow: 'hidden',
                                         }}
-                                    />
-                                    <Typography variant="h6" color="primary">
-                                        Add First Wedding Party Member
-                                    </Typography>
+                                    >
+                                        {member.image ? (
+                                            <StorageImage
+                                                alt={member.fullName}
+                                                path={member.image}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'cover',
+                                                }}
+                                                loading="lazy"
+                                                validateObjectExistence={false}
+                                            />
+                                        ) : (
+                                            <Typography>[Photo]</Typography>
+                                        )}
+                                    </Box>
+
+                                    {/* Caption */}
+                                    <Box
+                                        sx={{
+                                            textAlign: 'center',
+                                            position: 'absolute',
+                                            bottom: '16px',
+                                            left: '16px',
+                                            right: '16px',
+                                        }}
+                                    >
+                                        <Typography
+                                            sx={{
+                                                fontSize: '1.3em',
+                                                color: '#333',
+                                                marginBottom: '2px',
+                                            }}
+                                        >
+                                            {capitalizeName(member.fullName)}
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '0.9em',
+                                                color: '#666',
+                                                fontStyle: 'italic',
+                                            }}
+                                        >
+                                            {getBridalPartyRoleDisplayName(
+                                                member.bridalPartyRole || null
+                                            )}
+                                        </Typography>
+                                        {member.description && (
+                                            <Typography
+                                                sx={{
+                                                    fontSize: '0.85em',
+                                                    color: '#888',
+                                                    marginTop: '6px',
+                                                    lineHeight: 1.3,
+                                                }}
+                                            >
+                                                {member.description}
+                                            </Typography>
+                                        )}
+                                    </Box>
                                 </Box>
-                            </Card>
+                            ))}
                         </Box>
-                    )}
+
+                        {/* Empty state for admins */}
+                        {isAdmin && (!weddingPartyMembers || weddingPartyMembers.length === 0) && (
+                            <Box mt={4}>
+                                <Box
+                                    onClick={handleDialogOpen}
+                                    sx={{
+                                        border: `2px dashed ${theme.palette.primary.main}`,
+                                        backgroundColor: 'white',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        minHeight: 200,
+                                        borderRadius: 1,
+                                        '&:hover': {
+                                            backgroundColor: theme.palette.action.hover,
+                                        },
+                                    }}
+                                >
+                                    <Box textAlign="center">
+                                        <AddIcon
+                                            sx={{
+                                                color: theme.palette.primary.main,
+                                                fontSize: 48,
+                                                mb: 1,
+                                            }}
+                                        />
+                                        <Typography variant="h6" color="primary">
+                                            Add First Wedding Party Member
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </Box>
+                        )}
+                    </Box>
                 </Box>
 
                 {/* Add Member Dialog */}
@@ -688,6 +610,7 @@ export default function WeddingParty() {
                                     onChange={(e) =>
                                         setSelectedRole(e.target.value as BridalPartyRole | '')
                                     }
+                                    sx={{ mb: 2 }}
                                 >
                                     <MenuItem value="">
                                         <em>Remove from Wedding Party</em>
@@ -698,6 +621,17 @@ export default function WeddingParty() {
                                         </MenuItem>
                                     ))}
                                 </TextField>
+
+                                <TextField
+                                    label="Description"
+                                    fullWidth
+                                    multiline
+                                    rows={3}
+                                    value={selectedDescription}
+                                    onChange={(e) => setSelectedDescription(e.target.value)}
+                                    placeholder="e.g., Best friend since college"
+                                    helperText="This will appear on the polaroid below the member's name and role"
+                                />
                             </>
                         )}
                     </DialogContent>
