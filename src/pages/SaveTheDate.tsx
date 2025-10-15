@@ -149,7 +149,6 @@ export default function SaveTheDate() {
                     fullName: guest.fullName.toLowerCase().trim(), // GSI, so tight matching
                     address: fullAddress,
                     attendanceStatus: 'PENDING',
-                    isBridalParty: false,
                     isOfDrinkingAge: guest.isOfDrinkingAge,
                 });
             }

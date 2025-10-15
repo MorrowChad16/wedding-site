@@ -21,7 +21,6 @@ import {
     TableHead,
     TableRow,
     TableSortLabel,
-    Switch,
     Button,
 } from '@mui/material';
 import {
@@ -39,7 +38,7 @@ import {
     ContentCopy,
     FileDownload,
 } from '@mui/icons-material';
-import { getAllWeddingGuests, updateBridalPartyStatus } from '../api/use-guests';
+import { getAllWeddingGuests } from '../api/use-guests';
 import { AttendanceStatus, FoodChoice, GuestType } from '../utils/types';
 import PageContainer from '../components/page-container';
 import { useStore } from '../api/use-store';
@@ -123,17 +122,6 @@ const Admin: React.FC = () => {
             return 0;
         });
     }, [guests, order, orderBy]);
-
-    const handleBridalPartyToggle = async (guestId: string, currentStatus: boolean) => {
-        try {
-            await updateBridalPartyStatus(guestId, !currentStatus);
-            // Refresh the data by invalidating the query
-            window.location.reload();
-        } catch (error) {
-            console.error('Error updating bridal party status:', error);
-            alert('Failed to update bridal party status. Please try again.');
-        }
-    };
 
     const handleCopyEmails = async () => {
         try {
@@ -1221,19 +1209,6 @@ const Admin: React.FC = () => {
                                                 color={
                                                     guest.isOfDrinkingAge ? 'success' : 'default'
                                                 }
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Switch
-                                                checked={guest.isBridalParty || false}
-                                                onChange={() =>
-                                                    handleBridalPartyToggle(
-                                                        guest.guestId,
-                                                        guest.isBridalParty || false
-                                                    )
-                                                }
-                                                color="secondary"
-                                                size="small"
                                             />
                                         </TableCell>
                                     </TableRow>

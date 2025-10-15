@@ -5,7 +5,7 @@ import Travel from './pages/Travel';
 import FAQ from './pages/FAQ';
 import NavigationBar from './components/navigation-bar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import OurStory from './pages/OurStory';
+import WeddingParty from './pages/WeddingParty';
 import Gallery from './pages/Gallery';
 import Rsvp from './pages/RSVP';
 import Registry from './pages/Registry';
@@ -20,7 +20,7 @@ export type Page = {
 
 export const pages: Page[] = [
     { path: '/', component: <Home />, displayName: 'Home' },
-    { path: '/our-story', component: <OurStory />, displayName: 'Our Story' },
+    { path: '/wedding-party', component: <WeddingParty />, displayName: 'Wedding Party' },
     { path: '/gallery', component: <Gallery />, displayName: 'Gallery' },
     { path: '/schedule', component: <Schedule />, displayName: 'Schedule' },
     { path: '/travel', component: <Travel />, displayName: 'Travel' },

@@ -66,19 +66,6 @@ export const updateWeddingGuest = async (
 };
 
 /**
- * Updates a wedding guest's bridal party status
- * @param guestId guest id
- * @param isBridalParty bridal party status
- * @returns
- */
-export const updateBridalPartyStatus = async (guestId: string, isBridalParty: boolean) => {
-    return await getClient().models.WeddingGuests.update({
-        guestId: guestId,
-        isBridalParty: isBridalParty,
-    });
-};
-
-/**
  * Remove a wedding guest
  * @param guestId guest id
  * @returns

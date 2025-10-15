@@ -21,6 +21,18 @@ const schema = a.schema({
         'GOLF',
         'CEREMONY_VENUE',
     ]),
+    BridalPartyRole: a.enum([
+        'GROOM',
+        'BRIDGE',
+        'BEST_MAN',
+        'MAID_OF_HONOR',
+        'BRIDESMAID',
+        'GROOMSMAN',
+        'FLOWER_GIRL',
+        'RING_BEARER',
+        'USHER',
+        'OFFICIANT',
+    ]),
 
     WeddingGuests: a
         .model({
@@ -36,7 +48,7 @@ const schema = a.schema({
             foodChoice: a.ref('FoodChoice'),
             dietaryRestrictions: a.string(),
             songRequests: a.string(),
-            isBridalParty: a.boolean().default(false),
+            bridalPartyRole: a.ref('BridalPartyRole'),
             isOfDrinkingAge: a.boolean().default(false),
             isAdmin: a.boolean().default(false),
         })
@@ -78,21 +90,6 @@ const schema = a.schema({
         .identifier(['id'])
         .secondaryIndexes((index) => [
             index('uid'), // GSI for unique identifier lookup
-        ])
-        .authorization((allow) => [allow.guest()]),
-
-    StoryItems: a
-        .model({
-            id: a.id().required(),
-            title: a.string().required(),
-            body: a.string().required(),
-            month: a.integer().required(),
-            year: a.integer().required(),
-            picture: a.string().required(),
-        })
-        .identifier(['id'])
-        .secondaryIndexes((index) => [
-            index('year').sortKeys(['month']), // GSI for chronological ordering
         ])
         .authorization((allow) => [allow.guest()]),
 
