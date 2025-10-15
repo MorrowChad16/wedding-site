@@ -308,7 +308,7 @@ const TravelMap = () => {
                             height: '100%', // Takes full height of Paper
                         }}
                         center={{
-                            lat: 41.52317338430981, 
+                            lat: 41.52317338430981,
                             lng: -90.5770939950775,
                         }}
                         zoom={14}

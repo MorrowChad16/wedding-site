@@ -766,7 +766,7 @@ export default function WeddingParty() {
                                 {/* File Uploader */}
                                 <Box sx={{ mb: 2 }}>
                                     <Typography variant="subtitle2" gutterBottom>
-                                        Image (WebP only)
+                                        Image (WebP only (use https://squoosh.app/))
                                     </Typography>
                                     <FileUploader
                                         acceptedFileTypes={['image/webp']}

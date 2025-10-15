@@ -24,10 +24,11 @@ import { FileUploader } from '@aws-amplify/ui-react-storage';
 import { Delete } from '@mui/icons-material';
 import '@aws-amplify/ui-react/styles.css';
 
-interface ImageWithUrl {
+interface MediaWithUrl {
     src: string;
     title: string;
     fullPath: string;
+    type: 'image' | 'video';
 }
 
 // Styled component for the image with all necessary styles
@@ -55,11 +56,11 @@ export default function Gallery() {
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
     const cols = isMobile ? 1 : isMediumScreen ? 2 : isLargeScreen ? 3 : 4;
 
-    const [images, setImages] = useState<ImageWithUrl[]>([]);
+    const [images, setImages] = useState<MediaWithUrl[]>([]);
     const [loading, setLoading] = useState(true);
     const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [imageToDelete, setImageToDelete] = useState<ImageWithUrl | null>(null);
+    const [imageToDelete, setImageToDelete] = useState<MediaWithUrl | null>(null);
     const [snackbar, setSnackbar] = useState({
         open: false,
         message: '',
@@ -78,7 +79,7 @@ export default function Gallery() {
                 path: 'gallery/',
             });
 
-            // Get URLs for each image file using AWS Amplify's built-in caching options
+            // Get URLs for each media file using AWS Amplify's built-in caching options
             const imagePromises = result.items.map(async (item) => {
                 if (item.path) {
                     // Use AWS Amplify's built-in caching and performance options
@@ -90,17 +91,21 @@ export default function Gallery() {
                         },
                     });
 
+                    // Determine if it's a video or image based on file extension
+                    const isVideo = item.path.toLowerCase().endsWith('.mp4');
+
                     return {
                         src: urlResult.url.toString(),
                         title: item.eTag,
                         fullPath: item.path,
-                    };
+                        type: isVideo ? 'video' : 'image',
+                    } as MediaWithUrl;
                 }
                 return null;
             });
 
             const imageResults = await Promise.all(imagePromises);
-            const validImages = imageResults.filter((img): img is ImageWithUrl => img !== null);
+            const validImages = imageResults.filter((img): img is MediaWithUrl => img !== null);
 
             setImages(validImages);
         } catch (error) {
@@ -114,7 +119,7 @@ export default function Gallery() {
         setLoadedImages((prev) => new Set(prev).add(src));
     };
 
-    const handleDeleteImage = (image: ImageWithUrl) => {
+    const handleDeleteImage = (image: MediaWithUrl) => {
         setImageToDelete(image);
         setDeleteDialogOpen(true);
     };
@@ -130,7 +135,7 @@ export default function Gallery() {
 
             setSnackbar({
                 open: true,
-                message: 'Image deleted successfully!',
+                message: 'Media deleted successfully!',
                 severity: 'success',
             });
 
@@ -140,7 +145,7 @@ export default function Gallery() {
             console.error('Error deleting image:', error);
             setSnackbar({
                 open: true,
-                message: 'Failed to delete image. Please try again.',
+                message: 'Failed to delete media. Please try again.',
                 severity: 'error',
             });
         } finally {
@@ -168,7 +173,7 @@ export default function Gallery() {
             <PageContainer>
                 <Box textAlign="center" p={4}>
                     <Typography variant="h6" color="text.secondary">
-                        No images available in the gallery at this time.
+                        No media available in the gallery at this time.
                     </Typography>
                 </Box>
             </PageContainer>
@@ -189,17 +194,18 @@ export default function Gallery() {
                             {/* Upload Section */}
                             <Box>
                                 <Typography variant="subtitle1" gutterBottom>
-                                    Upload New Photos
+                                    Upload New Photos & Videos (WebP images (use
+                                    https://squoosh.app/) and MP4 videos)
                                 </Typography>
                                 <FileUploader
-                                    acceptedFileTypes={['image/webp']}
+                                    acceptedFileTypes={['image/webp', 'video/mp4']}
                                     path="gallery/"
                                     maxFileCount={10}
                                     isResumable
                                     onUploadSuccess={() => {
                                         setSnackbar({
                                             open: true,
-                                            message: 'Images uploaded successfully!',
+                                            message: 'Media uploaded successfully!',
                                             severity: 'success',
                                         });
                                         fetchImages();
@@ -208,7 +214,7 @@ export default function Gallery() {
                                         console.error('Upload error:', error);
                                         setSnackbar({
                                             open: true,
-                                            message: 'Failed to upload images. Please try again.',
+                                            message: 'Failed to upload media. Please try again.',
                                             severity: 'error',
                                         });
                                     }}
@@ -218,7 +224,7 @@ export default function Gallery() {
                     </Box>
                 )}
 
-                {/* Image Gallery */}
+                {/* Media Gallery */}
                 <ImageList variant="masonry" cols={cols} gap={8}>
                     {images.map((item) => (
                         <ImageListItem
@@ -229,13 +235,32 @@ export default function Gallery() {
                             }}
                         >
                             <Box sx={{ position: 'relative', width: '100%' }}>
-                                <AnimatedImg
-                                    src={item.src}
-                                    alt={item.title}
-                                    loading="lazy"
-                                    className={loadedImages.has(item.src) ? 'loaded' : 'loading'}
-                                    onLoad={() => handleImageLoad(item.src)}
-                                />
+                                {item.type === 'video' ? (
+                                    <video
+                                        src={item.src}
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                            display: 'block',
+                                            objectFit: 'cover',
+                                        }}
+                                        onLoadedData={() => handleImageLoad(item.src)}
+                                    />
+                                ) : (
+                                    <AnimatedImg
+                                        src={item.src}
+                                        alt={item.title}
+                                        loading="lazy"
+                                        className={
+                                            loadedImages.has(item.src) ? 'loaded' : 'loading'
+                                        }
+                                        onLoad={() => handleImageLoad(item.src)}
+                                    />
+                                )}
                                 <IconButton
                                     sx={{
                                         position: 'absolute',
@@ -264,8 +289,9 @@ export default function Gallery() {
                     <DialogTitle>Confirm Delete</DialogTitle>
                     <DialogContent>
                         <Typography>
-                            Are you sure you want to delete this image? This action cannot be
-                            undone.
+                            Are you sure you want to delete this{' '}
+                            {imageToDelete?.type === 'video' ? 'video' : 'image'}? This action
+                            cannot be undone.
                         </Typography>
                     </DialogContent>
                     <DialogActions>
