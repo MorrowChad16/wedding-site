@@ -316,41 +316,77 @@ export default function WeddingParty() {
                         marginLeft: '-50vw',
                         marginRight: '-50vw',
                         overflow: 'hidden',
-                        marginBottom: '60px',
+                        marginBottom: { xs: '20px', md: '30px' },
                     }}
                 >
-                    <svg
-                        viewBox="0 0 1200 150"
-                        width="100%"
-                        height="150"
-                        style={{ display: 'block' }}
-                        preserveAspectRatio="none"
-                    >
-                        <defs>
-                            <path
-                                id="wavePath"
-                                d="M 0,75 Q 150,50 300,75 T 600,75 T 900,75 T 1200,75"
-                                fill="transparent"
-                            />
-                        </defs>
-                        <text
-                            fill={theme.palette.primary.main}
-                            fontSize="20"
-                            fontFamily="inherit"
-                            fontWeight="400"
+                    {/* Mobile version - subtle wave */}
+                    <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                        <svg
+                            viewBox="0 0 1200 100"
+                            width="100%"
+                            height="60"
+                            style={{ display: 'block' }}
+                            preserveAspectRatio="none"
                         >
-                            <textPath href="#wavePath" startOffset={`${-offset * 2}%`}>
-                                {'The incredible people who brought us to this day ♥ '.repeat(10)}
-                            </textPath>
-                        </text>
-                    </svg>
+                            <defs>
+                                <path
+                                    id="wavePathMobile"
+                                    d="M 0,50 Q 150,45 300,50 T 600,50 T 900,50 T 1200,50"
+                                    fill="transparent"
+                                />
+                            </defs>
+                            <text
+                                fill={theme.palette.primary.main}
+                                fontSize="18"
+                                fontFamily="inherit"
+                                fontWeight="400"
+                            >
+                                <textPath href="#wavePathMobile" startOffset={`${-offset * 2}%`}>
+                                    {'The incredible people who brought us to this day ♥ '.repeat(
+                                        10
+                                    )}
+                                </textPath>
+                            </text>
+                        </svg>
+                    </Box>
+
+                    {/* Desktop version - more pronounced wave */}
+                    <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                        <svg
+                            viewBox="0 0 1200 150"
+                            width="100%"
+                            height="150"
+                            style={{ display: 'block' }}
+                            preserveAspectRatio="none"
+                        >
+                            <defs>
+                                <path
+                                    id="wavePathDesktop"
+                                    d="M 0,75 Q 150,50 300,75 T 600,75 T 900,75 T 1200,75"
+                                    fill="transparent"
+                                />
+                            </defs>
+                            <text
+                                fill={theme.palette.primary.main}
+                                fontSize="20"
+                                fontFamily="inherit"
+                                fontWeight="400"
+                            >
+                                <textPath href="#wavePathDesktop" startOffset={`${-offset * 2}%`}>
+                                    {'The incredible people who brought us to this day ♥ '.repeat(
+                                        10
+                                    )}
+                                </textPath>
+                            </text>
+                        </svg>
+                    </Box>
                 </Box>
 
                 {/* Content Section */}
                 <Box
                     sx={{
                         minHeight: '100vh',
-                        padding: { xs: '20px', md: '40px 20px' },
+                        padding: { xs: '0 20px 20px', md: '0 20px 40px' },
                     }}
                 >
                     <Box m={'0 auto'} maxWidth="1200px">
