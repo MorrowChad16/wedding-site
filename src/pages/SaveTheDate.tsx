@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Box,
     Button,
@@ -20,6 +20,7 @@ import {
     ToggleButtonGroup,
 } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 import PageContainer from '../components/page-container';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
@@ -46,6 +47,16 @@ export default function SaveTheDate() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [offset, setOffset] = useState(0);
+    const theme = useTheme();
+
+    // Animate the wavy text
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setOffset((prev) => (prev + 0.05) % 100);
+        }, 16);
+        return () => clearInterval(interval);
+    }, []);
 
     const addGuest = (guestType: 'PLUS_ONE' | 'CHILD') => {
         const newGuest: GuestForm = {
@@ -178,19 +189,49 @@ export default function SaveTheDate() {
     };
 
     return (
-        <>
-            <PageContainer>
-                <Container maxWidth="md">
-                    <Box textAlign="center" mb={4}>
-                        <Typography variant="h6" color="text.secondary" mb={1}>
-                            We're getting married and you're invited!
-                        </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                            Please register below so we can send you more details as we get closer
-                            to the big day.
-                        </Typography>
-                    </Box>
+        <PageContainer>
+            <>
+                {/* Wavy Text Banner - Full Width */}
+                <Box
+                    sx={{
+                        width: '100vw',
+                        position: 'relative',
+                        left: '50%',
+                        right: '50%',
+                        marginLeft: '-50vw',
+                        marginRight: '-50vw',
+                        overflow: 'hidden',
+                        marginBottom: '20px',
+                    }}
+                >
+                    <svg
+                        viewBox="0 0 1200 150"
+                        width="100%"
+                        height="150"
+                        style={{ display: 'block' }}
+                        preserveAspectRatio="none"
+                    >
+                        <defs>
+                            <path
+                                id="wavePath"
+                                d="M 0,75 Q 150,50 300,75 T 600,75 T 900,75 T 1200,75"
+                                fill="transparent"
+                            />
+                        </defs>
+                        <text
+                            fill={theme.palette.primary.main}
+                            fontSize="20"
+                            fontFamily="inherit"
+                            fontWeight="400"
+                        >
+                            <textPath href="#wavePath" startOffset={`${-offset * 2}%`}>
+                                {"We're getting married and you're invited! ♥ ".repeat(10)}
+                            </textPath>
+                        </text>
+                    </svg>
+                </Box>
 
+                <Container maxWidth="md">
                     <Card elevation={3}>
                         <CardContent>
                             <Grid container spacing={3}>
@@ -421,24 +462,28 @@ export default function SaveTheDate() {
                         </Typography>
                     </Box>
                 </Container>
-            </PageContainer>
 
-            {/* Success/Error Snackbars */}
-            <Snackbar
-                open={showSuccess}
-                autoHideDuration={6000}
-                onClose={() => setShowSuccess(false)}
-            >
-                <Alert onClose={() => setShowSuccess(false)} severity="success">
-                    Registration successful! We'll be in touch with more details soon.
-                </Alert>
-            </Snackbar>
+                {/* Success/Error Snackbars */}
+                <Snackbar
+                    open={showSuccess}
+                    autoHideDuration={6000}
+                    onClose={() => setShowSuccess(false)}
+                >
+                    <Alert onClose={() => setShowSuccess(false)} severity="success">
+                        Registration successful! We'll be in touch with more details soon.
+                    </Alert>
+                </Snackbar>
 
-            <Snackbar open={showError} autoHideDuration={6000} onClose={() => setShowError(false)}>
-                <Alert onClose={() => setShowError(false)} severity="error">
-                    {errorMessage}
-                </Alert>
-            </Snackbar>
-        </>
+                <Snackbar
+                    open={showError}
+                    autoHideDuration={6000}
+                    onClose={() => setShowError(false)}
+                >
+                    <Alert onClose={() => setShowError(false)} severity="error">
+                        {errorMessage}
+                    </Alert>
+                </Snackbar>
+            </>
+        </PageContainer>
     );
 }

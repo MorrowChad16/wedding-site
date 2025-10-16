@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PageContainer from '../components/page-container';
 import {
     Box,
@@ -48,6 +48,15 @@ export default function WeddingParty() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+    const [offset, setOffset] = useState(0);
+
+    // Animate the wavy text
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setOffset((prev) => (prev + 0.05) % 100);
+        }, 16);
+        return () => clearInterval(interval);
+    }, []);
 
     const { isAdmin } = useStore();
     const {
@@ -281,6 +290,63 @@ export default function WeddingParty() {
     return (
         <PageContainer>
             <>
+                {/* Title Section */}
+                <Box m={'0 auto'} maxWidth="1200px" px={{ xs: '20px', md: '40px' }}>
+                    <Typography
+                        variant="h2"
+                        component="h1"
+                        sx={{
+                            textAlign: 'center',
+                            fontSize: { xs: '2.2em', md: '3em' },
+                            color: theme.palette.primary.main,
+                            marginBottom: '20px',
+                        }}
+                    >
+                        Our Wedding Party
+                    </Typography>
+                </Box>
+
+                {/* Wavy Text Banner - Full Width */}
+                <Box
+                    sx={{
+                        width: '100vw',
+                        position: 'relative',
+                        left: '50%',
+                        right: '50%',
+                        marginLeft: '-50vw',
+                        marginRight: '-50vw',
+                        overflow: 'hidden',
+                        marginBottom: '60px',
+                    }}
+                >
+                    <svg
+                        viewBox="0 0 1200 150"
+                        width="100%"
+                        height="150"
+                        style={{ display: 'block' }}
+                        preserveAspectRatio="none"
+                    >
+                        <defs>
+                            <path
+                                id="wavePath"
+                                d="M 0,75 Q 150,50 300,75 T 600,75 T 900,75 T 1200,75"
+                                fill="transparent"
+                            />
+                        </defs>
+                        <text
+                            fill={theme.palette.primary.main}
+                            fontSize="20"
+                            fontFamily="inherit"
+                            fontWeight="400"
+                        >
+                            <textPath href="#wavePath" startOffset={`${-offset * 2}%`}>
+                                {'The incredible people who brought us to this day ♥ '.repeat(10)}
+                            </textPath>
+                        </text>
+                    </svg>
+                </Box>
+
+                {/* Content Section */}
                 <Box
                     sx={{
                         minHeight: '100vh',
@@ -288,31 +354,6 @@ export default function WeddingParty() {
                     }}
                 >
                     <Box m={'0 auto'} maxWidth="1200px">
-                        <Typography
-                            variant="h2"
-                            component="h1"
-                            sx={{
-                                textAlign: 'center',
-                                fontSize: { xs: '2.2em', md: '3em' },
-                                color: '#6b5d54',
-                                marginBottom: '20px',
-                            }}
-                        >
-                            Our Wedding Party
-                        </Typography>
-
-                        <Typography
-                            sx={{
-                                textAlign: 'center',
-                                fontSize: '1.2em',
-                                color: '#8a7a6d',
-                                marginBottom: '60px',
-                            }}
-                        >
-                            The incredible people who brought us to this day
-                        </Typography>
-
-                        {/* Add Member Button - Only visible to admins */}
                         {isAdmin && (
                             <Box mb={4} display="flex" justifyContent="center">
                                 <Button
