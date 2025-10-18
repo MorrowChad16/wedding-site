@@ -57,19 +57,19 @@ function NavigationBar() {
         setOpen(newOpen);
     };
 
-    // const RsvpButton = (
-    //     <Button
-    //         color="primary"
-    //         variant="contained"
-    //         onClick={() => {
-    //             setCurrentPage('RSVP');
-    //             navigate('/rsvp');
-    //         }}
-    //         fullWidth
-    //     >
-    //         {PAST_DUE_DATE ? 'See Details' : 'RSVP'}
-    //     </Button>
-    // );
+    const SaveTheDateButton = (
+        <Button
+            color="primary"
+            variant="contained"
+            onClick={() => {
+                setCurrentPage('/save-the-date');
+                navigate('/save-the-date');
+            }}
+            fullWidth
+        >
+            Save The Date
+        </Button>
+    );
 
     const isOnPage = (page: Page) => {
         return currentPage === page.path;
@@ -205,9 +205,9 @@ function NavigationBar() {
                                 ))}
                             </Box>
                         </Box>
-                        {/* <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
-                            {RsvpButton}
-                        </Box> */}
+                        <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
+                            {SaveTheDateButton}
+                        </Box>
 
                         {/* Only displays for mobile */}
                         <Box display={{ sm: '', md: 'none' }}>
@@ -249,7 +249,7 @@ function NavigationBar() {
                                         </MenuItem>
                                     ))}
                                     <Divider />
-                                    {/* <MenuItem>{RsvpButton}</MenuItem> */}
+                                    <MenuItem>{SaveTheDateButton}</MenuItem>
                                 </Box>
                             </Drawer>
                         </Box>
