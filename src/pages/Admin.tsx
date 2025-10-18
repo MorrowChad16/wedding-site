@@ -43,12 +43,17 @@ import { AttendanceStatus, FoodChoice, GuestType } from '../utils/types';
 import PageContainer from '../components/page-container';
 import { useStore } from '../api/use-store';
 
-const StatCard: React.FC<{
+function StatCard({
+    title,
+    value,
+    icon,
+    color = 'primary',
+}: {
     title: string;
     value: number | string;
     icon: React.ReactNode;
     color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
-}> = ({ title, value, icon, color = 'primary' }) => {
+}) {
     return (
         <Card sx={{ height: '100%' }}>
             <CardContent>
@@ -66,7 +71,7 @@ const StatCard: React.FC<{
             </CardContent>
         </Card>
     );
-};
+}
 
 type Order = 'asc' | 'desc';
 type SortableKeys =
@@ -80,7 +85,7 @@ type SortableKeys =
     | 'isOfDrinkingAge'
     | 'bridalPartyRole';
 
-const Admin: React.FC = () => {
+function Admin() {
     const { isAdmin } = useStore();
     const { isLoading, error, guests } = getAllWeddingGuests();
     const [order, setOrder] = useState<Order>('asc');
@@ -1227,6 +1232,6 @@ const Admin: React.FC = () => {
             </Container>
         </PageContainer>
     );
-};
+}
 
 export default Admin;

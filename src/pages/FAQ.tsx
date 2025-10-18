@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ReactElement } from 'react';
 import { QuestionAnswerBox } from '../components/question-box';
 import PageContainer from '../components/page-container';
 import {
@@ -31,7 +31,7 @@ import type { Schema } from '../../amplify/data/resource';
 
 type FAQType = Schema['FrequentlyAskedQuestions']['type'];
 
-export default function FAQ(): JSX.Element {
+export default function FAQ(): ReactElement {
     const [expandedPanels, setExpandedPanels] = useState<string[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);

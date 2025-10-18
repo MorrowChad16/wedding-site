@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
+import { ReactElement } from 'react';
 
 interface HorizontalScrollProps {
-    children: JSX.Element[];
+    children: ReactElement[];
 }
 
 export default function HorizontalScroll({ children }: HorizontalScrollProps) {

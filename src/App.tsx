@@ -11,10 +11,11 @@ import Rsvp from './pages/RSVP';
 import Registry from './pages/Registry';
 import SaveTheDate from './pages/SaveTheDate';
 import Admin from './pages/Admin';
+import { ReactElement } from 'react';
 
 export type Page = {
     path: string;
-    component: JSX.Element;
+    component: ReactElement;
     displayName: string;
 };
 

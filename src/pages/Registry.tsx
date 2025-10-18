@@ -65,7 +65,7 @@ export default function Registry() {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
 
-    const selectedItem = useRef<RegistryItemType>();
+    const selectedItem = useRef<RegistryItemType | undefined>(undefined);
     const { isAdmin } = useStore();
     const { isLoading, error, registryItems } = getRegistryItems();
     const queryClient = useQueryClient();

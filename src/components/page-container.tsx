@@ -1,7 +1,8 @@
 import { Container, Grid, useMediaQuery, useTheme } from '@mui/material';
+import { ReactElement } from 'react';
 
 interface PageContainerProps {
-    children: JSX.Element;
+    children: ReactElement;
     display?: string;
     justifyContent?: string;
 }
