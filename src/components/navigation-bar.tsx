@@ -293,7 +293,18 @@ function NavigationBar() {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleLoginClick}>Login</Button>
+                    <Button
+                        onClick={() => {
+                            setOpenSignIn(false);
+                            navigate('/save-the-date');
+                        }}
+                        color="secondary"
+                    >
+                        Not registered yet?
+                    </Button>
+                    <Button onClick={handleLoginClick} variant="contained">
+                        Login
+                    </Button>
                 </DialogActions>
             </Dialog>
 
