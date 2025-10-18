@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
     Box,
     Button,
@@ -20,8 +20,8 @@ import {
     ToggleButtonGroup,
 } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
 import PageContainer from '../components/page-container';
+import WavyText from '../components/wavy-text';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
 
@@ -47,16 +47,6 @@ export default function SaveTheDate() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [offset, setOffset] = useState(0);
-    const theme = useTheme();
-
-    // Animate the wavy text
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setOffset((prev) => (prev + 0.05) % 100);
-        }, 16);
-        return () => clearInterval(interval);
-    }, []);
 
     const addGuest = (guestType: 'PLUS_ONE' | 'CHILD') => {
         const newGuest: GuestForm = {
@@ -191,77 +181,7 @@ export default function SaveTheDate() {
     return (
         <PageContainer>
             <>
-                {/* Wavy Text Banner - Full Width */}
-                <Box
-                    sx={{
-                        width: '100vw',
-                        position: 'relative',
-                        left: '50%',
-                        right: '50%',
-                        marginLeft: '-50vw',
-                        marginRight: '-50vw',
-                        overflow: 'hidden',
-                        marginBottom: { xs: '20px', md: '30px' },
-                    }}
-                >
-                    {/* Mobile version - subtle wave */}
-                    <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                        <svg
-                            viewBox="0 0 1200 100"
-                            width="100%"
-                            height="60"
-                            style={{ display: 'block' }}
-                            preserveAspectRatio="none"
-                        >
-                            <defs>
-                                <path
-                                    id="wavePathMobile"
-                                    d="M 0,50 Q 150,45 300,50 T 600,50 T 900,50 T 1200,50"
-                                    fill="transparent"
-                                />
-                            </defs>
-                            <text
-                                fill={theme.palette.primary.main}
-                                fontSize="18"
-                                fontFamily="inherit"
-                                fontWeight="400"
-                            >
-                                <textPath href="#wavePathMobile" startOffset={`${-offset * 2}%`}>
-                                    {"We're getting married and you're invited! ♥ ".repeat(10)}
-                                </textPath>
-                            </text>
-                        </svg>
-                    </Box>
-
-                    {/* Desktop version - more pronounced wave */}
-                    <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                        <svg
-                            viewBox="0 0 1200 150"
-                            width="100%"
-                            height="150"
-                            style={{ display: 'block' }}
-                            preserveAspectRatio="none"
-                        >
-                            <defs>
-                                <path
-                                    id="wavePathDesktop"
-                                    d="M 0,75 Q 150,50 300,75 T 600,75 T 900,75 T 1200,75"
-                                    fill="transparent"
-                                />
-                            </defs>
-                            <text
-                                fill={theme.palette.primary.main}
-                                fontSize="20"
-                                fontFamily="inherit"
-                                fontWeight="400"
-                            >
-                                <textPath href="#wavePathDesktop" startOffset={`${-offset * 2}%`}>
-                                    {"We're getting married and you're invited! ♥ ".repeat(10)}
-                                </textPath>
-                            </text>
-                        </svg>
-                    </Box>
-                </Box>
+                <WavyText text="We're getting married and you're invited! ♥ " />
 
                 <Container maxWidth="md">
                     <Card elevation={3}>
