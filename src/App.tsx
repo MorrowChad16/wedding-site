@@ -11,7 +11,6 @@ import Rsvp from './pages/RSVP';
 import Registry from './pages/Registry';
 import SaveTheDate from './pages/SaveTheDate';
 import Admin from './pages/Admin';
-import ProtectedRoute from './components/protected-route';
 
 export type Page = {
     path: string;
@@ -58,26 +57,14 @@ export default function App() {
                 {/* <ChatBot /> */}
                 <Routes>
                     {pages.map((route) => (
-                        <Route
-                            key={route.path}
-                            path={route.path}
-                            element={<ProtectedRoute>{route.component}</ProtectedRoute>}
-                        />
+                        <Route key={route.path} path={route.path} element={route.component} />
                     ))}
                     <Route
                         key={'/save-the-date'}
                         path={'/save-the-date'}
                         element={<SaveTheDate />}
                     />
-                    <Route
-                        key={'/rsvp'}
-                        path={'/rsvp'}
-                        element={
-                            <ProtectedRoute>
-                                <Rsvp />
-                            </ProtectedRoute>
-                        }
-                    />
+                    <Route key={'/rsvp'} path={'/rsvp'} element={<Rsvp />} />
                     <Route key={'/admin'} path={'/admin'} element={<Admin />} />
                 </Routes>
             </BrowserRouter>
