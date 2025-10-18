@@ -32,7 +32,7 @@ const getClient = () => generateClient<Schema>();
 function NavigationBar() {
     const theme = useTheme();
     // used across screens
-    const { setStoreEmail, isAdmin, setIsAdmin } = useStore();
+    const { storeEmail, setStoreEmail, isAdmin, setIsAdmin } = useStore();
     // used for visualizations
     const [fullName, setFullName] = useState('');
     const [adminPassword, setAdminPassword] = useState('');
