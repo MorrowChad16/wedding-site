@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     Box,
     Button,
@@ -20,6 +21,7 @@ import {
     ToggleButtonGroup,
 } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
+import confetti from 'canvas-confetti';
 import PageContainer from '../components/page-container';
 import WavyText from '../components/wavy-text';
 import { generateClient } from 'aws-amplify/data';
@@ -35,6 +37,7 @@ interface GuestForm {
 }
 
 export default function SaveTheDate() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -154,7 +157,26 @@ export default function SaveTheDate() {
                 });
             }
 
+            // Trigger confetti animation from both sides
+            confetti({
+                particleCount: 100,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0, y: 0.6 },
+            });
+            confetti({
+                particleCount: 100,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1, y: 0.6 },
+            });
+
             setShowSuccess(true);
+
+            // Navigate to home after confetti animation completes
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
             // Reset form
             setEmail('');
             setAddress('');
