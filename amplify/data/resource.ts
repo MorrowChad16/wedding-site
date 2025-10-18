@@ -1,5 +1,4 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
-import { anthropicFunction } from '../anthropic-function/resource';
 import { adminAuthFunction } from '../admin-auth-function/resource';
 
 const schema = a.schema({
@@ -125,16 +124,6 @@ const schema = a.schema({
         .secondaryIndexes((index) => [
             index('category'), // GSI for category-based queries
         ])
-        .authorization((allow) => [allow.guest()]),
-
-    askWeddingQuestion: a
-        .query()
-        .arguments({
-            context: a.string(),
-            question: a.string(),
-        })
-        .returns(a.string())
-        .handler(a.handler.function(anthropicFunction))
         .authorization((allow) => [allow.guest()]),
 
     validateAdminPassword: a

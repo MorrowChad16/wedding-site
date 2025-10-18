@@ -54,7 +54,6 @@ export default function App() {
         <ThemeProvider theme={myTheme}>
             <BrowserRouter>
                 <NavigationBar />
-                {/* <ChatBot /> */}
                 <Routes>
                     {pages.map((route) => (
                         <Route key={route.path} path={route.path} element={route.component} />
