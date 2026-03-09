@@ -57,17 +57,17 @@ function NavigationBar() {
         setOpen(newOpen);
     };
 
-    const SaveTheDateButton = (
+    const RsvpButton = (
         <Button
             color="primary"
             variant="contained"
             onClick={() => {
-                setCurrentPage('/save-the-date');
-                navigate('/save-the-date');
+                setCurrentPage('/rsvp');
+                navigate('/rsvp');
             }}
             fullWidth
         >
-            Save The Date
+            RSVP
         </Button>
     );
 
@@ -206,7 +206,7 @@ function NavigationBar() {
                             </Box>
                         </Box>
                         <Box display={{ xs: 'none', md: 'flex' }} gap={0.5} alignItems={'center'}>
-                            {SaveTheDateButton}
+                            {RsvpButton}
                         </Box>
 
                         {/* Only displays for mobile */}
@@ -249,7 +249,7 @@ function NavigationBar() {
                                         </MenuItem>
                                     ))}
                                     <Divider />
-                                    <MenuItem>{SaveTheDateButton}</MenuItem>
+                                    <MenuItem>{RsvpButton}</MenuItem>
                                 </Box>
                             </Drawer>
                         </Box>
