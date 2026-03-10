@@ -31,3 +31,5 @@ amplifyconfiguration*
 
 # API keys
 .env
+
+.leverage-ai
