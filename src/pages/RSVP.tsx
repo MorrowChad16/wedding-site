@@ -26,6 +26,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import confetti from 'canvas-confetti';
 import PageContainer from '../components/page-container';
 import { useNavigate } from 'react-router-dom';
 import { getWeddingGuestsByEmail, updateWeddingGuest, removeWeddingGuest } from '../api/use-guests';
@@ -124,6 +125,20 @@ const Rsvp = () => {
                 item.choice,
                 songs.join(',')
             );
+        });
+
+        // Trigger confetti animation from both sides
+        confetti({
+            particleCount: 100,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0, y: 0.6 },
+        });
+        confetti({
+            particleCount: 100,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1, y: 0.6 },
         });
 
         setIsToastOpen(true);
